@@ -6,7 +6,7 @@ package
 	{
 		public function Main()
 		{
-			
+			asdfasdfsadfsadf
 		}
 	}
 }
