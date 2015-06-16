@@ -1,19 +1,1 @@
-package
-{
-	import flash.display.Sprite;
-	
-	public class Main extends Sprite
-	{
-		public function Main()
-		{
-			asdfasdfsadfsadf
-		}
-	}
-}
-
-
-
-
-
-
-
+﻿package{	import flash.display.Sprite;		public class Main extends Sprite	{		public function Main()		{					}	}}
