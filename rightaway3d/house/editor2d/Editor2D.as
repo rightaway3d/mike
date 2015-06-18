@@ -53,35 +53,35 @@ package rightaway3d.house.editor2d
 	[SWF(backgroundColor="#E2E2E2", frameRate="30", width="800", height="600")]
 	public class Editor2D extends Sprite
 	{
-		private var container2d:Sprite;
+		protected var container2d:Sprite;
 		
-		private var masker:Shape;
-		private var scene2d:Scene2D;
+		protected var masker:Shape;
+		protected var scene2d:Scene2D;
 		
-		private var wallFaceContainer:Sprite;
+		protected var wallFaceContainer:Sprite;
 		
-		private var wallFaceViewer:WallFaceViewer;
+		protected var wallFaceViewer:WallFaceViewer;
 		
-		private var scene3d:Scene3D;
+		protected var scene3d:Scene3D;
 		
-		private var sceneCtr:SceneController2D;
+		protected var sceneCtr:SceneController2D;
 		
-		private var nodeCtr:NodeController2D;
+		protected var nodeCtr:NodeController2D;
 		
-		private var windCtr:WindoorController;
+		protected var windCtr:WindoorController;
 		
-		private var wallCtr:WallController;
+		protected var wallCtr:WallController;
 		
-		private var cabinetCtr:CabinetController;
+		protected var cabinetCtr:CabinetController;
 		
-		private var cabinetCreator:CabinetCreator;
+		protected var cabinetCreator:CabinetCreator;
 		
-		private var ruler:ScaleRuler2D;
+		protected var ruler:ScaleRuler2D;
 		
 		//private var user:User;
 		//private var projectManager:ProjectManager;
 		
-		private var house:House = House.getInstance();
+		protected var house:House = House.getInstance();
 		
 		public function Editor2D()
 		{
@@ -325,6 +325,14 @@ package rightaway3d.house.editor2d
 			//trace("on2DSceneKeyDown2:"+e.keyCode);
 			switch(e.keyCode)
 			{
+				case Keyboard.V:
+					cabinetCreator.switchCabinetTableVisible();
+					break;
+				
+				/*case Keyboard.M:
+					switchView();
+					break;*/
+				
 				case Keyboard.Z:
 //					if(e.shiftKey && e.altKey)
 						actionHistory.undo();
@@ -339,6 +347,25 @@ package rightaway3d.house.editor2d
 //					if(e.shiftKey && e.altKey)
 						switchView2D();
 					break;
+				
+				case Keyboard.DELETE:
+					/*RoomControler.deleteRoom();
+					WallControler.deleteWall();
+					WinDoorControler.deleteWindoor();
+					ModelControler.deleteModel();*/
+					wallCtr.deleteCurrentWall();
+					if(e.ctrlKey)
+					{
+						//cabinetCtr.deleteAllProduct();
+						deleteAllProduct();
+					}
+					else
+					{
+						//cabinetCtr.deleteProduct();
+						deleteSelectProduct();
+					}
+					break;
+				
 			}
 		}
 		
@@ -1853,6 +1880,10 @@ package rightaway3d.house.editor2d
 					cabinetCreator.switchCabinetTableVisible();
 					break;
 				
+				case Keyboard.M:
+					switchView();
+					break;
+				
 				case Keyboard.F:
 					this.fitScreen(true);
 					break;
@@ -1878,10 +1909,6 @@ package rightaway3d.house.editor2d
 				/*case Keyboard.S:
 					this.splitWall();
 					break;*/
-				
-				case Keyboard.M:
-					switchView();
-					break;
 				
 				case Keyboard.DELETE:
 					/*RoomControler.deleteRoom();

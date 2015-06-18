@@ -58,7 +58,13 @@ package
 				assets.visible = uiShow;
 				uiShow = !uiShow;
 				mainBtn.visible = true;
+				
+				if(MikeUI.instance.mainBtnPressed) {
+					MikeUI.instance.mainBtnPressed(uiShow);
+				}
 			});
+			
+			
 		}
 		
 		private function listMouseHandler(e:MouseEvent, index:int):void

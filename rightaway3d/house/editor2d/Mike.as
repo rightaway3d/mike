@@ -1,7 +1,6 @@
 package rightaway3d.house.editor2d
 {
 	import flash.events.Event;
-	import flash.geom.Vector3D;
 	
 	import rightaway3d.engine.product.ProductInfo;
 	import rightaway3d.engine.product.ProductManager;
@@ -27,15 +26,24 @@ package rightaway3d.house.editor2d
 		{
 			super();
 			
-			init();
+			if(stage)init();
+			else
+				this.addEventListener(Event.ADDED_TO_STAGE,init);
 		}
 		
-		private function init():void
+		private function init(e:Event=null):void
 		{
+			if(e)this.removeEventListener(Event.ADDED_TO_STAGE,init);
+			
 			ui = new MikeUI();
-			this.addChild(ui);
+			
+			trace("--------initMikeUI parent:",this.parent);
+			this.parent.addChild(ui);
+			//if(!stage)
+				ui.visible = false;
 			
 			ui.listSelectHandler = onSelectItem;
+			ui.mainBtnPressed = onMainBtnSwitch;
 			
 			subElecData =
 				<item>
@@ -50,6 +58,20 @@ package rightaway3d.house.editor2d
 					<scale>1,1,1</scale>
 					<active>true</active>
 				</item>;
+		}
+		
+		private function onMainBtnSwitch(uiVisible:Boolean):void
+		{
+			trace("uiVisible:"+uiVisible);
+			this.lockCabinetObject(uiVisible);
+		}
+		
+		override public function switchView():Boolean
+		{
+			var result:Boolean = super.switchView();
+			ui.visible = !result;
+			
+			return result;
 		}
 		
 		/**
@@ -389,39 +411,41 @@ package rightaway3d.house.editor2d
 			switch(name)
 			{
 				case ProductObjectName.DRAINER_CABINET://水盆柜拖动结束后，水盆要跟随移动
-					moveProduct(ProductObjectName.DRAINER,ListType.DRAINER,po.objectInfo);
+					moveProduct(ProductObjectName.DRAINER,ListType.DRAINER,po);
 					break;
 				
 				case ProductObjectName.FLUE_CABINET://灶台柜拖动结束后，灶台与烟机要跟随移动
-					moveProduct(ProductObjectName.FLUE,ListType.FLUE,po.objectInfo);
-					moveProduct(ProductObjectName.HOOD,ListType.HOOD,po.objectInfo,true);
+					moveProduct(ProductObjectName.FLUE,ListType.FLUE,po);
+					moveProduct(ProductObjectName.HOOD,ListType.HOOD,po,true);
 					break;
 			}
 		}
 		
 		//结束拖动产品后，移动与其相关联的产品
-		private function moveProduct(name:String,type:String,wo:WallObject,isHood:Boolean=false):void
+		private function moveProduct(name:String,type:String,masterProduct:ProductObject,isHood:Boolean=false):void
 		{
 			var po:ProductObject = getProduct(name);
 			if(!po)
 			{
-				po = createProductByType(name,type,wo,isHood);
+				po = createProductByType(name,type,masterProduct,isHood);
 			}
 			else
 			{
-				cabinetCreator.setCookerProduct(wo.crossWall,wo,po,isHood);
+				var wo:WallObject = masterProduct.objectInfo;
+				cabinetCreator.setCookerProduct(wo.crossWall,masterProduct,po,isHood);
 				productManager.updateProductModel(po);
 			}
 		}
 		
-		private function createProductByType(name:String,type:String,wo:WallObject,isHood:Boolean=false):ProductObject
+		private function createProductByType(name:String,type:String,masterProduct:ProductObject,isHood:Boolean=false):ProductObject
 		{
+			var wo:WallObject = masterProduct.objectInfo;
 			var list:XMLList = CabinetLib.lib.getProductList(type,"");
 			if(list.length()>0)
 			{
 				var xml:XML = list[0];
 				var cw:CrossWall = wo.crossWall;
-				var po:ProductObject = cabinetCreator.addCookerProduct(xml,cw,wo,name,isHood);
+				var po:ProductObject = cabinetCreator.addCookerProduct(xml,cw,masterProduct,name,isHood);
 				//po.isActive = false;
 				po.isLock = true;
 				
@@ -476,18 +500,21 @@ package rightaway3d.house.editor2d
 				return;
 			}
 			
-			cabinetCtr.deleteProduct(po,false,false);
-			
+			var addHistory:Boolean = true;
 			switch(name)
 			{
 				case ProductObjectName.DRAINER_CABINET://删除水盆柜时，把水盆也删除掉
 					deleteProductByName(ProductObjectName.DRAINER);
+					addHistory = false;
 					break;
 				case ProductObjectName.FLUE_CABINET://删除灶台柜时，把灶台与烟机也删除掉
 					deleteProductByName(ProductObjectName.FLUE);
 					deleteProductByName(ProductObjectName.HOOD);
+					addHistory = false;
 					break;
 			}
+			
+			cabinetCtr.deleteProduct(po,false,addHistory);
 		}
 		
 		private function deleteProductByName(name:String):void

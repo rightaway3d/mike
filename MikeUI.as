@@ -17,6 +17,8 @@ package
 		
 		public var itemList:XMLList;
 		
+		public var mainBtnPressed:Function = null;
+		
 		public function MikeUI()
 		{
 			if (!instance) {
