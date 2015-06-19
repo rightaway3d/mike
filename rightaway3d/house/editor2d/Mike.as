@@ -64,6 +64,7 @@ package rightaway3d.house.editor2d
 		{
 			trace("uiVisible:"+uiVisible);
 			this.lockCabinetObject(uiVisible);
+			this.scene3d.house3d.updateWallMark(!uiVisible);
 		}
 		
 		override public function switchView():Boolean
@@ -258,32 +259,6 @@ package rightaway3d.house.editor2d
 					//drainer = this.createCabinet(id,file,CrossWall.GROUND_OBJECT_HEIGHT,pname,width,depth);
 					Tips.show("场景中找不到"+pname_cn+"，请检查是否被单独删除了",stage.mouseX-50,stage.mouseY-50,3000,14);
 				}
-//------------------------------
-				/*pname = ProductObjectName.FLUE;
-				flue = getProduct(pname);
-				if(!flue)
-				{
-					flue = this.createCabinet(id,file,CrossWall.GROUND_OBJECT_HEIGHT,pname,width,depth);
-				}
-				else
-				{
-					//productManager.replaceSubProductObject(flue.modelObject,id,file,pname);
-					productManager.replaceProductObject(flue,id,file,pname,width,depth,height);
-				}
-			}
-			else if(type==ListType.HOOD)//"hood")//烟机
-			{
-				pname = ProductObjectName.HOOD;
-				hood = getProduct(pname);
-				if(!hood)
-				{
-					hood = this.createCabinet(id,file,CrossWall.WALL_OBJECT_HEIGHT,pname,width,depth);
-				}
-				else
-				{
-					//productManager.replaceSubProductObject(hood.modelObject,id,file,pname);
-					productManager.replaceProductObject(hood,id,file,pname,width,depth,height);
-				}*/
 			}
 			else if(type==ListType.OVEN)//"oven")//烤箱
 			{

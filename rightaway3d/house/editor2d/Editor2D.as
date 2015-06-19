@@ -1452,9 +1452,6 @@ package rightaway3d.house.editor2d
 		 */
 		public function get2DSnapshot(getPics:Function=null,picType:String="jpg",w:int=1000,h:int=1000):BitmapData
 		{
-			getOtherPics = getPics;
-			otherPicType = picType;
-			
 			scene2d.visible = true;
 			wallFaceContainer.visible = false;
 			
@@ -1473,8 +1470,17 @@ package rightaway3d.house.editor2d
 			return bmd;
 		}
 		
+		/**
+		 * 返回其它截图图片二进制数据
+		 * @param getPics：图片数据准备完成后的回调函数
+		 * @param picType：图片的编码类型
+		 * 
+		 */
 		public function getOtherSnapshot(getPics:Function,picType:String="jpg"):void
 		{
+			getOtherPics = getPics;
+			otherPicType = picType;
+			
 			pics.length = 0;//清空当前截图
 			picIndex = 0;
 			get2DSnapshots();//开始创建其它截图
