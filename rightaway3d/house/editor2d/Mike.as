@@ -6,6 +6,7 @@ package rightaway3d.house.editor2d
 	import rightaway3d.engine.product.ProductManager;
 	import rightaway3d.engine.product.ProductObject;
 	import rightaway3d.engine.product.ProductObjectName;
+	import rightaway3d.engine.utils.GlobalEvent;
 	import rightaway3d.engine.utils.Tips;
 	import rightaway3d.house.cabinet.CabinetType;
 	import rightaway3d.house.cabinet.ListType;
@@ -58,6 +59,8 @@ package rightaway3d.house.editor2d
 					<scale>1,1,1</scale>
 					<active>true</active>
 				</item>;
+			
+			GlobalEvent.event.addEventListener("product_created",onProductCreated);
 		}
 		
 		private function onMainBtnSwitch(uiVisible:Boolean):void
@@ -147,7 +150,7 @@ package rightaway3d.house.editor2d
 			
 			if(type==ListType.GROUND_CABINET)//"ground_cabinet")//地柜
 			{
-				trace(type,cate);
+				//trace(type,cate);
 				switch(cate)
 				{
 					case ListType.DRAINER://"drainer"://水盆地柜
@@ -198,13 +201,13 @@ package rightaway3d.house.editor2d
 						break;
 				}
 				
-				setProductEvent(p);
+				//setProductEvent(p);
 			}
 			else if(type==ListType.WALL_CABINET)//"wall_cabinet")//吊柜
 			{
-				trace(type);
+				//trace(type);
 				p = this.createCabinet(id,file,CrossWall.WALL_OBJECT_HEIGHT,name,width,depth);
-				setProductEvent(p);
+				//setProductEvent(p);
 			}
 			else if(type==ListType.DRAINER)//"drainer")//水盆
 			{
@@ -301,12 +304,12 @@ package rightaway3d.house.editor2d
 			}
 			else
 			{
-				trace("DRAINER:",productManager.getProductByName(ProductObjectName.DRAINER));
+				/*trace("DRAINER:",productManager.getProductByName(ProductObjectName.DRAINER));
 				trace("FLUE:",productManager.getProductByName(ProductObjectName.FLUE));
 				trace("HOOD:",productManager.getProductByName(ProductObjectName.HOOD));
 				trace("OVEN:",productManager.getProductByName(ProductObjectName.OVEN));
 				trace("STERILIZER:",productManager.getProductByName(ProductObjectName.STERILIZER));
-				trace("DRAINER_CABINET:",productManager.getProductByName(ProductObjectName.DRAINER_CABINET));
+				trace("DRAINER_CABINET:",productManager.getProductByName(ProductObjectName.DRAINER_CABINET));*/
 			}
 		}
 		
@@ -363,8 +366,10 @@ package rightaway3d.house.editor2d
 		}
 		
 		//设置产品实例事件
-		private function setProductEvent(po:ProductObject):void
+		private function onProductCreated(e:Event):void
 		{
+			var po:ProductObject = GlobalEvent.event.currentTarget;
+			
 			po.addEventListener("draging",onDragingProduct);
 			po.addEventListener("end_drag",onEndDragProduct);
 			po.addEventListener("will_dispose",onDispose);
