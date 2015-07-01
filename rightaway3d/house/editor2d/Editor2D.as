@@ -9,7 +9,6 @@ package rightaway3d.house.editor2d
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
-	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	import flash.ui.Keyboard;
 	import flash.utils.ByteArray;
@@ -41,7 +40,6 @@ package rightaway3d.house.editor2d
 	import rightaway3d.house.vo.Floor;
 	import rightaway3d.house.vo.House;
 	import rightaway3d.house.vo.WallHole;
-	import rightaway3d.user.ProjectManager;
 	import rightaway3d.user.User;
 	import rightaway3d.utils.MyTextField;
 	
@@ -1036,14 +1034,14 @@ package rightaway3d.house.editor2d
 					
 					if(type==CabinetType.DRAINER)
 					{
+						po.name = ProductObjectName.DRAINER;
 						this.cabinetCreator.drainerProduct = po;
 						this.cabinetCreator.updateCabinetTable();
-						po.name = ProductObjectName.DRAINER;
 					}
 					else if(type==CabinetType.FLUE)
 					{
-						this.cabinetCreator.flueProduct = po;
 						po.name = ProductObjectName.FLUE;
+						this.cabinetCreator.flueProduct = po;
 					}
 					else if(type==CabinetType.BODY)
 					{
@@ -1346,7 +1344,8 @@ package rightaway3d.house.editor2d
 			//trace(getERPData("userid","username","address","phone","starttime","endtime"));
 			//trace("doorcolor:"+getDoorColor());
 			//clearAllCabinetObject();
-			trace(this.getProductList());
+			//trace(this.getProductList());
+			cabinetCreator.clearCabinetTalbes();
 		}
 		
 		/**
@@ -1698,7 +1697,7 @@ package rightaway3d.house.editor2d
 		{
 		cabinetCtr.deleteCurrProduct();
 		*/		
-		private function on2DSceneKeyDown(e:KeyboardEvent):void
+		protected function on2DSceneKeyDown(e:KeyboardEvent):void
 		{
 			//trace("on2DSceneKeyDown:"+e.keyCode);
 			switch(e.keyCode)

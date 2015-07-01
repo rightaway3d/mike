@@ -12,12 +12,19 @@ package
 		public static var instance:MikeUI;
 		public var mainUI:MainUI;
 		
+		// 树选择Item的处理方法
 		public var treeSelectHandler:Function;
+		// 列表选择Item的处理方法
 		public var listSelectHandler:Function;
+		// 底部Btns选择Item的处理方法
+		public var bottomBtnsHandler:Function;
+		
+		public var mainBtnPressed:Function;
 		
 		public var itemList:XMLList;
 		
-		public var mainBtnPressed:Function = null;
+		// 下方按钮列表内容
+		public var bbtns:Array = ['删除', '生成面板', '重建台面'];
 		
 		public function MikeUI()
 		{
@@ -29,6 +36,24 @@ package
 				App.init(instance);
 				App.loader.loadAssets(['assets/comp.swf'], new Handler(uiLoadComplete));
 			});
+		}
+		
+		/**
+		 * 设置底部的BottomBts内容, 参数为一个String数组,
+		 * 如不指针arr,默认为 MikeUI.instance.bbtns
+		 */
+		public function setBottomBtns(arr:Array = null):void {
+			if (!arr) {
+				arr = bbtns;
+			}
+			
+			var realArr:Array = [];
+			for (var i:int = 0;i < arr.length; i++) {
+				realArr.push({label:arr[i]});
+			}
+			
+			mainUI.bottomBtns.array = realArr;
+			mainUI.bottomBtns.width = arr.length * 98 - 5; 
 		}
 		
 		private function onStageResize(e:Event):void {
@@ -43,9 +68,11 @@ package
 			mainUI.list.array = [];
 			mainUI.tree.xml = CabinetLib.lib.getProductTypeList();
 			
-//			listSelectHandler = function(item):void {
+			setBottomBtns();
+			
+//			bottomBtnsHandler = function(item):void {
 //				trace(item);
-//			};
+//			}
 			
 			treeSelectHandler = function(item):void {
 				var arr:Array = [];
@@ -54,9 +81,9 @@ package
 				itemList = dataList;
 				
 				if (dataList.length() > 0) {
-					mainUI.assets.width = 390;
+					mainUI.assets.width = 410;
 				} else {
-					mainUI.assets.width = 130;
+					mainUI.assets.width = 150;
 				}
 				
 				for each( var xml:XML in dataList) {
@@ -76,6 +103,20 @@ package
 
 				mainUI.list.array = arr;
 			};
+			
+			// create Btn Click
+//			mainUI.createBtn.addEventListener(MouseEvent.CLICK, function():void {
+//				if(createBtnClick) {
+//					createBtnClick();
+//				}
+//			});
+			
+			// delete Btn Click
+//			mainUI.deleteBtn.addEventListener(MouseEvent.CLICK, function():void {
+//				if(deleteBtnClick) {
+//					deleteBtnClick();
+//				}
+//			});
 			
 			addChild(mainUI);
 			stage.addEventListener(Event.RESIZE, onStageResize);
