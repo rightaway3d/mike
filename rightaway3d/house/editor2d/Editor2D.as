@@ -40,6 +40,7 @@ package rightaway3d.house.editor2d
 	import rightaway3d.house.vo.Floor;
 	import rightaway3d.house.vo.House;
 	import rightaway3d.house.vo.WallHole;
+	import rightaway3d.house.vo.WallObject;
 	import rightaway3d.user.User;
 	import rightaway3d.utils.MyTextField;
 	
@@ -56,7 +57,7 @@ package rightaway3d.house.editor2d
 		protected var masker:Shape;
 		protected var scene2d:Scene2D;
 		
-		protected var wallFaceContainer:Sprite;
+		//protected var wallFaceContainer:Sprite;
 		
 		protected var wallFaceViewer:WallFaceViewer;
 		
@@ -75,6 +76,8 @@ package rightaway3d.house.editor2d
 		protected var cabinetCreator:CabinetCreator;
 		
 		protected var ruler:ScaleRuler2D;
+		
+		protected var gv:GlobalVar = GlobalVar.own;
 		
 		//private var user:User;
 		//private var projectManager:ProjectManager;
@@ -143,8 +146,8 @@ package rightaway3d.house.editor2d
 			container2d.addChild(scene2d);
 			scene2d.mask = masker;
 			
-			wallFaceContainer = new Sprite();
-			container2d.addChild(wallFaceContainer);
+			//wallFaceContainer = new Sprite();
+			//container2d.addChild(wallFaceContainer);
 			
 			ruler = new ScaleRuler2D();
 			container2d.addChild(ruler);
@@ -165,7 +168,8 @@ package rightaway3d.house.editor2d
 			
 			cabinetCreator = CabinetCreator.getInstance();
 			
-			wallFaceViewer = new WallFaceViewer(wallFaceContainer,cabinetCreator.cabinetCrossWalls);
+			wallFaceViewer = new WallFaceViewer(cabinetCreator.cabinetCrossWalls);
+			container2d.addChild(wallFaceViewer);
 			
 			//user = User.own;
 			//projectManager = user.projectManager;
@@ -301,6 +305,7 @@ package rightaway3d.house.editor2d
 			//stage.addEventListener(MouseEvent.RIGHT_CLICK,onRightClick);
 			//sceneData = "EnRTxE1V3eGz*1*8oDUBv9VtBXaoonRsQc0Ql6OSz9Djtdz2Tc9T2IOsijdGdSejbaJucJGHENYbNVGaqNd9z5Q0918W45F12dU7gw*ITzootUQTX7pJ2EF5Zw9#88ZJYvmRIhBdklcUw9AgTrDpX*ZJu2TNgmEJSxx9E0#TmbOer9z1Sgff*OgO9*RFpZJ57eE89U4ONKAdRWFH7T4KQDapWMey7EyLYavf4B29Sl8FbwpEkbtfJ*ZH8h44MoZXA8QVb*YbD8pHmp8YZmPM1YZ5fU9n*eIUX#cSUpIQQjR2BISoO0NPH8anI**ReKq3RmDjT5*WqKGDERWXQ4sssKNPKLPewuS0lvwYvC9l6JXiRvdTxwzMs*YSWJ65SF1buIM9Fd8Ajh3DI4EbAiA3UdokO8NMkb6p7*o2Hs8p*eKWcN3#2tR55pDFpp*eTO43Rg2*V7#OMNvCnSxzpukLhPfME4r1EKrkpBklhJ1nFqzsD6tOszPialzxGTUKak0RlH8FbUiR3p7tuDQTjN4F0FL9DUN3WsySZLSAXFhbaNYE*olt05##MThalEKjZ16##DnVOtuB#*k9V*ZT7yEFNt5*zvSL9i*tx2vnrToa38MFLLHfFq8TUyEx3cphd5l*Eo*8BC58K3V#9JaHVyN4KpzN4eE7471PwocfcJXWWdceGwI9vjH8YKOzDUvcBStTEdqirNLtXx3azL9kpI8Pvt51HA4iKmX#e3crND0MYjK9e2cYRbqWb89kzY0KPqiW*IcCCHTI*UbXShSqrhWWUCw4iRW8r9K3uYdDUGebtKBsyorZH4Y2rVfG2P8iL4trtVZbv3GLIhGDJUXq9d#V6iLs7XTFVOVUEBDVBR6paBT2ojJWEGn*4N81hVeNcF8hr6iS3V5#0j8KRtNwdmzE#AfEDSClONt8#F1j#dcquds#gFF35EVBQxFZGODH8aGpYTDixo*4W7eOoiZh4ssmi*h7eImsNhRjjFK0G4ql#EcB#flfTblnkOKk476FiJCDMi#tF58KW8y6IaFbCdmEXQpKM8NLhvwdrxozGBJjSWQiacJxMBgrW1dHuIOWmaGoXq1cQtdjb7TrpaPUj#0vLKJPuXI1l5poWRhpozelKwMGXamgSmcdQowjiU9RwXbd8f2OHWpijcbiJ2ObbClNjrqWfY8eaxlwcak4caqqsYaabqBWHweahsCGoeY9KK9egqr6eGcQRQ64UFbYnTOx#JD3J76d82*mpjX*48dFdDdGw3DU8Jj*pa4M4*EsSVFcFHX5yNy5dkjRH9gUIHnCf5sej1NmcncTdWAUp6gn4CQ8qeUYgcWquyN#Z1eHpP#bIMVB8rgQqW8YgPaUgLcbbJhK24Fce5*Bp1YabeIa7a8XPs8cqO*vbWk0hukOy69mdKWlcqG0cavuGyilAigftor5VncZatHcxpOFuqFOtrc4WmPM2LbZm0n2pqCawGkaA#nZa2dEJyXqjCFBjsDcwdIruPut8XfqM#z5H6FB2EYBTLzHE6jY6KH0ZbnHaO*F9YHZJHZOhefBZ7UifU49*EoZl373QBz3c3i458tpRQwwD6h48eqyLI3YR553ZZaKTcvdPGBKy83JXBxTj82RAZdC4df*qHJDcq6hFJ*ifG*c91Tdp9R3KVxMDdYjd6tL5Q3nw98bcxiQzQ8A9bZ2RTkPBwoKq6CLZSlakBYY50EdyEdXmS9N0muEyfGt0E17joS8MRC5yIadU02DLmWU0pj8RyizyfQwF1cYpBgD5DrIo8NqGnITWs12H7GfRi9Chdw5RgbbWY6gxvzJf9aYUtXOsO6s1UxOlkq42Xe5*8j0tO4Y2QyAHtPQfcP8oGX28HKdxK4XsMDJAh1YLeMwtcYytbJmQfeZxZq6x*q6k0CDzYM3ojDuJuRKSJ49YHWLUXG5AUHLFFtslt1kKuk78mjeJZQOHHYvfmVYDTyRuDKAjcQKoHQvw6e1IqPTEyD0lfHIgd4rM#B8HSFfS*SL2exMQ3Gt58KoBJzHWiSBrQa2CYfhYKi4tkHytcI8ojLqMkS9NuG7ZYCVF3J6*fwBK4RhAS0Nmcm2b4clD0QTwAxmBd2SUWDyLKnVF*lQ9oD*RVOGP7rTF2DNgcZDgvZDjxngf9358r9M3tMd2WbZlZrtHbVFCrcKk24hvLIXr8xUOiOy3yixyBp7WIzX6j1mhjl1dLsSP3IHX#RQhvEHD5tTRhEhEc5zPaNbu8N5wldp36BGiFjav#4qy4#qEJeLAzzEZ5P5#rtD*T4XvM*V1lESwu6B5xsD3r1iUXMSG3J5rSakiWn0H3ssVLrC4BAXsycvytXdo4z2gO7IDyH3kOTDORVyzzD0StSNBdU22Q1i4TjQL7wZ2U1r7zX4CfLdilJtOgcDI4d0hg1msfX88UWL98pPrX#*FFgR15#*EppF553bX#k4jj90SOJidbYeDyKXkkbY*3Q2cifK8kal1ThqBHyERJy88kwDshjCDhqIYwgHia3AcMDqQOQz0rvIzPaOGMA0*Abz5BwkjjH64E9vqeHAdjPPVvzX8EVxlIsYewlwQgAnATAOBA9rMBA2OjDxw7JAe8KQ722FD0U2paw1SuHfCXTYuluHb*NiRcSUBnwoNkQHLSufBejCKaxIaNDgxgcfO7F98t7*h7*NiBBYBTZPrZ9784#*V*mBCOHkOIoZBjkqrhfT6XRzywrhdDNb6sDxhr1lCo0LSu092EfCgDKbUYu7YglzGDUrhrac6yYqFHZVbYnVl44hiHKwEzVFVT9dTTVB0MrlorNORlzAuH8WJ2uX7kklpdvK9Boegc73RfaTlPooe3kPkX0x4L6KAMKOfX6btIBdv6uOO00ChWjiI8NWoKQuw0essVhdipjeKxFJ*L1Ka#8gWcyv3Qtcx6vuEkH9oHQcv0qdlEo2fIrqHrxB2aPUlVkc0kwiVkrhPf70DiDn4muexKZGXqrEtocLiJQ0x8bdrkyuKwsujHYD*oUVRZ9*Ozcb3uS1iQYCAUqk8UMq*RcZTByQ14ISkDMOkKb6udTRfv2vhCfLj3A2iuTz52rPd2QNRAk5n3C7WXvNOklgoA4DqivtGakQmufrW#fAC8l7o3lcE4KkBo2Tg3HjMCb1MpBRUI0KO2k7zskys1cg2PHaBe5vFVYHujw**oFLujxZwZCqqRTlkEX8nuxlpEWriaLlSlySDVghzmsXnLVfx4FaOlWGSze9hWFHHz6BHAKW1J0ixRg9O26O7B2#zL7*N3E7Tho3YoCyR*KeabUDCzaZ8Ndn4iZBGwrMKiE38UGwXK2*54*u7*NxT58jBPNGvP3GvODoZEmTd*2hGts*ilAb4qzg1Bcx9HT2wbOoQts5zg*yctuYj1baL1AYzkK#OxHDCs#LpnNaUiOD7DFVmfjJ5#q*V#KsDNI*xV*V17RATUpqKvy*mNlGwrPNdCIXOuRBWLw0lvzOw9HjBqSWAccrhRwSBBw2DjfIs3D6ojMoOKZCiUG5xjXHUPk4BFUKgxDjBG0eA9k9IeQb6mY46A4URw1Bi3Yn8k0HFdfZm7J3mabDoUgQcElP9RL6oFfGAOJhei8HNLBx3iOfTW0uCt5E6jg60HCPJNrvn7tMi12D9yr10rlPs65YwnFPZL*Nm0fDm8wyOg5lcyV6FZuCx5w3jfc3eO9W514uTvuhXTVsqE*68SjrrDzudA1zxUd1YaVOlPyxRdpYaQgZfRJiC01K7zWlxhVbaTEUBvUJpOZ6Qke#coLSzk0b4Jgrnum8HNGm8CWVFb4C*X8JX*Ws";
 			//sceneData = "EnRTxvUp3eGv*I9#NS7wVCP5G2gbjCLULaqfGsll0#2zADjJJ*QstbjfwHbiBbAHfqGqkbgWqUZYaSKtclhKZ2qM2x9bLs*Ts5D77j5U252uvSQ2Y#vY#zYVZQ3oQxLKEF7b0pESY5A1yX0gS4N8#CJAhWxbEgjD*TeJA#GpVbpRmTIXFpDi9xV1749px*Xu9J4ybZn*8f1VEha4dtV0VEfO6b8KluIaTphw4Bb*1*CMCLcOMU#7O9hT4wb6kk#PVb7if94CJKBjWZbUM1*B4vnYnSh9Bd8BZPVtr1xxAhBxG6e*Zx2iVwpjFWvbDmD6ee77OxWeuK4F78W7Qufp4UzL3zc2MXO824VOxHL2UHmriJDboQE0PB4SjvfcB3CqFKv0#B4*Ikz7giW8ny4CCN8C#npDCtcz3jAdk34EUvnVphtLB#V08Z98*EXZzJ3ESFBC*T2YBTBJZbEWkLocid8NTnK58uPZqVK5KxroJYlo4yGNeyRcqukGhEzGn03bk9tLG2nppqj3RnK4MTGMVLbu#Kks#0j7e0sxi42d4cIhuJsF3oMVVJZ7XCU5plIwECpt56***dTOZyva9T5F**7MYyUZzY#zLvSdK#IZRoL45SK7YzOiYAk*X5BC40VUICD3WV*K7nW9kqkNT9Y9usJ9PUPhnj#b6X9mdMFdfdbuaEkbGGKgAVrCy*GRBRurZJzkiU4f44e3tOzk7Wn7*Ld4E0MR9Q0Rtewbjp0MGNGYejKpng8uIkxZ4hHjO3PCGCuDdgEsFUQLe#*GYpoNizQtruvKE4kWdYmqxBScaqMx0wdSsMAmR4#dWAW*vEWy#VVbb9#sNsacwpjVF6JMNNr0vkVZVw*ErlECJ67UVO#bFEL4mjx9bU7u*xyWLM9sVpDovfUW92oVpW1hO7y1X7ctF6St33e8p1P9BN86VoDLids5gVtVzQ8*ILIBnnWBEVFXih#n1pw#o5QOHUnGmPWoa199yeHUfpnnKeG*2eqXvs68QzVPf*vbpoQJoKZ6BOrAnuRe5eHxYxThWCaB7qAJybW#gv7E0a2ydHCtsji87OaOGDK#C1heBzsYLckPiWBESBPbkfuu#Edad8BEr#f4kseI2ALO2S8kNnk1lqwITezMNHypgmaud6QxO5QC71YhgiiFWMO4icsdG8YRMGEblxaEaYeQYKbasxmGGjYvGadIdaHaIGg8nGZqXYeiJIoUjeOOHKapGrqbrv7N#yX5YUD4UzDYogfqDryNt8X5NdXX5b54Apd9g1DLMZUzEnpjE2hBE8n#4dTkTXX7*QvJ*0aNfaJiSKByOHqnpBS#gQqjcHMgkWSgo2CBGXitkVqceLIO3#Fa4TjECilQYiCChgbLoiGudMRvT4#fH67KWlaecGajKpneslLKGki#fIdJHfdovHuqGLycaWiBramTOeeaMQiHnViC2EGWae4qHoceCLbnsEcmSBaBJBq59rbFf7vdyStnFDgli2cbJ5i6wJNpCKYemguIPtOMjKUGTQIx853TXrO4gQ0G8qNumhxK7u8Dfs5W5g2h2VYeq34cwtxMiPOY9#Xpt7*#*zEvEzSkHWVQFMQdsXhPbvq*hIRk2Mx8RCBDCYGj7qWLqWRkTEBi1TOeHfBwvD005qyp5bUg*G3VEot2VDIbumY*pNl9U07OB84M0#aO425E2732iqbSKE5fEL6a3evXYHHgvCrPtMzHWfoMhlR#yoq5SS1XBsIWa2XCeDlTCYsEpfQKEq*nWC4OJ0YBnzkEaiHTyfCI*z0C8qNNs2ul5#hsGfJuec6Su8ifncDDUfA6Rebci16mEfLrVicwPuTEVVbS*cQrl7lrirsCQggRg6qeTg6qPRhgMmR04U7POPDP23QlLnbSMb7BM7fiwrwlnfZ4bA6o1CrITqgyq0HDTDebM9rU3cjLguPgfaYvbLUbGezPgkvrq2KGsgo0q4X4P7qgHxbrVSHgYqnWWLeDPzfzfmShAJAYqrUiBebyeTRa2DcgPej7Kq2S4FoEo7KR*YFVoAIMv54jwz19#SNRF*6JttNO2b3ql4HM7k#ySKRbYpBA1dx6XEIxgVOfePl4jb1ZsNOivD0ZisHNLl75#CUZx*7L7nNlhlLtYBw*p*kw7QsStV0fSkVP*oYp8#MCO2haKP20vFzvjFq5LYBeQRSNED3uc3FwDoPjPnOjBNBVre4Pa4T#enZ1XS5HeaWCDCFz*ChThMkID72I4yeZHSD5yZxRXalerCrzsTzOF6XL111qNj9AARuio7pXlJ3VZkAAwkFvKGEfsBH4rXiUCV4h0UY4YCzWg7wE*0e1*OD2OizLagZcaEfv9LBBDedKz2FS4#cE5ZUQYBLY#YzIWlKcCbDn4WiZCziukwkxaQ7pZGk1tvVemXq9dM310ohGonWgSCuQ3TZP858uJA42VlNQdGEmtv8oWpQzuSVTkjQ#UllPY7Bu9f0qBL2ZFxM57CVASx3xghdJNqY4quaAuhJsLdirnXnXmXe3e3eZeBE82ueQMX1IA80o0MMZO6cCUHbYOXdRZi4Oo6sE2whRZa7Dqa2Bhui0yhyqwIfJPfwZG4jfrG*g7N1VRfGu5tRW1CYoj1#DVVIKA2Bh3p#leRoASdSyYLukkTkgDGDdTCLR7a5JD9tjjee4HNUpGI4Ln1o4roRa#SScDeRSHnmPKtSmgRLJ5i6roY3jhBre7KtlaTmAYWj2s#7aCRKJxAdg5a4UKtU4pOgn3dfYzZVLtJhoqQVgwsJy2JHlWAFUwPWL743N4IW5H7Y5oeSpSCQWGnUA8iy6hx0tNDVZ6YfEgrqlwzcAdFKUGKiWuJN81OAOGdLq8bqtua8jIJAncveze5KeX9oNZYuFZJ797m0xV371VY9E**Dzz4rgEyAgTexIvlI5Xcb2L8bbaC3oR8FuIvmXpSOcU5bTgb92zxYqRBuV7g7V49bYvDkoEugP5Hab2EJyDBnhQc5DuJTqQ3w*4vBF2GT*ist6BrY7IEYrsNw*UV267eK0KEU9BsFrenlcstryE1zeFqkA2iwjxDq6kMjE9TV#stsf4awUFliH3D7CvfTu1IsRhhP64BOSuMPC2m34QwXJXrIuD7myO2bDQbQD9rSxNlryI1hfUiaSw2O1uqTQnhYOJJUwn1tDNpGgnnuyPHRJBARgWjupB6xIlDf4Y6rBgWQpK7ydS0wfzW59FYCpFC*LXtjDxIXZrf2tHWfDxQXUOhznhRabK0EYvg*YIm7euWa65XW15odvk3kAcAz0UXWhzTptSGES1AESIBsyseUDAPYUhVKl0FiG7GORa3rh6oIYyNKBr40JBydxIb0JDJyB4o2s3cM6U5xp3wlWBxf3qAFC3yjnNhn3rtVUBG9xRG1L#c1bXBkdO9TarF7i6tzsfHDrutMtLzeTZu6RC5X4b1drFhPAerrmfXDHMxagXLxJiPPee*1adCDfyplhlnD6nT8IB1N893T1b#2vHuCWBRHQggNQ92Bh09NyJ30vbb1U16V1en1XvCssNyP5*r7gMZ6VjcnOy#jg55xq2Rq1ROPXvwQ4kTGwsr0nbP0Q4nUe4oL2ydyrpjGAWwmeJXe8dCzi5mGJ915YjRbAjyZTmf6mNvqU4wkz5lJtZ55Sx2wgnhLX0qIgRfo1grWvJTdUezcPZSbnvwEOpYUVuQwY4ke7Zc6cP3kPf#n68jZ#57DDaO#C16UVFLmroX0R#LRetSAZZKihNUD6nqkDYHvHljUIfieMbndPV*4Mru9NyJll5a6Zf#qo6fjiHHs99PZyiAczQJcMb08boqZPGJvOLwcn5Na3*uaTjBgKEaeCRd#rrBqCQ6MuYSkx7YRZ#HUFOV3kidZFs4mnEuvM39J4rk3Vg3Frjri7gQ#i6rlOzknd6UOyRKMu1a*uVO7bg9aXejuRgFiwkXLULiXrmKBjViTkPRc1ZhvBY#Nra9u1cDrTlESgALUt2gqdIGtbCKvID0ArihtEbG9YHnLzVUagdYVz4gg1AwV0JneZnFqmiz3DwD6a4de7Y0BWgmfJbm85fI7qXEpbcVf4JNsXKI7g4WxBHivRB0m8NP1twSOUfjdVOifRnX1emzwLrSM0xvNAkDT2*DhzBLU23arUJCGXGDU2I0OR*0vRHHysLmkdQ7CMquMDuj0*SLQOGVyojsGXg5EEwu1Oy#LjeIp*b8ZmsDKa";
+			//sceneData = "EnRTxvUp27Gv*I96NGL4P5I37trTT9K0WszawHsb4le1m#54RieVYstbanUIbBRPlwIXVwgdTOUIU0wb7Gz96g23#tm7K#rFLkqKI7iLw*liLJWHaIqrrve0Z8DZVNn4sd12*p5#T#87vX1NYZKiXKp538FoxI8ibKpN6NCFo91#XZ9XROiTP986uVw#*nD7z89*igVVd4jXV*mnV7T*mniv2N631#3VXYuyGktWZKg3FDJ3H7jrQiOFThQ9U93o6mc5ITr1r77WDRFxIX#guDNKwUINzg#cb2y9asFfYAoQATI7w0g3p0R9elJLYl#5Y#Mw81b3#5eSHjsb061jjAqRqqtrVfOKS5zlIfMjzB1p17KxJSj076jHDTtpsSyNhUXwr1Ckl6*1o7QVb0hpd5Trtucx6vDfq6pBGfq1CPaAOveIeLDDpJZ21CTK6#nbt*va9xbVeprho4nGolWR#6QWCDqA#ynUs9u4##H3R599XjZtlwE31t7mQ#ACPOD28s9eQv9iKL#4IH7HiJ0IQr6X1FAifoKrs*uitQmai6HryibaMbHambCdybuiKc0nGUaOb#1Np**K*mCVjKRLHVggdZ97#CDFq2EIsCX7F*7RQYFpZ5#9ye5QlG3dexjgG7eV78rV0YoCFq*nUyFN3coN9*qF2BVwRTsJOZUT3z5wOsp1N7a*Nvz*F3GW7SAYCwMKdfWAQGQTrqcAuWGHyvPJ7aAdJJ9i5JPjvDIAkHvW0TBKPvLLs3reOw3sdqaicj9HGmFpaazrFQeahe8k48D1OujkQ9mDd5uj2xkg*V6r35EiDrpWQUOXVl4viUJgDqIWbMXN0jksgnWAbj1XE6rK0E3Vbw9*vvAsV0mHAA#R#H5x9fsP982V3iz3VjVV7fYdGf457OXKVu5R1pPAmjbVuOl3t1rzSpS9VZ0kw8pobmbE#Q1EDmFZ##eSBRvh3FU#Gz*Ho0h70lY#gqO2lRJF9r*GtVOAQEU9vM#OcO6dyxFudFRQb#PbXlhCsgrKxcu*oETglAnEoncyHxvuHwg7fui2Njep9D#p9hXXJOko39SjESfap6KV381QmgKUgIa55fefbckdfhEmGeqNuy4nSqQjJy5*Rg4qXTwOVl3FdWB#tD1MmHIHNLlJ2Jy1tU4eLSPvCPQXN4Kjdhcccvxlu0xE12*jF9XRXAbadsqyl6ObbPbpWqacbgeEdHbFhW4GX*K44jWKogaWGqgfvCeaNwOChiEIIq1rHakkAakcsjD7STbJajXWbe4Ob8wGqkAGSbm1TJOOrnFtseGuEtJCqUtJyfSuW8gSubKr5KSsItktBCGrNiIuuPaH0HJpPwuQoZZEJEzB2nQuAcx3nzr#Cn*VE6RiU373nMlaUW5GqxvVcfA1uNQoXZ*XWPmCG1bQ0nvJtMMUxfC0U0oUgO0V4OB#po61#OFEBNdIYwkpcN4I3bpicO6WmCrNN31FeRS1Jg3NOxXdT*#Ul7VE9Im2OvXptYGqJOEJ4mJGNdD2BNWhaj4X366eS40Hul1uiooemyWkcEDEsJZwVR1b9I0LEdKYHK0lGKpjDq#cOooPo97oT#9Ui#zU3YQgagyGqdvshWisx4re0HwCKsU0grGqu32dbGHCyzbDL7OjcObBPuLmWybsNSfSkpDewwBddqI0G4h0DHRdBvY#aM6d3dXUi5RcByIP22pHdLs*pg3c5h2peh7cis9UHq0gE*6hd1**5Pm1woeJ*YGiOZ1NV*JhRmajfzf51wzwM1DXmFo6ygsXQtWpwV1oZ*DKMDDYxEqn90TtXRQytnr1ndUMcnkySLaEZQikcqSbeaSGsRnjYaXeH0HwBfiwLWyYQN*01ss8PsKXleuMP4E9hHQzjPiuOGXdaPfumIunIuGei589*8N7lZ*9U5Z5uTNuBKGGObDNK7o0aorzeTiys4iZPlVBgH7kF#q9d4UsvStqFAgeA*FLPMs*KryfnDMIqefIIXlfL5TGuraLYBHhInybcKPkOXPBK1kPsCMIR1rXvLRsPebG2bqkZN72WDNN7ZxgPOGv2jtCWcUHttePmeo6px8V9K3G5VKM**XlHM9cGpvnkRyK2W11tOsbAi1K7zSi65Vu7PTKbBNGeKeUIgyx9ESkC4K4AYYoCTglR#JprRKqbtvgUxbDus6dmnqt4RR8ZOOnF9NW1WABMk0vC1LyOWBsrdzFa2NTocuuv1IEA3MUvuj18LYBWpRgjRaAkhbbrRkIlntjIGJcmU6oKDKJN379T9*wedhJyG1#dOf5FG5l74UaDtO6DigJq3voxsMAWzU3Ng#9MCQ9MqK5A5y3q7o9MFiWTKsIsM#g8FL6HNeTiiJDeORgBA6I4CIQMHwOgTaGtCoZnC0sqlAQPUlypmYkZum5luRg5G0fGXUwnYtykJBxIlW1xTYCTce4j20iESIMdDM0OuvPq6szAum4j20iL0A1trUQ1QjuTLNtvdFrkU*AtqNGA4H#qfWO#LhNkM#f#WJTnSikzL2AxPTX56h6gB3UiXv6LJFuFJl3lvJAeNLjo2*YxTOP3uAYmLNimPKSXPy9#Fd5KY*oNR9Fd1121XhGXBd5IsZuNrvUz9b6igEsVoFjCtRbDeM2RoxBnlyCQZmoWsBXzDXKVKYig43QDOnIVCImWesy1VAB8Dk4jPyVvXJSPwko0HhLLq5QLnljsLwjTy4KVvBRwk1JTu4DxJOdguXwfK6ylmyfMsWgksz79UM*1EAEP0*QyllXKxMtaX5wW2vPXguNRYNazJfEm5TLc9kYL0HARs0N8UMtrvNz7Ujymmz2CBgYRgXGK7kTJzNpBpN8PgX#iFMSxF8SYmKwrvkYRqAQmIuB2iXSQ4ewSfZemLGUyP5BLUuI3mdZTuYAw*0EDGYGYko57JPOBQeub4yw0nZYP6puMsOxm91P*X5ynLV9GsIntjvd2wY2piYTlANwLMrLYReOu05ftyRBePPkLyUoq9erK22HT3K0WkracbMO3kyqKbS5swxn6tbkxsAfG*Moc9aPrIQaUsewjETGfgs9K#Q9e0IAAfieYproYSpywPqmI8krs9Isb2XLNDKiLJIZ0DXgrKcTb2WLN61zrWs#NImBI#0wxocyGcwoBsr2T#aB5zC0AREGDuWU#1iUCHUZLaSbxSTAlUrV6fQUA9DY7vQUxCU1rQAMTvXH13lTwQ5DY7uAQdJnZyQ*G2sNEVgmrzGBF187ZyvOlttxPCxI7RwYxa7Ng5NYg9A5JBVBUhT9LGrMwPlYmlAwPgjlGRiSsrj3lX4WivLX93OSsCAxf*ekSOiqYS8kiPC5k4G3lYVirKvStPc1jdvAKM1JX*J04e*5hiALcbDMV*ZFXY8*F3B#0Z9nh4grhns0T9FZtCKKKRIWAckDo*oUeMDHsanauL9sGPHv#Q1NTBJoeAtlFU5xPm7N2MBQA85XAn*nnLsqltWw#iQCE2JjZ*1UI8j4OEzrw09FFFZledxsdKJGzbYCSQMOMFDX4bPam*1z4rrQCJ*ETwRyMkMhc3ddz3cJ6EJM44yjuN3sE4xiMu2x3YyylUBgQ8yolWWDNgk4R370OVfWuD384E8NnJtV5plihqkS0HpRl4IxYzhNSAjbrKYoyGmTRPhfvcLwPO#Uz1MFCMlgfX#lo8y864UptxgmiEcW#TZMothwxmoX*TZMYHFYgHHJNF3OO*wm7wQD9yZxULSMkYKnlPoujLjjAs9F*fFQMhPmIsbRwAXdBbnY0LbgIhv8pbOp#PeTqAJ0it9Rt0ORLyq2E1ZErPIvttM4sI9en#z8AwpJEitQ8hXPzK#UQJutBrvQrZrh7yGI5#vzTwpvJLu7A17QyyxJAoIsXDeGPkbOik2oKd2jfNOYaMKiQ3SRd6tnbUXbyBsW6yxbmgY*#CUdol0rvoPd2kdWk0*Vie2T87JRcDxJgDsGWQGXpkxqf74SQjK9WTpLtClnZnMFQvuEcoQcdI4mhzenNBp*Flaj0fgze1*8QHHYkagnrG40pLwCqG5CfnE5ghlUNF4FI0d6Waaa";
 			createRoom(4050,2920,3000,200);fitScreen(false);
 		}
 		
@@ -320,9 +325,19 @@ package rightaway3d.house.editor2d
 		
 		private function on2DSceneKeyDown2(e:KeyboardEvent):void
 		{
-			//trace("on2DSceneKeyDown2:"+e.keyCode);
+			trace("on2DSceneKeyDown2:"+e.keyCode);
 			switch(e.keyCode)
 			{
+				case Keyboard.LEFT:
+					var n:int = e.ctrlKey?10:1;
+					moveCurrProduct(-n);
+					break;
+				
+				case Keyboard.RIGHT:
+					n = e.ctrlKey?10:1;
+					moveCurrProduct(n);
+					break;
+				
 				case Keyboard.V:
 					cabinetCreator.switchCabinetTableVisible();
 					break;
@@ -369,10 +384,11 @@ package rightaway3d.house.editor2d
 		
 		private function switchView2D():void
 		{
-			//trace(container2d.x,container2d.y);
-			wallFaceContainer.visible = wallFaceViewer.update();
+			trace(container2d.x,container2d.y);
+			wallFaceViewer.visible = wallFaceViewer.update();
 			
-			scene2d.visible = !wallFaceContainer.visible;
+			scene2d.visible = !wallFaceViewer.visible;
+			trace("scene2d.visible,wallFaceContainer.visible:",scene2d.visible,wallFaceViewer.visible);
 		}
 		
 		private function onStageResize(event:Event=null):void
@@ -649,8 +665,9 @@ package rightaway3d.house.editor2d
 			trace("------------clearAllCabinetObject");
 			cabinetCtr.clearAllCabinetObject();
 			this.cabinetCreator.clear();
+			cabinetCreator.claerAllPlate();
 			
-			ProductManager.own.clearRootProductObject();
+			//ProductManager.own.clearRootProductObject();
 		}
 		
 		/**
@@ -660,11 +677,11 @@ package rightaway3d.house.editor2d
 		 * @param yPos
 		 * 
 		 */
-		public function createCabinet(infoID:int,fileURL:String,yPos:uint,name:String,width:int,depth:int=100):ProductObject
+		public function createCabinet(infoID:int,fileURL:String,yPos:uint,name:String,width:int,height:int,depth:int):ProductObject
 		{
 			//CustomizeProduct2D.distToWall = yPos>0?0:50;
 			scene3d.engineManager.autoDrag = scene3d.visible;//在3D场景时，可拖动产品
-			var p2d:Product2D = cabinetCtr.createCabinet(infoID,fileURL,"text",null,-1,yPos,name,container2d.visible,width,depth);
+			var p2d:Product2D = cabinetCtr.createCabinet(infoID,fileURL,width,height,depth,"text",null,-1,yPos,name,container2d.visible);
 			return p2d.vo;
 		}
 		
@@ -731,7 +748,8 @@ package rightaway3d.house.editor2d
 		 */
 		public function createRoomSquarePillar(width:uint,depth:uint,color:uint,zPos:uint=0):void
 		{
-			cabinetCtr.createRoomSquarePillar(width,depth,color,zPos);
+			scene3d.engineManager.autoDrag = scene3d.visible;//在3D场景时，可拖动产品
+			cabinetCtr.createRoomSquarePillar(width,depth,color,zPos,container2d.visible);
 		}
 		
 		/**
@@ -1030,10 +1048,13 @@ package rightaway3d.house.editor2d
 					var h:int = xml.height;
 					
 					po = ProductManager.own.replaceProductObject(po,id,file,"",w,d,h);
-					cabinetCreator.addSingleDoor(po);
+					//this.cabinetCtr.addCabinetDict(po);
 					
 					if(type==CabinetType.DRAINER)
 					{
+						var drainerCabinet:ProductObject = ProductManager.own.getProductByName(ProductObjectName.DRAINER_CABINET);
+						cabinetCreator.setCookerProduct(drainerCabinet.objectInfo.crossWall,drainerCabinet,po,false);//更新水盆位置信息
+						
 						po.name = ProductObjectName.DRAINER;
 						this.cabinetCreator.drainerProduct = po;
 						this.cabinetCreator.updateCabinetTable();
@@ -1045,12 +1066,14 @@ package rightaway3d.house.editor2d
 					}
 					else if(type==CabinetType.BODY)
 					{
-						this.cabinetCtr.addCabinetDict(po);
+						//this.cabinetCtr.addCabinetDict(po);
 						this.cabinetCreator.addCabinet(po);
+						
+						cabinetCreator.addSingleDoor(po,null);
 					}
 					else if(type==CabinetType.HOOD)
 					{
-						this.cabinetCtr.addCabinetDict(po);
+						//this.cabinetCtr.addCabinetDict(po);
 						this.cabinetCreator.hoodProduct = po.view2d;
 						po.name = ProductObjectName.HOOD;
 					}
@@ -1064,12 +1087,12 @@ package rightaway3d.house.editor2d
 					for(var i:int=0;i<pos.length;i++)
 					{
 						po = pos[i];
-						this.cabinetCtr.addCabinetDict(po);
+						//this.cabinetCtr.addCabinetDict(po);
 						this.cabinetCreator.addCabinet(po);
 						
 						//var doorData:XML = CabinetTool.tool.getDoorData(po);
 						//ProductManager.own.addDynamicSubProduct(po,doorData);
-						cabinetCreator.addSingleDoor(po);
+						cabinetCreator.addSingleDoor(po,null);
 					}
 				}
 			}
@@ -1088,7 +1111,7 @@ package rightaway3d.house.editor2d
 			{
 				var src1:XML = srcs[0];
 				var po:ProductObject = ProductManager.own.replaceProductObject2_1(target1,target2,src1);
-				this.cabinetCtr.addCabinetDict(po);
+				//this.cabinetCtr.addCabinetDict(po);
 				this.cabinetCreator.addCabinet(po);
 			}
 			else if(srcs.length==2)
@@ -1097,10 +1120,10 @@ package rightaway3d.house.editor2d
 				for(var i:int=0;i<pos.length;i++)
 				{
 					po = pos[i];
-					this.cabinetCtr.addCabinetDict(po);
+					//this.cabinetCtr.addCabinetDict(po);
 					this.cabinetCreator.addCabinet(po);
 					
-					var doorData:XML = CabinetTool.tool.getDoorData(po);
+					var doorData:XML = CabinetTool.tool.getDoorData(po,null)[0];
 					ProductManager.own.addDynamicSubProduct(po,doorData);
 				}
 			}
@@ -1135,10 +1158,10 @@ package rightaway3d.house.editor2d
 				</item>;
 			
 			//if(scene3d.engineManager.mousedownObject)replaceProductObject(scene3d.engineManager.mousedownObject,[xml]);
-			//if(GlobalVar.own.currProduct2)ProductManager.own.replaceProductObject2_1(GlobalVar.own.currProduct,GlobalVar.own.currProduct2,xml2);
-			if(GlobalVar.own.currProduct2)replaceProductObject2_n(GlobalVar.own.currProduct,GlobalVar.own.currProduct2,[xml,xml]);
+			//if(gv.currProduct2)ProductManager.own.replaceProductObject2_1(gv.currProduct,gv.currProduct2,xml2);
+			if(gv.currProduct2)replaceProductObject2_n(gv.currProduct,gv.currProduct2,[xml,xml]);
 			else if(scene3d.engineManager.mousedownObject)replaceProductObject(scene3d.engineManager.mousedownObject,[xml,xml]);
-			//if(GlobalVar.own.currProduct)ProductManager.own.replaceProductObject1_2(GlobalVar.own.currProduct,[xml,xml]);
+			//if(gv.currProduct)ProductManager.own.replaceProductObject1_2(gv.currProduct,[xml,xml]);
 		}
 		
 		//=========================================================================================================================
@@ -1230,7 +1253,7 @@ package rightaway3d.house.editor2d
 			sceneCtr.createRoom2(f.rooms[0]);
 			ProductManager.own.loadProduct();
 			
-			this.fitScreen(true);
+			this.fitScreen(true,0.9);
 			
 			GlobalEvent.event.dispatchSceneCompleteEvent();
 		}
@@ -1240,6 +1263,7 @@ package rightaway3d.house.editor2d
 			//删除所有产品（2d，3d）
 //			cabinetCtr.deleteAllProduct();
 			deleteAllProduct();
+			//clearAllCabinetObject();
 			
 			//删除所有房间（数据层）
 			scene2d.removeAllFloors();
@@ -1344,8 +1368,9 @@ package rightaway3d.house.editor2d
 			//trace(getERPData("userid","username","address","phone","starttime","endtime"));
 			//trace("doorcolor:"+getDoorColor());
 			//clearAllCabinetObject();
-			//trace(this.getProductList());
-			cabinetCreator.clearCabinetTalbes();
+			trace(this.getProductList());
+			//trace(this.getOrderProductsData());
+			//cabinetCreator.clearCabinetTalbes();
 		}
 		
 		/**
@@ -1422,9 +1447,9 @@ package rightaway3d.house.editor2d
 								<active>true</active>
 							</item>;
 
-			if(GlobalVar.own.currProduct)
+			if(gv.currProduct)
 			{
-				ProductManager.own.addDynamicSubProduct(GlobalVar.own.currProduct,xml2);
+				ProductManager.own.addDynamicSubProduct(gv.currProduct,xml2);
 			}
 		}
 		
@@ -1452,7 +1477,7 @@ package rightaway3d.house.editor2d
 		public function get2DSnapshot(getPics:Function=null,picType:String="jpg",w:int=1000,h:int=1000):BitmapData
 		{
 			scene2d.visible = true;
-			wallFaceContainer.visible = false;
+			wallFaceViewer.visible = false;
 			
 			this.setSizeMarkingVisible(true);
 			this.setGroundObjectMarkingFlag(true);
@@ -1563,7 +1588,7 @@ package rightaway3d.house.editor2d
 			else if(wallFaceViewer.update())
 			{
 				scene2d.visible = false;
-				wallFaceContainer.visible = true;
+				wallFaceViewer.visible = true;
 				
 				getImageData();
 			}
@@ -1572,7 +1597,7 @@ package rightaway3d.house.editor2d
 				this.setGroundObjectMarkingFlag(true);
 				
 				scene2d.visible = true;
-				wallFaceContainer.visible = false;
+				wallFaceViewer.visible = false;
 				
 				if(getOtherPics)
 				{
@@ -1648,7 +1673,6 @@ package rightaway3d.house.editor2d
 			cabinetCtr.deleteAllProduct();
 			cabinetCreator.clear();
 			
-			ProductManager.own.clearRootProductObject();
 		}
 		
 		/**
@@ -1656,9 +1680,9 @@ package rightaway3d.house.editor2d
 		 */
 		public function deleteSelectProduct():void
 		{
-			if(GlobalVar.own.currProduct)
+			if(gv.currProduct)
 			{
-				deleteProduct(GlobalVar.own.currProduct);
+				deleteProduct(gv.currProduct);
 			}
 		}
 		
@@ -1681,6 +1705,31 @@ package rightaway3d.house.editor2d
 			actionHistory.redo();
 		}
 		
+		protected function moveCurrProduct(dx:int):void
+		{
+			trace("moveCurrProduct");
+			if(!gv.currProduct)return;
+			var po:ProductObject = gv.currProduct;
+			var wo:WallObject = po.objectInfo;
+			trace(1,wo.x,dx);
+			
+			var cw:CrossWall = wo.crossWall;
+			
+			if(!cw)return;//没有关联到墙体
+			
+			wo.x += dx;
+			trace(2,wo.x);
+			
+			cw.removeWallObject(wo);
+			var result:Boolean = cw.testAddCabinet(wo);//true;//
+			if(result)
+			{
+				trace(3,wo.x);
+				this.cabinetCtr.setProductPos(po,cw,wo.x,wo.y,wo.z);
+				cw.dispatchSizeChangeEvent();
+			}
+		}
+		
 		//=========================================================================================================================
 		
 		/*		private function onKeyUp(e:KeyboardEvent):void
@@ -1699,9 +1748,19 @@ package rightaway3d.house.editor2d
 		*/		
 		protected function on2DSceneKeyDown(e:KeyboardEvent):void
 		{
-			//trace("on2DSceneKeyDown:"+e.keyCode);
+			trace("on2DSceneKeyDown:"+e.keyCode);
 			switch(e.keyCode)
 			{
+				case Keyboard.LEFT:
+					var n:int = e.ctrlKey?10:1;
+					moveCurrProduct(-n);
+					break;
+				
+				case Keyboard.RIGHT:
+					n = e.ctrlKey?10:1;
+					moveCurrProduct(n);
+					break;
+				
 				case Keyboard.NUMBER_1:
 					sceneCtr.action = sceneCtr.ACTION_DRAG_SCENE;
 					break;
@@ -1726,11 +1785,11 @@ package rightaway3d.house.editor2d
 					break;
 				
 				case Keyboard.NUMBER_6:
-					cabinetCtr.createCabinet(502,"cabinet_502_400x720x570.pdt","text",null,-1,CrossWall.IGNORE_OBJECT_HEIGHT,"",true,400,550);
+					cabinetCtr.createCabinet(502,"cabinet_502_400x720x570.pdt",400,720,550,"text",null,-1,CrossWall.IGNORE_OBJECT_HEIGHT,"",true);
 					break;
 				
 				case Keyboard.NUMBER_7:
-					cabinetCtr.createCabinet(606,"cabinet_606_800x720x330.pdt","text",null,-1,CrossWall.WALL_OBJECT_HEIGHT,"",true,800,550);
+					cabinetCtr.createCabinet(606,"cabinet_606_800x720x330.pdt",800,720,550,"text",null,-1,CrossWall.WALL_OBJECT_HEIGHT,"",true);
 					break;
 				
 				case Keyboard.NUMBER_8:
@@ -1824,17 +1883,17 @@ package rightaway3d.house.editor2d
 					//xPos+=900;
 					//cabinetCtr.createCabinet(557,"cabinet_557_900x720x570.pdt","text",cw,xPos,yPos);
 					xPos+=450;
-					cabinetCtr.createCabinet(703,"cabinet_703_450x1390x570.pdt","text",cw,xPos,yPos);
+					cabinetCtr.createCabinet(703,"cabinet_703_450x1390x570.pdt",450,1390,550,"text",cw,xPos,yPos);
 					xPos+=600;
-					cabinetCtr.createCabinet(705,"cabinet_705_600x1390x570.pdt","text",cw,xPos,yPos);
+					cabinetCtr.createCabinet(705,"cabinet_705_600x1390x570.pdt",600,1390,550,"text",cw,xPos,yPos);
 					xPos+=600;
-					cabinetCtr.createCabinet(715,"cabinet_715_600x1390x570.pdt","text",cw,xPos,yPos);
+					cabinetCtr.createCabinet(715,"cabinet_715_600x1390x570.pdt",600,1390,550,"text",cw,xPos,yPos);
 					xPos+=600;
-					cabinetCtr.createCabinet(805,"cabinet_805_600x2110x570.pdt","text",cw,xPos,yPos);
+					cabinetCtr.createCabinet(805,"cabinet_805_600x2110x570.pdt",600,2110,550,"text",cw,xPos,yPos);
 					xPos+=600;
-					cabinetCtr.createCabinet(815,"cabinet_815_600x2110x570.pdt","text",cw,xPos,yPos);
+					cabinetCtr.createCabinet(815,"cabinet_815_600x2110x570.pdt",600,2110,550,"text",cw,xPos,yPos);
 					xPos+=600;
-					cabinetCtr.createCabinet(825,"cabinet_825_600x2110x570.pdt","text",cw,xPos,yPos);
+					cabinetCtr.createCabinet(825,"cabinet_825_600x2110x570.pdt",600,2110,550,"text",cw,xPos,yPos);
 					
 					/*wall2d = scene2d.currFloor.walls[0];
 					cw = scene2d.currFloor.rooms[0].walls[wall2d];
@@ -1886,6 +1945,7 @@ package rightaway3d.house.editor2d
 					break;
 				
 				case Keyboard.M:
+					trace("------------------");
 					switchView();
 					break;
 				

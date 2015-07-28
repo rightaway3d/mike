@@ -3,6 +3,7 @@ package rightaway3d.house.editor2d
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
+	import flash.utils.setTimeout;
 	
 	import rightaway3d.engine.product.ProductInfo;
 	import rightaway3d.engine.product.ProductManager;
@@ -26,8 +27,14 @@ package rightaway3d.house.editor2d
 		private var subElecData:XML;//子产品电器数据源
 		
 		private const BTN_DELET_PRODUCT:String = "删除厨柜";
-		private const BTN_UPDATE_TABLE:String = "更新台面";
+		private const BTN_CLEAR_PRODUCT:String = "清除厨柜";
+		private const BTN_CLEAR_PLANK:String = "清除封板";
 		private const BTN_CABINET_DOOR:String = "更新门板";
+		private const BTN_UPDATE_TABLE:String = "更新台面";
+		private const BTN_SWITCH_TABLE:String = "显示/ 隐藏 台面";
+		
+		private const BTN_LEFT_DOOR:String = "设为左开门";
+		private const BTN_RIGHT_DOOR:String = "设为右开门";
 		
 		public function Mike()
 		{
@@ -54,7 +61,7 @@ package rightaway3d.house.editor2d
 			//ui.deleteBtnClick = onDeleteProduct;
 			//ui.createBtnClick = createTable;
 			ui.bottomBtnsHandler = onBottomClick;
-			ui.bbtns = [BTN_DELET_PRODUCT,BTN_UPDATE_TABLE,BTN_CABINET_DOOR];
+			ui.bbtns = [BTN_DELET_PRODUCT,BTN_CLEAR_PRODUCT,BTN_CLEAR_PLANK,BTN_CABINET_DOOR,BTN_UPDATE_TABLE,BTN_SWITCH_TABLE,BTN_LEFT_DOOR,BTN_RIGHT_DOOR];
 			
 			subElecData =
 				<item>
@@ -81,19 +88,47 @@ package rightaway3d.house.editor2d
 				case BTN_DELET_PRODUCT:
 					this.deleteSelectProduct();
 					break;
+				case BTN_CLEAR_PRODUCT:
+					//this.deleteAllProduct();
+					this.clearAllCabinetObject();
+					break;
 				case BTN_UPDATE_TABLE:
 					updateTable();
-					updateCabinetDoor();
 					break;
 				case BTN_CABINET_DOOR:
 					updateCabinetDoor();
 					break;
+				case BTN_CLEAR_PLANK:
+					cabinetCreator.claerAllPlate();
+					break;
+				case BTN_SWITCH_TABLE:
+					cabinetCreator.switchCabinetTableVisible();
+					break;
+				case BTN_LEFT_DOOR:
+					resetDoorDirection("left");
+					break;
+				case BTN_RIGHT_DOOR:
+					resetDoorDirection("right");
+					break;
+			}
+		}
+		
+		private function resetDoorDirection(direction:String):void
+		{
+			if(gv.currProduct)
+			{
+				var po:ProductObject = gv.currProduct;
+				if(po.name!=ProductObjectName.CORNER_CABINET)
+				{
+					cabinetCreator.clearSingleDoor(po);
+					cabinetCreator.addSingleDoor(po,direction);
+				}
 			}
 		}
 		
 		private function updateCabinetDoor():void
 		{
-			cabinetCreator.clearSingleDoor();
+			cabinetCreator.clearAllSingleDoor();
 			TableBuilder.own.builderDoor();
 		}
 		
@@ -102,7 +137,14 @@ package rightaway3d.house.editor2d
 			cabinetCreator.clearCabinetTalbes();
 			var msg:String = TableBuilder.own.builderTable();
 			//trace(stage.mouseX);
-			if(msg)Tips.show(msg,stage.mouseX-100,stage.mouseY-70,3000);
+			if(msg)
+			{
+				Tips.show(msg,stage.mouseX-100,stage.mouseY-70,3000);
+			}
+			else
+			{
+				updateCabinetDoor();
+			}
 		}
 		
 		private function onMainBtnSwitch(uiVisible:Boolean):void
@@ -119,41 +161,6 @@ package rightaway3d.house.editor2d
 			
 			return result;
 		}
-		
-		/**
-		 * 水槽柜
-		 */
-		private var drainerCabinet:ProductObject;
-		
-		/**
-		 * 水槽
-		 */
-		private var drainer:ProductObject;
-		
-		/**
-		 * 灶具柜
-		 */
-		private var flueCabinet:ProductObject;
-		
-		/**
-		 * 灶具
-		 */
-		private var flue:ProductObject;
-		
-		/**
-		 * 烟机
-		 */
-		private var hood:ProductObject;
-		
-		/**
-		 * 烤箱
-		 */
-		private var oven:ProductObject;
-		
-		/**
-		 * 消毒柜
-		 */
-		private var sterilizer:ProductObject;
 		
 			/*<item>
 			  <name>900对开地柜</name>
@@ -197,7 +204,7 @@ package rightaway3d.house.editor2d
 				{
 					case ListType.DRAINER://"drainer"://水盆地柜
 						var pname:String = ProductObjectName.DRAINER_CABINET;
-						drainerCabinet = getProduct(pname);
+						var drainerCabinet:ProductObject = getProduct(pname);
 						
 						if(drainerCabinet)
 						{
@@ -205,12 +212,12 @@ package rightaway3d.house.editor2d
 							return;
 						}
 						
-						p = drainerCabinet = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,pname,width,depth);
+						p = drainerCabinet = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,pname,width,height,depth);
 						break;
 					
 					case ListType.FLUE://灶台地柜
 						pname = ProductObjectName.FLUE_CABINET;
-						flueCabinet = getProduct(pname);
+						var flueCabinet:ProductObject = getProduct(pname);
 						
 						if(flueCabinet)
 						{
@@ -221,12 +228,12 @@ package rightaway3d.house.editor2d
 						var subItem:String = item.sub_item;
 						if(subItem)
 						{
-							p = createElecCabinet(subItem,id,file,width,depth,pname);//以电器柜作灶台柜
+							p = createElecCabinet(subItem,id,file,width,height,depth,pname);//以电器柜作灶台柜
 							if(!p)return;//如果产品未创建则返回
 						}
 						else
 						{
-							p = flueCabinet = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,pname,width,depth);
+							p = flueCabinet = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,pname,width,height,depth);
 						}
 						break;
 					
@@ -234,17 +241,17 @@ package rightaway3d.house.editor2d
 					case ListType.MIDDLE_ELEC://"middle_elec"://电器中高柜
 					case ListType.HEIGHT_ELEC://"height_elec"://电器高柜
 						subItem = item.sub_item;
-						p = createElecCabinet(subItem,id,file,width,depth);
+						p = createElecCabinet(subItem,id,file,width,height,depth);
 						if(!p)return;//如果产品未创建则返回
 						break;
 					
 					case ListType.CORNER://拐角柜
 					case ListType.CORNER_Z://窄拐角柜
-						p = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,ProductObjectName.CORNER_CABINET,width,depth);
+						p = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,ProductObjectName.CORNER_CABINET,width,height,depth);
 						break;
 					
 					default:
-						p = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,name,width,depth);
+						p = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,name,width,height,depth);
 						break;
 				}
 				
@@ -255,7 +262,7 @@ package rightaway3d.house.editor2d
 			{
 				//trace(type);
 				pname = cate==ListType.CORNER ? ProductObjectName.CORNER_CABINET : name;
-				p = this.createCabinet(id,file,CrossWall.WALL_OBJECT_HEIGHT,pname,width,depth);
+				p = this.createCabinet(id,file,CrossWall.WALL_OBJECT_HEIGHT,pname,width,height,depth);
 				
 				cabinetCreator.addWallCabinet(p);
 				//setProductEvent(p);
@@ -270,12 +277,18 @@ package rightaway3d.house.editor2d
 				}
 				
 				pname = ProductObjectName.DRAINER;
-				drainer = getProduct(pname);
+				var drainer:ProductObject = getProduct(pname);
 				if(drainer)
 				{
 					//productManager.replaceSubProductObject(drainer.modelObject,id,file,pname);
 					po = productManager.replaceProductObject(drainer,id,file,pname,width,depth,height);
-					if(po)cabinetCreator.setCookerProduct(drainerCabinet.objectInfo.crossWall,drainerCabinet,po,false);
+					if(po)
+					{
+						//this.cabinetCtr.addCabinetDict(po);
+						this.cabinetCreator.addCabinet(po);
+						cabinetCreator.setCookerProduct(drainerCabinet.objectInfo.crossWall,drainerCabinet,po,false);//更新水盆位置信息
+						this.cabinetCreator.updateCabinetTable();
+					}
 				}
 				else
 				{
@@ -307,7 +320,9 @@ package rightaway3d.house.editor2d
 				if(po)
 				{
 					//productManager.replaceSubProductObject(drainer.modelObject,id,file,pname);
-					productManager.replaceProductObject(po,id,file,pname,width,depth,height);
+					po = productManager.replaceProductObject(po,id,file,pname,width,depth,height);
+					//this.cabinetCtr.addCabinetDict(po);
+					this.cabinetCreator.addCabinet(po);
 				}
 				else
 				{
@@ -318,7 +333,7 @@ package rightaway3d.house.editor2d
 			else if(type==ListType.OVEN)//"oven")//烤箱
 			{
 				pname = ProductObjectName.OVEN;
-				oven = getProduct(pname);
+				var oven:ProductObject = getProduct(pname);
 				if(!oven)//不能直接放置烤箱，必须要先放配烤箱电器柜
 				{
 					//oven = this.createCabinet(id,file,CrossWall.WALL_OBJECT_HEIGHT,pname,width,depth);
@@ -331,7 +346,7 @@ package rightaway3d.house.editor2d
 			else if(type==ListType.STERILIZER)//"sterilizer")//消毒柜
 			{
 				pname = ProductObjectName.STERILIZER;
-				sterilizer = getProduct(pname);
+				var sterilizer:ProductObject = getProduct(pname);
 				if(!sterilizer)//不能直接放置消毒柜，必须要先放配消毒柜电器柜
 				{
 					//sterilizer = this.createCabinet(id,file,CrossWall.WALL_OBJECT_HEIGHT,pname,width,depth);
@@ -363,10 +378,21 @@ package rightaway3d.house.editor2d
 				trace("STERILIZER:",productManager.getProductByName(ProductObjectName.STERILIZER));
 				trace("DRAINER_CABINET:",productManager.getProductByName(ProductObjectName.DRAINER_CABINET));*/
 			}
+			
+			if(p)
+			{
+				this.hideUI();
+				flash.utils.setTimeout(updateProduct,10,p);
+			}
+		}
+		
+		private function updateProduct(p:ProductObject):void
+		{
+			this.cabinetCtr.setProductPos(p,null,house.x,p.objectInfo.y,house.z);
 		}
 		
 		//创建电器柜
-		private function createElecCabinet(subItem:String,id:int,file:String,width:Number,depth:Number,pname:String=""):ProductObject
+		private function createElecCabinet(subItem:String,id:int,file:String,width:Number,height:Number,depth:Number,pname:String=""):ProductObject
 		{
 			var sub:XML = getSubItem(subItem);
 			var subName:String = sub.name;
@@ -379,7 +405,7 @@ package rightaway3d.house.editor2d
 				return null;
 			}
 			
-			var p:ProductObject = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,pname,width,depth);
+			var p:ProductObject = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,pname,width,height,depth);
 			addSubItem(p,sub);
 			
 			return p;
@@ -430,7 +456,8 @@ package rightaway3d.house.editor2d
 		//拖动产品处理事件
 		private function onDragingProduct(e:Event):void
 		{
-			hideUI();
+			//hideUI();
+			ui.visible = false;
 		}
 		
 		//结束拖动产品处理事件
@@ -438,6 +465,11 @@ package rightaway3d.house.editor2d
 		{
 			showUI();
 			var po:ProductObject = e.currentTarget as ProductObject;
+			followMoveProduct(po);
+		}
+		
+		private function followMoveProduct(po:ProductObject):void
+		{
 			var name:String = po.name;
 			
 			switch(name)
@@ -460,6 +492,8 @@ package rightaway3d.house.editor2d
 			if(!po)
 			{
 				po = createProductByType(name,type,masterProduct,isHood);
+				//this.cabinetCtr.addCabinetDict(po);
+				this.cabinetCreator.addCabinet(po);
 			}
 			else
 			{
@@ -478,8 +512,12 @@ package rightaway3d.house.editor2d
 				var xml:XML = list[0];
 				var cw:CrossWall = wo.crossWall;
 				var po:ProductObject = cabinetCreator.addCookerProduct(xml,cw,masterProduct,name,isHood);
+				if(isHood)
+				{
+					//cabinetCtr.createProduct(po);
+				}
 				//po.isActive = false;
-				po.isLock = true;
+				po.isLock = false;
 				
 				return po;
 			}
@@ -499,13 +537,22 @@ package rightaway3d.house.editor2d
 		private function onDispose(e:Event):void
 		{
 			var po:ProductObject = e.currentTarget as ProductObject;
-			po.removeEventListener("draging",hideUI);
-			po.removeEventListener("end_drag",showUI);
+			po.removeEventListener("draging",onDragingProduct);
+			po.removeEventListener("end_drag",onEndDragProduct);
 			po.removeEventListener("will_dispose",onDispose);
 		}
 		
-		private var cabinetCtr:CabinetController = CabinetController.getInstance();
-		private var cabinetCreator:CabinetCreator = CabinetCreator.getInstance();
+		override protected function moveCurrProduct(dx:int):void
+		{
+			super.moveCurrProduct(dx);
+			if(gv.currProduct)
+			{
+				followMoveProduct(gv.currProduct);
+			}
+		}
+		
+		//private var cabinetCtr:CabinetController = CabinetController.getInstance();
+		//private var cabinetCreator:CabinetCreator = CabinetCreator.getInstance();
 		
 		override public function deleteProduct(po:ProductObject):void
 		{
@@ -536,26 +583,17 @@ package rightaway3d.house.editor2d
 			switch(name)
 			{
 				case ProductObjectName.DRAINER_CABINET://删除水盆柜时，把水盆也删除掉
-					deleteProductByName(ProductObjectName.DRAINER);
+					cabinetCtr.deleteProductByName(ProductObjectName.DRAINER);
 					addHistory = false;
 					break;
 				case ProductObjectName.FLUE_CABINET://删除灶台柜时，把灶台与烟机也删除掉
-					deleteProductByName(ProductObjectName.FLUE);
-					deleteProductByName(ProductObjectName.HOOD);
+					cabinetCtr.deleteProductByName(ProductObjectName.FLUE);
+					cabinetCtr.deleteProductByName(ProductObjectName.HOOD);
 					addHistory = false;
 					break;
 			}
 			
 			cabinetCtr.deleteProduct(po,false,addHistory);
-		}
-		
-		private function deleteProductByName(name:String):void
-		{
-			var tpo:ProductObject = getProduct(name);
-			if(tpo)
-			{
-				cabinetCtr.deleteProduct(tpo,false,false);
-			}
 		}
 		
 		override protected function on2DSceneKeyDown(e:KeyboardEvent):void

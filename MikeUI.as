@@ -82,8 +82,12 @@ package
 				
 				if (dataList.length() > 0) {
 					mainUI.assets.width = 410;
+					//mainUI.width = 410;
+					//mainUI.mouseEnabled = mainUI.mouseChildren = true;
 				} else {
 					mainUI.assets.width = 150;
+					//mainUI.width = 150;
+					//mainUI.mouseEnabled = mainUI.mouseChildren = false;
 				}
 				
 				for each( var xml:XML in dataList) {
