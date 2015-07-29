@@ -30,7 +30,8 @@ package rightaway3d.house.editor2d
 			}
 			
 			var infoID:int = item.infoID;
-			var name:String = item.name;
+			var name:String = item.name;//产品名称
+			
 			if(infoID>0)
 			{
 				var info:ProductInfo = productManager.getInfo(infoID);
@@ -39,7 +40,7 @@ package rightaway3d.house.editor2d
 			else
 			{
 				spo = productManager.createCustomizeProduct("",name,"",1,1,1,0,false);
-				info = spo.productInfo;
+				//info = spo.productInfo;
 			}
 			productManager.addDynamicSubProduct(rpo,spo);
 			
@@ -48,7 +49,7 @@ package rightaway3d.house.editor2d
 			spo.productCode = item.productCode;//物料编码
 			spo.price = item.price;//单价
 			spo.unit = item.unit;//单位
-			spo.memo = item.num;//数量
+			spo.memo = item.memo;//数量
 			
 			spo.type = CabinetType.INCREASE_PRODUCT;
 		}
