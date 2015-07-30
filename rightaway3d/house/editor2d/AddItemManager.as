@@ -25,7 +25,8 @@ package rightaway3d.house.editor2d
 			{
 				rpo = productManager.createCustomizeProduct("",ProductObjectName.ROOT_INCREASE_PRODUCT,"",1,1,1,0,false);
 				rpo.createContainer3D();
-				
+				//trace("rpo.name:",rpo.name);
+				productManager.setProductObject(rpo);
 				//EngineManager.instance.addRootChild(rpo.container3d);
 			}
 			
@@ -39,7 +40,7 @@ package rightaway3d.house.editor2d
 			}
 			else
 			{
-				spo = productManager.createCustomizeProduct("",name,"",1,1,1,0,false);
+				spo = productManager.createCustomizeProduct("",name,"",1,1,1,0,false);//创建增项产品信息的容器
 				//info = spo.productInfo;
 			}
 			productManager.addDynamicSubProduct(rpo,spo);
@@ -50,6 +51,7 @@ package rightaway3d.house.editor2d
 			spo.price = item.price;//单价
 			spo.unit = item.unit;//单位
 			spo.memo = item.memo;//数量
+			spo.image3dURL = "assets/icon/increase_product.jpg";
 			
 			spo.type = CabinetType.INCREASE_PRODUCT;
 		}
@@ -64,6 +66,7 @@ package rightaway3d.house.editor2d
 			var a:Array = [];
 			var rpo:ProductObject = productManager.getProductByName(ProductObjectName.ROOT_INCREASE_PRODUCT);
 			
+			//trace("rpo:",rpo,rpo.dynamicSubProductObjects);
 			if(!rpo || !rpo.dynamicSubProductObjects)return a;
 			
 			for each(var po:ProductObject in rpo.dynamicSubProductObjects)
