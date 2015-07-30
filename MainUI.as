@@ -394,7 +394,11 @@ package
 		protected function calculationItemInfoTotalPricesChangePanel(event:Event):void
 		{
 			var tag:Object = addItemInfoChange.tag;
-			var price:int = parseInt(tag.productPriceText.text);
+			var str:String = tag.productPriceText.text;
+			var index:int =str.indexOf(" ");
+			var newStr:String = index>0?str.slice(0,index):str;;
+			var price:int = parseInt(newStr);
+			trace(tag.productNumText.text)
 			var num:int = tag.productNumText.text;
 			tag.productTotalPricesText.text =(price*num)+" 元";
 		}
@@ -402,7 +406,12 @@ package
 		protected function calculationItemInfoTotalPrices(event:Event):void
 		{
 			var tag:Object = addItemInfo.tag;
-			var price:int = parseInt(tag.productPriceText.text);
+			var str:String = tag.productPriceText.text;
+			var index:int =str.indexOf(" ");
+			var newStr:String = index>0?str.slice(0,index):str;
+							
+			var price:int = parseInt(newStr);
+
 			var num:int = tag.productNumText.text;
 			tag.productTotalPricesText.text =(price*num)+" 元";
 		}
@@ -566,7 +575,8 @@ package
 			tag.productNameText.text = obj.name;
 			tag.productSpecText.text = obj.specifications;
 			tag.productNumText.text = obj.memo;
-			tag.productPriceText.text = obj.price+" 元 ";
+			
+			tag.productPriceText.text = obj.price+" 元";
 			tag.productUnitText.text = obj.unit;
 //			tag.productTotalPricesText.text = obj.totalPrice+" 元";
 			tag.changeBtn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";
@@ -580,7 +590,7 @@ package
 		 */		
 		private function addRenderItemClick():void
 		{
-			addItemMenu.alpha = 0.5;
+			addItemMenu.alpha = 0;
 			addChild(addItemInfo);		
 		}
 		/**
@@ -640,12 +650,18 @@ package
 			var name:String = tag.productNameText.text;
 			var specifications:String = tag.productSpecText.text;
 			var memo:String = tag.productNumText.text;
-			var price:String = tag.productPriceText.text;
+			
+			var str:String = tag.productPriceText.text;
+			var index:int =str.indexOf(" ");
+			var price:String = index>0?str.slice(0,index):str;
+			
 			var totalPrice:String = tag.productTotalPricesText.text;
 			
 			obj.name = name;
 			obj.specifications = specifications;
 			obj.memo = memo; 
+			
+			
 			obj.price = price;
 //			obj.totalPrice = totalPrice;
 			addItemList.refresh();
@@ -703,8 +719,7 @@ package
 			if(stopPropagation)return ;
 			addItemList.selectedIndex = -1;
 			addChild(addItemInfoChange);
-			addItemMenu.alpha = 0.5;
-			trace(index,"index")
+			addItemMenu.alpha = 0;
 			currentIndex = index;
 			showChangeMenu();
 		}	
@@ -714,7 +729,7 @@ package
 		{
 			
 			stopPropagation = true;
-			addItemMenu.alpha = 0.5;
+			addItemMenu.alpha = 0.3;
 			currentItem = e.currentTarget.parent;
 			addItemList.selection=e.currentTarget.parent;
 			currentIndex = addItemList.selectedIndex;
@@ -787,7 +802,11 @@ package
 			obj.memo = tag.productNumText.text;
 			obj.unit = tag.productUnitText.text;
 			obj.productModel = tag.productModelText.text;
-			obj.price = tag.productPriceText.text;
+			
+			var str:String = tag.productPriceText.text;
+			var index:int =str.indexOf(" ");
+			var price:String = index>0?str.slice(0,index):str;
+			obj.price = price;
 			obj.totalPrice = tag.productTotalPricesText.text;
 			addItemList.sendEvent(ADDITEM_ADD,obj);
 			

@@ -28,8 +28,11 @@ package
 		
 		public var itemList:XMLList;
 		
+		// BottomBtns max row number
+		public var maxRowNumber:int = 6;
+		
 		// 下方按钮列表内容
-		public var bbtns:Array = ['删除', '生成面板', '重建台面'];
+		public var bbtns:Array = ['删除', '生成面板', '重建台面', '生成面板', '重建台面', '生成面板', '重建台面'];
 		
 		public function MikeUI()
 		{
@@ -41,6 +44,8 @@ package
 				App.init(instance);
 				App.loader.loadAssets(['assets/comp.swf'], new Handler(uiLoadComplete));
 			});
+			
+			
 		}
 		
 		/**
@@ -58,8 +63,15 @@ package
 			}
 			
 			mainUI.bottomBtns.array = realArr;
-			mainUI.bottomBtns.width = arr.length * 98 - 5; 
+			
+			var w:int = Math.floor(stage.stageWidth / 95) - 1;
+			maxRowNumber = arr.length < maxRowNumber ? arr.length : maxRowNumber;
+			w = w > maxRowNumber ? maxRowNumber : w;
+			
+			mainUI.bottomBtns.width = w * 98 - 5;
+			mainUI.bottomBtns.height = Math.ceil(realArr.length / w) * 26;
 		}
+		
 		
 		private function onStageResize(e:Event):void {
 			
@@ -68,7 +80,10 @@ package
 				mainUI.stageHeight = stage.stageHeight;
 				mainUI.width = stage.stageWidth;
 				mainUI.height = stage.stageHeight;
+				trace(mainUI.width,mainUI.height)
+				
 			}
+			setBottomBtns();
 		}
 		
 		public function uiLoadComplete():void {
@@ -139,6 +154,10 @@ package
 			stage.addEventListener(Event.RESIZE, onStageResize);
 			onStageResize(null);
 		}
+		
+		
+		
+		
 		
 		public var addItemManager:AddItemManager;
 		/**

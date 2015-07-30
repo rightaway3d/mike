@@ -15,7 +15,7 @@ package game.ui.mike {
 			      <Label text="label" x="179" y="8" width="92" height="18" name="name" color="0xffffff"/>
 			      <Label text="label2" x="156" y="37" width="108" height="18" name="specifications" color="0xffffff"/>
 			      <Label text="label" x="343" y="8" width="58" height="18" name="memo" color="0xffffff"/>
-			      <Label text="label" x="343" y="37" width="62" height="18" name="price" color="0xffffff"/>
+			      <Label text="label" x="320" y="37" width="80" height="18" name="price" color="0xffffff"/>
 			      <Image skin="png.comp.blank" x="428" y="6" width="4" height="61" alpha="0.5"/>
 			      <Label text="总价：" x="455" y="27" color="0xffffff"/>
 			      <Label text="label" x="496" y="27" width="71" height="18" name="totalPrice" color="0xffffff"/>
