@@ -392,14 +392,14 @@ package
 			
 			addItemInfo.addChild(okBtn);
 			okBtn.showBorder(0xFFFFFF);
-			okBtn.x = 75;
-			closeBtn.x = 270;
+			okBtn.x = 140;
+			closeBtn.x = 300;
 			closeBtn.labelSize = okBtn.labelSize = 18;
 			closeBtn.labelColors = okBtn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";
 			
 			closeBtn.clickHandler = new Handler(addItemInfoCloseClick,[addItemInfo]);
 			okBtn.clickHandler = new Handler(addItemInfoOkClick);
-			okBtn.y = closeBtn.y = 500;
+			okBtn.y = closeBtn.y = 485;
 			okBtn.buttonMode = closeBtn.buttonMode = true;
 			
 			addItemInfo.x = (stageWidth-addItemInfo.width)>>1;
@@ -453,9 +453,9 @@ package
 			var title:Label = new Label(titleStr);
 			title.size = 18;
 			title.color = 0xFFFFFF;
-			title.align = TextFormatAlign.LEFT;
+			title.align = TextFormatAlign.RIGHT;
 			title.setSize(100,30);
-			title.x = 18;
+			title.x = 0;
 			title.y = _y+5;
 			var lineW:int = 0;
 			var lineH:int = 0;
@@ -552,8 +552,8 @@ package
 			
 			addItemInfoChange.addChild(okBtn);
 			okBtn.showBorder(0xFFFFFF);
-			okBtn.x = 75;
-			closeBtn.x = 270;
+			okBtn.x = 140;
+			closeBtn.x = 300;
 			closeBtn.labelSize = okBtn.labelSize = 18;
 			closeBtn.labelColors = okBtn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";
 			closeBtn.clickHandler = new Handler(addItemInfoCloseClick,[addItemInfoChange]);
