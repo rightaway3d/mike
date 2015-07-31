@@ -6,12 +6,15 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.system.IME;
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
+	import flash.ui.Keyboard;
+	import flash.ui.KeyboardType;
 	
 	import game.ui.mike.AddItemListUI;
 	import game.ui.mike.mainUI;
@@ -166,6 +169,7 @@ package
 			bg.name = "maxBg";
 			addChild(addItemMenu);
 			addChildAt(bg,numChildren-1);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
 		}
 		/**
 		 * 隐藏增值面板
@@ -174,6 +178,7 @@ package
 		{
 			removeChildByName("maxBg");
 			removeChild(addItemMenu);
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
 		}
 		
 		
@@ -400,11 +405,14 @@ package
 			addItemInfo.x = (stageWidth-addItemInfo.width)>>1;
 			addItemInfo.y = (stageHeight-addItemInfo.height)>>1;
 		}
-		
+		private var currentTabIndex:int= 0;
 		protected function FocusIn(event:FocusEvent):void
 		{
 			// TODO Auto-generated method stub
+			var s:TextField = event.target as TextField
 			IME.enabled = true;
+			currentTabIndex = parseInt(s.name);
+			trace(s.name,"currentTabIndex")
 		}
 		
 		/**
@@ -465,7 +473,7 @@ package
 				inputText.x = 130;
 				inputText.y = _y;
 //				inputText.tabEnabled = true;
-				
+				inputText.name = _tabIndex.toString();;
 				parentDisplay.addChild(inputText);
 				inputText.tabIndex = _tabIndex;
 				inputText.addEventListener(FocusEvent.FOCUS_IN,FocusIn);
@@ -578,19 +586,32 @@ package
 		 */		
 		private function changeBtnClick():void
 		{
-			var btn:Button = addItemInfoChange.tag.changeBtn;
-			var bg:Sprite = addItemInfoChange.tag.maskPanel;
+			var tag:Object = addItemInfoChange.tag;
+			var btn:Button = tag.changeBtn;
+			var bg:Sprite = tag.maskPanel;
 			
 			if(bg.visible)
 			{
 				btn.labelColors = "0x333333,0x333333,0x333333";
 				btn.showBorder(0x333333);
+				tabIndexArray=[];
+				tabIndexArray.push(tag.productNameText);
+				tabIndexArray.push(tag.productSpecText);
+				tabIndexArray.push(tag.productModelText);
+				tabIndexArray.push(tag.productNumText);
+				tabIndexArray.push(tag.productUnitText);
+				tabIndexArray.push(tag.productPriceText);
+				stage.focus = tag.productNameText;
 			}else
 			{
 				btn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";
 				btn.showBorder(0xFFFFFF);
+				tabIndexArray=[];
 			}
 			bg.visible = !bg.visible;
+			
+			
+			
 		}
 		/**
 		 * 改变选中信息
@@ -599,6 +620,7 @@ package
 		 */		
 		public function showChangeMenu():void
 		{
+			
 			if(currentIndex==-1||!addItemList.dataSource)return;
 			var tag:Object = addItemInfoChange.tag;
 			var obj:Object = addItemList.dataSource[currentIndex];
@@ -613,14 +635,19 @@ package
 			tag.changeBtn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";
 			tag.changeBtn.showBorder(0xFFFFFF);
 			tag.maskPanel.visible = true;
+			
+		
+			
 //			addItemList.refresh();
 		}
 		
+		public var tabIndexArray:Array= new Array;
 		/**
 		 *点击添加按钮 
 		 */		
 		private function addRenderItemClick():void
 		{
+			tabIndexArray= [];
 			addItemMenu.alpha = 0;
 			addChild(addItemInfo);
 			var obj:Object = addItemInfo.tag;
@@ -632,6 +659,33 @@ package
 			obj.productUnitText.text ="";
 			obj.productPriceText.text = "";
 			obj.productTotalPricesText.text ="";
+			tabIndexArray.push(obj.productIDText,obj.productNameText,obj.productSpecText,obj.productModelText,obj.productNumText,obj.productUnitText,obj.productPriceText);
+			stage.focus = addItemInfoChange.tag.productIDText;
+		}
+		
+		protected function onKeyDown(event:KeyboardEvent):void
+		{
+//			event.stopImmediatePropagation();
+			switch(event.keyCode)
+			{
+				case Keyboard.ENTER:
+				{
+					if(currentTabIndex<tabIndexArray.length)
+					{
+						stage.focus = tabIndexArray[currentTabIndex];
+					}else
+					{
+						currentTabIndex=0;
+					}
+						
+					break;
+				}
+					
+				default:
+				{
+					break;
+				}
+			}
 		}
 		/**
 		 * 

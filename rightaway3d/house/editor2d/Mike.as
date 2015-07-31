@@ -52,7 +52,6 @@ package rightaway3d.house.editor2d
 //			graphics.beginFill(0xFFFF00);
 //			graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight)
 			ui = new MikeUI();
-			
 			trace("--------initMikeUI parent:",this.parent);
 			this.parent.addChild(ui);
 			//if(!stage)
