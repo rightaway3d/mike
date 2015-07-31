@@ -353,26 +353,25 @@ package
 			(obj.productPriceText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPrices);
 			(obj.productPriceText as TextInput).restrict = "0-9";
 			(obj.productNumText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPrices);
-			
 			(obj.productNumText as TextInput).restrict = "0-9";
 			
 			
 			
 //			InteractiveObject((obj.productPriceText as TextInput)).tabIndex = 1;
 //			InteractiveObject((obj.productNumText as TextInput)).tabIndex = 2;
-//			obj.productIDText.tabEnabled = true;
-//			obj.productNameText.tabEnabled = true;
-//			obj.productModelText.tabEnabled = true;
-//			obj.productNumText.tabEnabled = true;
-//			obj.productUnitText.tabEnabled = true;
-//			obj.productPriceText.tabEnabled = true;
+			obj.productIDText.tabEnabled = true;
+			obj.productNameText.tabEnabled = true;
+			obj.productModelText.tabEnabled = true;
+			obj.productNumText.tabEnabled = true;
+			obj.productUnitText.tabEnabled = true;
+			obj.productPriceText.tabEnabled = true;
 			
-//			obj.productIDText.tabIndex = 1;
-//			obj.productNameText.tabIndex = 2;
-//			obj.productModelText.tabIndex = 3;
-//			obj.productNumText.tabIndex = 4;
-//			obj.productUnitText.tabIndex = 5;
-//			obj.productPriceText.tabIndex = 6;
+			obj.productIDText.tabIndex = 1;
+			obj.productNameText.tabIndex = 2;
+			obj.productModelText.tabIndex = 3;
+			obj.productNumText.tabIndex = 4;
+			obj.productUnitText.tabIndex = 5;
+			obj.productPriceText.tabIndex = 6;
 			
 			addItemInfo.tag = obj;
 			var searchBtn:Button = new Button();
@@ -447,7 +446,7 @@ package
 			var num:int = tag.productNumText.text;
 			tag.productTotalPricesText.text =(price*num)+" 元";
 			
-			stage.focus =tag.productPriceText;
+			
 		}
 		private function createAddItemInfoTitle(parentDisplay:DisplayObjectContainer,titleStr:String,_y:int,type:String="textInput",tabIndex:int=-1):Label
 		{
@@ -522,14 +521,15 @@ package
 			title.align = "left";
 			title.color = 0xFFFFFF;
 			addItemInfoChange.addChild(title);
-			title.x = (bg.width-title.width)/2;
+			title.x = 20;
 			title.y = 40;
 			addItemInfoChange.tag.productNameText = createAddItemInfoTitle(addItemInfoChange,"物品名称:",100);
 			addItemInfoChange.tag.productSpecText = createAddItemInfoTitle(addItemInfoChange,"规格:",150);
-			addItemInfoChange.tag.productNumText = createAddItemInfoTitle(addItemInfoChange,"数量:",200);
-			addItemInfoChange.tag.productUnitText = createAddItemInfoTitle(addItemInfoChange,"单位:",250);
-			addItemInfoChange.tag.productPriceText = createAddItemInfoTitle(addItemInfoChange,"单价:",300);
-			addItemInfoChange.tag.productTotalPricesText = createAddItemInfoTitle(addItemInfoChange,"总价:",350,"label");
+			addItemInfoChange.tag.productModelText = createAddItemInfoTitle(addItemInfoChange,"型号:",200);
+			addItemInfoChange.tag.productNumText = createAddItemInfoTitle(addItemInfoChange,"数量:",250);
+			addItemInfoChange.tag.productUnitText = createAddItemInfoTitle(addItemInfoChange,"单位:",300);
+			addItemInfoChange.tag.productPriceText = createAddItemInfoTitle(addItemInfoChange,"单价:",350);
+			addItemInfoChange.tag.productTotalPricesText = createAddItemInfoTitle(addItemInfoChange,"总价:",400,"label");
 			
 			(addItemInfoChange.tag.productPriceText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPricesChangePanel);
 			(addItemInfoChange.tag.productPriceText as TextInput).restrict = "0-9";
@@ -549,13 +549,13 @@ package
 			
 			addItemInfoChange.addChild(okBtn);
 			okBtn.showBorder(0xFFFFFF);
-			okBtn.x = 50;
+			okBtn.x = 75;
 			closeBtn.x = 270;
 			closeBtn.labelSize = okBtn.labelSize = 18;
 			closeBtn.labelColors = okBtn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";
 			closeBtn.clickHandler = new Handler(addItemInfoCloseClick,[addItemInfoChange]);
 			okBtn.clickHandler = new Handler(addItemInfoChangeOkClick);
-			okBtn.y = closeBtn.y = 440;
+			okBtn.y = closeBtn.y = 450;
 			okBtn.buttonMode = closeBtn.buttonMode = true;
 			addItemInfoChange.x = (stageWidth-addItemInfoChange.width)>>1;
 			addItemInfoChange.y = (stageHeight-addItemInfoChange.height)>>1;
@@ -610,6 +610,7 @@ package
 			tag.productNameText.text = obj.name;
 			tag.productSpecText.text = obj.specifications;
 			tag.productNumText.text = obj.memo;
+			tag.productModelText.text = obj.productModel;
 			
 			tag.productPriceText.text = obj.price+" 元";
 			tag.productUnitText.text = obj.unit;
@@ -695,7 +696,7 @@ package
 			obj.name = name;
 			obj.specifications = specifications;
 			obj.memo = memo; 
-			
+			obj.productModel= tag.productModelText.text;
 			
 			obj.price = price;
 //			obj.totalPrice = totalPrice;
