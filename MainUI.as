@@ -8,6 +8,9 @@ package
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
 	import flash.system.IME;
+	import flash.text.TextField;
+	import flash.text.TextFieldType;
+	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
 	
 	import game.ui.mike.AddItemListUI;
@@ -82,6 +85,13 @@ package
 			addItemInfo = new Box;
 			addItemMenu = new Box;
 			addItemInfoChange = new Box;
+			
+			tabEnabled = true;
+			tabChildren = true;
+			addItemInfoChange.tabEnabled = addItemInfo.tabEnabled = true;
+			addItemInfoChange.tabChildren = addItemInfo.tabChildren = true;
+			
+			
 			createAddItemInfoMenu();
 			createAddItemListMenu();
 			createAddItemInfoChange();
@@ -336,11 +346,9 @@ package
 			title.align = "center";
 			title.color = 0xFFFFFF;
 			addItemInfo.addChild(title);
-			addItemInfo.tabEnabled = true;
-			
-			tabChildren = true;
 			title.x = (bg.width-title.width)/2;
 			title.y = 30;
+			
 			var obj:Object= new Object;
 			obj.productIDText = createAddItemInfoTitle(addItemInfo,"物料编号:",100-30,"textInput",1);
 			obj.productNameText = createAddItemInfoTitle(addItemInfo,"物品名称:",150-30,"textInput",2);
@@ -349,29 +357,11 @@ package
 			obj.productNumText = createAddItemInfoTitle(addItemInfo,"数量:",300-30,"textInput",5);
 			obj.productUnitText = createAddItemInfoTitle(addItemInfo,"单位:",350-30,"textInput",6);
 			obj.productPriceText = createAddItemInfoTitle(addItemInfo,"单价:",400-30,"textInput",7);
-			obj.productTotalPricesText = createAddItemInfoTitle(addItemInfo,"总价:",450-30,"label",8);
-			(obj.productPriceText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPrices);
-			(obj.productPriceText as TextInput).restrict = "0-9";
-			(obj.productNumText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPrices);
-			(obj.productNumText as TextInput).restrict = "0-9";
-			
-			
-			
-//			InteractiveObject((obj.productPriceText as TextInput)).tabIndex = 1;
-//			InteractiveObject((obj.productNumText as TextInput)).tabIndex = 2;
-			obj.productIDText.tabEnabled = true;
-			obj.productNameText.tabEnabled = true;
-			obj.productModelText.tabEnabled = true;
-			obj.productNumText.tabEnabled = true;
-			obj.productUnitText.tabEnabled = true;
-			obj.productPriceText.tabEnabled = true;
-			
-			obj.productIDText.tabIndex = 1;
-			obj.productNameText.tabIndex = 2;
-			obj.productModelText.tabIndex = 3;
-			obj.productNumText.tabIndex = 4;
-			obj.productUnitText.tabIndex = 5;
-			obj.productPriceText.tabIndex = 6;
+			obj.productTotalPricesText = createAddItemInfoTitle(addItemInfo,"总价:",450-30,"label");
+			(obj.productPriceText as TextField).addEventListener(Event.CHANGE,calculationItemInfoTotalPrices);
+			(obj.productPriceText as TextField).restrict = "0-9";
+			(obj.productNumText as TextField).addEventListener(Event.CHANGE,calculationItemInfoTotalPrices);
+			(obj.productNumText as TextField).restrict = "0-9";
 			
 			addItemInfo.tag = obj;
 			var searchBtn:Button = new Button();
@@ -448,7 +438,7 @@ package
 			
 			
 		}
-		private function createAddItemInfoTitle(parentDisplay:DisplayObjectContainer,titleStr:String,_y:int,type:String="textInput",tabIndex:int=-1):Label
+		private function createAddItemInfoTitle(parentDisplay:DisplayObjectContainer,titleStr:String,_y:int,type:String="textInput",_tabIndex:int=-1):TextField
 		{
 //			var group:Box = new Box;
 //			group.name = "group";
@@ -461,33 +451,38 @@ package
 			title.y = _y+5;
 			var lineW:int = 0;
 			var lineH:int = 0;
+			var format:TextFormat = new TextFormat();
+			format.align = "center";
+			format.size = 18;
+			format.color = 0xFFFFFF;
 			if(type=="textInput")
 			{
-				var inputText:TextInput = new TextInput();
-				inputText.align = "center";
-				inputText.size = 18;
-				inputText.color = 0xFFFFFF;
-				inputText.setSize(230,30);
+				var inputText:TextField = new TextField();
+				inputText.defaultTextFormat = format;
+				inputText.type = TextFieldType.INPUT;
+				inputText.width =230;
+				inputText.height = 30;
 				inputText.x = 130;
 				inputText.y = _y;
-				inputText.tabEnabled = true;
-				inputText.tabIndex = tabIndex;
+//				inputText.tabEnabled = true;
+				
 				parentDisplay.addChild(inputText);
+				inputText.tabIndex = _tabIndex;
 				inputText.addEventListener(FocusEvent.FOCUS_IN,FocusIn);
 				lineW = inputText.width;
 				lineH = inputText.height;
 			}else
 			{
-				var label:Label = new Label("");
-				label.align = "center";
-				label.size = 18;
-				label.color = 0xFFFFFF;
-				label.setSize(230,30);
+				var label:TextField = new TextField();
+				label.width =230;
+				label.height = 30;
 				label.x = 130;
 				label.y = _y;
 				parentDisplay.addChild(label);
+				label.mouseEnabled = false;
 				lineW = label.width;
 				lineH = label.height
+				label.defaultTextFormat = format;
 			}
 			
 			var line:Shape = new Shape;
@@ -523,18 +518,18 @@ package
 			addItemInfoChange.addChild(title);
 			title.x = 20;
 			title.y = 40;
-			addItemInfoChange.tag.productNameText = createAddItemInfoTitle(addItemInfoChange,"物品名称:",100);
-			addItemInfoChange.tag.productSpecText = createAddItemInfoTitle(addItemInfoChange,"规格:",150);
-			addItemInfoChange.tag.productModelText = createAddItemInfoTitle(addItemInfoChange,"型号:",200);
-			addItemInfoChange.tag.productNumText = createAddItemInfoTitle(addItemInfoChange,"数量:",250);
-			addItemInfoChange.tag.productUnitText = createAddItemInfoTitle(addItemInfoChange,"单位:",300);
-			addItemInfoChange.tag.productPriceText = createAddItemInfoTitle(addItemInfoChange,"单价:",350);
+			addItemInfoChange.tag.productNameText = createAddItemInfoTitle(addItemInfoChange,"物品名称:",100,"textInput",1);
+			addItemInfoChange.tag.productSpecText = createAddItemInfoTitle(addItemInfoChange,"规格:",150,"textInput",2);
+			addItemInfoChange.tag.productModelText = createAddItemInfoTitle(addItemInfoChange,"型号:",200,"textInput",3);
+			addItemInfoChange.tag.productNumText = createAddItemInfoTitle(addItemInfoChange,"数量:",250,"textInput",4);
+			addItemInfoChange.tag.productUnitText = createAddItemInfoTitle(addItemInfoChange,"单位:",300,"textInput",5);
+			addItemInfoChange.tag.productPriceText = createAddItemInfoTitle(addItemInfoChange,"单价:",350,"textInput",6);
 			addItemInfoChange.tag.productTotalPricesText = createAddItemInfoTitle(addItemInfoChange,"总价:",400,"label");
 			
-			(addItemInfoChange.tag.productPriceText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPricesChangePanel);
-			(addItemInfoChange.tag.productPriceText as TextInput).restrict = "0-9";
-			(addItemInfoChange.tag.productNumText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPricesChangePanel);
-			(addItemInfoChange.tag.productNumText as TextInput).restrict = "0-9";
+			(addItemInfoChange.tag.productPriceText as TextField).addEventListener(Event.CHANGE,calculationItemInfoTotalPricesChangePanel);
+			(addItemInfoChange.tag.productPriceText as TextField).restrict = "0-9";
+			(addItemInfoChange.tag.productNumText as TextField).addEventListener(Event.CHANGE,calculationItemInfoTotalPricesChangePanel);
+			(addItemInfoChange.tag.productNumText as TextField).restrict = "0-9";
 			
 			
 			var closeBtn:Button = new Button();
