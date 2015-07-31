@@ -609,7 +609,7 @@ package
 			
 			tag.productPriceText.text = obj.price+" 元";
 			tag.productUnitText.text = obj.unit;
-//			tag.productTotalPricesText.text = obj.totalPrice+" 元";
+			calculationItemInfoTotalPricesChangePanel(null);
 			tag.changeBtn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";
 			tag.changeBtn.showBorder(0xFFFFFF);
 			tag.maskPanel.visible = true;
@@ -622,9 +622,19 @@ package
 		private function addRenderItemClick():void
 		{
 			addItemMenu.alpha = 0;
-			addChild(addItemInfo);		
+			addChild(addItemInfo);
+			var obj:Object = addItemInfo.tag;
+			obj.productIDText.text = "";
+			obj.productNameText.text = "";
+			obj.productSpecText.text= "";
+			obj.productModelText .text= "";
+			obj.productNumText.text = "";
+			obj.productUnitText.text ="";
+			obj.productPriceText.text = "";
+			obj.productTotalPricesText.text ="";
 		}
 		/**
+		 * 
 		 *添加面板 确认添加选项
 		 * 
 		 */		
