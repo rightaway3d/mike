@@ -670,14 +670,11 @@ package
 			{
 				case Keyboard.ENTER:
 				{
-					if(currentTabIndex<tabIndexArray.length)
-					{
-						stage.focus = tabIndexArray[currentTabIndex];
-					}else
+					if(currentTabIndex>=tabIndexArray.length)
 					{
 						currentTabIndex=0;
 					}
-						
+					stage.focus = tabIndexArray[currentTabIndex];
 					break;
 				}
 					
