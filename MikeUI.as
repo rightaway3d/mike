@@ -2,10 +2,8 @@ package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.media.StageWebView;
 	
-	import game.ui.mike.mainUI;
-	
+	import morn.core.components.Box;
 	import morn.core.events.UIEvent;
 	import morn.core.handlers.Handler;
 	
@@ -109,10 +107,12 @@ package
 				
 				if (dataList.length() > 0) {
 					mainUI.assets.width = 410;
+					mainUI.list.visible = true;
 					//mainUI.width = 410;
 					//mainUI.mouseEnabled = mainUI.mouseChildren = true;
 				} else {
 					mainUI.assets.width = 150;
+					mainUI.list.visible = false;
 					//mainUI.width = 150;
 					//mainUI.mouseEnabled = mainUI.mouseChildren = false;
 				}
