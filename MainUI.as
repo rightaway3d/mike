@@ -1,12 +1,13 @@
 package
 {
-	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.InteractiveObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
+	import flash.system.IME;
 	import flash.text.TextFormatAlign;
 	
 	import game.ui.mike.AddItemListUI;
@@ -20,7 +21,6 @@ package
 	import morn.core.components.List;
 	import morn.core.components.TextInput;
 	import morn.core.components.Tree;
-	import morn.core.events.UIEvent;
 	import morn.core.handlers.Handler;
 	
 	import ztc.utils.Tween;
@@ -333,21 +333,44 @@ package
 			title.align = "center";
 			title.color = 0xFFFFFF;
 			addItemInfo.addChild(title);
+			addItemInfo.tabEnabled = true;
+			
+			tabChildren = true;
 			title.x = (bg.width-title.width)/2;
 			title.y = 30;
 			var obj:Object= new Object;
-			obj.productIDText = createAddItemInfoTitle(addItemInfo,"物料编号:",100-30);
-			obj.productNameText = createAddItemInfoTitle(addItemInfo,"物品名称:",150-30);
-			obj.productSpecText = createAddItemInfoTitle(addItemInfo,"规格:",200-30);
-			obj.productModelText = createAddItemInfoTitle(addItemInfo,"型号:",250-30);
-			obj.productNumText = createAddItemInfoTitle(addItemInfo,"数量:",300-30);
-			obj.productUnitText = createAddItemInfoTitle(addItemInfo,"单位:",350-30);
-			obj.productPriceText = createAddItemInfoTitle(addItemInfo,"单价:",400-30);
-			obj.productTotalPricesText = createAddItemInfoTitle(addItemInfo,"总价:",450-30,"label");
+			obj.productIDText = createAddItemInfoTitle(addItemInfo,"物料编号:",100-30,"textInput",1);
+			obj.productNameText = createAddItemInfoTitle(addItemInfo,"物品名称:",150-30,"textInput",2);
+			obj.productSpecText = createAddItemInfoTitle(addItemInfo,"规格:",200-30,"textInput",3);
+			obj.productModelText = createAddItemInfoTitle(addItemInfo,"型号:",250-30,"textInput",4);
+			obj.productNumText = createAddItemInfoTitle(addItemInfo,"数量:",300-30,"textInput",5);
+			obj.productUnitText = createAddItemInfoTitle(addItemInfo,"单位:",350-30,"textInput",6);
+			obj.productPriceText = createAddItemInfoTitle(addItemInfo,"单价:",400-30,"textInput",7);
+			obj.productTotalPricesText = createAddItemInfoTitle(addItemInfo,"总价:",450-30,"label",8);
 			(obj.productPriceText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPrices);
 			(obj.productPriceText as TextInput).restrict = "0-9";
 			(obj.productNumText as TextInput).addEventListener(Event.CHANGE,calculationItemInfoTotalPrices);
+			
 			(obj.productNumText as TextInput).restrict = "0-9";
+			
+			
+			
+//			InteractiveObject((obj.productPriceText as TextInput)).tabIndex = 1;
+//			InteractiveObject((obj.productNumText as TextInput)).tabIndex = 2;
+//			obj.productIDText.tabEnabled = true;
+//			obj.productNameText.tabEnabled = true;
+//			obj.productModelText.tabEnabled = true;
+//			obj.productNumText.tabEnabled = true;
+//			obj.productUnitText.tabEnabled = true;
+//			obj.productPriceText.tabEnabled = true;
+			
+//			obj.productIDText.tabIndex = 1;
+//			obj.productNameText.tabIndex = 2;
+//			obj.productModelText.tabIndex = 3;
+//			obj.productNumText.tabIndex = 4;
+//			obj.productUnitText.tabIndex = 5;
+//			obj.productPriceText.tabIndex = 6;
+			
 			addItemInfo.tag = obj;
 			var searchBtn:Button = new Button();
 			searchBtn.skin="png.comp.search";
@@ -385,7 +408,13 @@ package
 			addItemInfo.x = (stageWidth-addItemInfo.width)>>1;
 			addItemInfo.y = (stageHeight-addItemInfo.height)>>1;
 		}
-				
+		
+		protected function FocusIn(event:FocusEvent):void
+		{
+			// TODO Auto-generated method stub
+			IME.enabled = true;
+		}
+		
 		/**
 		 *计算 总价 
 		 * @param event
@@ -414,19 +443,20 @@ package
 
 			var num:int = tag.productNumText.text;
 			tag.productTotalPricesText.text =(price*num)+" 元";
+			
+			stage.focus =tag.productPriceText;
 		}
-		
-		private function createAddItemInfoTitle(parentDisplay:DisplayObjectContainer,titleStr:String,_y:int,type:String="textInput"):Label
+		private function createAddItemInfoTitle(parentDisplay:DisplayObjectContainer,titleStr:String,_y:int,type:String="textInput",tabIndex:int=-1):Label
 		{
-			var group:Box = new Box;
-			group.name = "group";
+//			var group:Box = new Box;
+//			group.name = "group";
 			var title:Label = new Label(titleStr);
 			title.size = 18;
 			title.color = 0xFFFFFF;
 			title.align = TextFormatAlign.LEFT;
 			title.setSize(100,30);
 			title.x = 18;
-			title.y = 5;
+			title.y = _y+5;
 			var lineW:int = 0;
 			var lineH:int = 0;
 			if(type=="textInput")
@@ -437,9 +467,13 @@ package
 				inputText.color = 0xFFFFFF;
 				inputText.setSize(230,30);
 				inputText.x = 130;
-				group.addChild(inputText);
+				inputText.y = _y;
+				inputText.tabEnabled = true;
+				inputText.tabIndex = tabIndex;
+				parentDisplay.addChild(inputText);
+				inputText.addEventListener(FocusEvent.FOCUS_IN,FocusIn);
 				lineW = inputText.width;
-				lineH = inputText.height
+				lineH = inputText.height;
 			}else
 			{
 				var label:Label = new Label("");
@@ -448,21 +482,19 @@ package
 				label.color = 0xFFFFFF;
 				label.setSize(230,30);
 				label.x = 130;
-				group.addChild(label);
+				label.y = _y;
+				parentDisplay.addChild(label);
 				lineW = label.width;
 				lineH = label.height
 			}
 			
 			var line:Shape = new Shape;
 			line.graphics.lineStyle(1,0xEEEEEE,0.8);
-			line.graphics.moveTo(120,lineH);
-			line.graphics.lineTo(380,lineH);
+			line.graphics.moveTo(120,lineH+_y);
+			line.graphics.lineTo(380,lineH+_y);
 			line.graphics.endFill();
-			group.addChild(title);
-			
-			group.addChild(line);
-			parentDisplay.addChild(group);
-			group.y = _y;
+			parentDisplay.addChild(title);
+			parentDisplay.addChild(line);
 			if(type=="textInput")
 			{
 				return inputText;
