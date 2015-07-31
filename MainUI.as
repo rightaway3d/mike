@@ -67,9 +67,11 @@ package
 			// 树
 			tree = assets.getChildByName('tree') as Tree;
 			tree.mouseHandler = new Handler(treeMouseHandler);
+			
 			// List
 			list = assets.getChildByName('list') as List;
 			list.mouseHandler = new Handler(listMouseHandler);
+			list.visible=false ;
 			// mainBtn
 			mainBtn = getChildByName('mainBtn') as Box;
 			mainBtn.addEventListener(MouseEvent.CLICK, onMainBtnClick);
@@ -98,7 +100,7 @@ package
 		{
 			mainBtn.mouseChildren = false;
 			mainBtn.mouseChildren = false;
-			assets.visible = true;
+//			assets.visible = true;
 			var alpha:Number, x:Number;
 			assets.alpha = uiShow ? 0 : 1.0;
 			assets.x = uiShow ? originalX - 200 : originalX;
@@ -133,6 +135,7 @@ package
 			if(e.type == MouseEvent.CLICK) {
 				if(MikeUI.instance.treeSelectHandler) {
 					MikeUI.instance.treeSelectHandler(tree.selectedItem);
+					
 				}
 			}			
 		}
