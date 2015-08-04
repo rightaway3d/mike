@@ -326,11 +326,6 @@ package rightaway3d.house.editor2d
 			//createRoom(4050,2920,3000,200);fitScreen(false);
 		}
 		
-		/*private function onRightClick(e:MouseEvent):void
-		{
-			trace("_____onRightClick");
-		}*/
-		
 		private function initStage2():void
 		{
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, on2DSceneKeyDown2);
