@@ -310,6 +310,7 @@ package rightaway3d.house.editor2d
 			WallController.getInstance().dragEnable = !value;
 		}
 		
+		//initstage
 		private function initStage():void
 		{
 			stage.align = StageAlign.TOP_LEFT;
