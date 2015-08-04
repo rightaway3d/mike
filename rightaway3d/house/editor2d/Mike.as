@@ -45,7 +45,12 @@ package rightaway3d.house.editor2d
 			else
 				this.addEventListener(Event.ADDED_TO_STAGE,init);
 		}
-		
+		/**
+		 *初始化
+		 *  
+		 * @param e
+		 * 
+		 */		
 		private function init(e:Event=null):void
 		{
 			if(e)this.removeEventListener(Event.ADDED_TO_STAGE,init);
