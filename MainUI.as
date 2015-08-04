@@ -602,15 +602,20 @@ package
 				tabIndexArray.push(tag.productUnitText);
 				tabIndexArray.push(tag.productPriceText);
 				stage.focus = tag.productNameText;
+				var str:String = tag.productPriceText.text;
+				var index:int =str.indexOf(" ");
+				var price:String = index>0?str.slice(0,index):str;
+				tag.productPriceText.text = price;
 			}else
 			{
+				
+				var strOld:String = tag.productPriceText.text;
+				tag.productPriceText.text = strOld+" 元";
 				btn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";
 				btn.showBorder(0xFFFFFF);
 				tabIndexArray=[];
 			}
 			bg.visible = !bg.visible;
-			
-			
 			
 		}
 		/**
