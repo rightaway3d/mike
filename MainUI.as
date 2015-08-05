@@ -29,6 +29,8 @@ package
 	import morn.core.components.Tree;
 	import morn.core.handlers.Handler;
 	
+	import rightaway3d.house.editor2d.Mike;
+	
 	import ztc.utils.Tween;
 	
 	public class MainUI extends mainUI
@@ -170,6 +172,12 @@ package
 			addChild(addItemMenu);
 			addChildAt(bg,numChildren-1);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
+			for each (var textfield:TextField in addItemInfo.tag) 
+			{
+				;
+			}
+			Mike.instance.stopKeyAction(null)
+//			Mike.instance.setTextField(addItemMenu.tag.);
 		}
 		/**
 		 * 隐藏增值面板
@@ -179,6 +187,8 @@ package
 			removeChildByName("maxBg");
 			removeChild(addItemMenu);
 			stage.removeEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
+			Mike.instance.startKeyAction();
+			
 		}
 		
 		
