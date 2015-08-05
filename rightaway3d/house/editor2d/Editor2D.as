@@ -336,13 +336,13 @@ package rightaway3d.house.editor2d
 		}
 		
 		//=========================================================================================================================
-		public function stopKeyAction(e:FocusEvent):void
+		public function stopKeyAction(e:FocusEvent=null):void
 		{
 			stage.removeEventListener(KeyboardEvent.KEY_DOWN, on2DSceneKeyDown);
 			stage.removeEventListener(KeyboardEvent.KEY_DOWN, on2DSceneKeyDown2);
 		}
 		
-		public function startKeyAction(e:FocusEvent):void
+		public function startKeyAction(e:FocusEvent=null):void
 		{
 			if(this.parent==stage)
 			{
