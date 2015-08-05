@@ -337,7 +337,7 @@ package rightaway3d.house.editor2d
 		
 		private function on2DSceneKeyDown2(e:KeyboardEvent):void
 		{
-			trace("on2DSceneKeyDown2:"+e.keyCode);
+			//trace("on2DSceneKeyDown2:"+e.keyCode);
 			switch(e.keyCode)
 			{
 				case Keyboard.LEFT:
@@ -1747,24 +1747,20 @@ package rightaway3d.house.editor2d
 		
 		protected function moveCurrProduct(dx:int):void
 		{
-			trace("moveCurrProduct");
 			if(!gv.currProduct)return;
 			var po:ProductObject = gv.currProduct;
 			var wo:WallObject = po.objectInfo;
-			trace(1,wo.x,dx);
 			
 			var cw:CrossWall = wo.crossWall;
 			
 			if(!cw)return;//没有关联到墙体
 			
 			wo.x += dx;
-			trace(2,wo.x);
 			
 			cw.removeWallObject(wo);
 			var result:Boolean = cw.testAddCabinet(wo);//true;//
 			if(result)
 			{
-				trace(3,wo.x);
 				this.cabinetCtr.setProductPos(po,cw,wo.x,wo.y,wo.z);
 				cw.dispatchSizeChangeEvent();
 			}
@@ -1788,7 +1784,7 @@ package rightaway3d.house.editor2d
 		*/		
 		protected function on2DSceneKeyDown(e:KeyboardEvent):void
 		{
-			trace("on2DSceneKeyDown:"+e.keyCode);
+			//trace("on2DSceneKeyDown:"+e.keyCode);
 			switch(e.keyCode)
 			{
 				case Keyboard.LEFT:
