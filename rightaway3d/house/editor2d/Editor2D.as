@@ -8,8 +8,10 @@ package rightaway3d.house.editor2d
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
 	import flash.geom.Matrix;
+	import flash.text.TextField;
 	import flash.ui.Keyboard;
 	import flash.utils.ByteArray;
 	
@@ -107,7 +109,7 @@ package rightaway3d.house.editor2d
 		
 		private function initView(e:Event=null):void
 		{
-			trace("--init--");
+			trace("--init--",this.parent);
 			Tips.stage = stage;
 			
 			initScene();
@@ -332,6 +334,39 @@ package rightaway3d.house.editor2d
 			stage.addEventListener(KeyboardEvent.KEY_UP, on2DSceneKeyUp);
 			//stage.addEventListener(MouseEvent.RIGHT_CLICK,onRightClick);
 		}
+		
+		//=========================================================================================================================
+		public function stopKeyAction(e):void
+		{
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, on2DSceneKeyDown);
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, on2DSceneKeyDown2);
+		}
+		
+		public function startKeyAction():void
+		{
+			if(this.parent==stage)
+			{
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, on2DSceneKeyDown);
+			}
+			else
+			{
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, on2DSceneKeyDown2);
+			}
+		}
+		
+		public function setTextField(txt:TextField):void
+		{
+			txt.addEventListener(FocusEvent.FOCUS_IN,stopKeyAction);
+			txt.addEventListener(FocusEvent.FOCUS_OUT,startKeyAction);
+		}
+		
+		public function clearTextField(txt:TextField):void
+		{
+			txt.removeEventListener(FocusEvent.FOCUS_IN,stopKeyAction);
+			txt.removeEventListener(FocusEvent.FOCUS_OUT,startKeyAction);
+		}
+		
+		//=========================================================================================================================
 		
 		private var actionHistory:ActionHistory = ActionHistory.getInstance();
 		
