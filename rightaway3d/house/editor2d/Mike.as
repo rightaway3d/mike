@@ -20,6 +20,8 @@ package rightaway3d.house.editor2d
 	[SWF(backgroundColor="#E2E2E2", frameRate="30", width="1600", height="800")]
 	public class Mike extends Editor2D
 	{
+		public static var instance:Mike;
+		
 		private var productManager:ProductManager = ProductManager.own;
 		
 		private var ui:MikeUI;
@@ -44,6 +46,15 @@ package rightaway3d.house.editor2d
 			if(stage)init();
 			else
 				this.addEventListener(Event.ADDED_TO_STAGE,init);
+			
+			if(!instance)
+			{
+				instance = this;
+			}
+			else
+			{
+				throw new Error("Mike Instance has exist!");
+			}
 		}
 		/**
 		 *初始化
