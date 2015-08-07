@@ -14,6 +14,7 @@ package rightaway3d.house.editor2d
 	import flash.text.TextField;
 	import flash.ui.Keyboard;
 	import flash.utils.ByteArray;
+	import flash.utils.setTimeout;
 	
 	import rightaway3d.URLTool;
 	import rightaway3d.engine.model.ModelObject;
@@ -33,6 +34,7 @@ package rightaway3d.house.editor2d
 	import rightaway3d.house.view2d.Base2D;
 	import rightaway3d.house.view2d.NodeController2D;
 	import rightaway3d.house.view2d.Product2D;
+	import rightaway3d.house.view2d.RoomMap2D;
 	import rightaway3d.house.view2d.ScaleRuler2D;
 	import rightaway3d.house.view2d.SizeMarking2D;
 	import rightaway3d.house.view2d.Wall2D;
@@ -51,7 +53,7 @@ package rightaway3d.house.editor2d
 	import ztc.meshbuilder.room.RenderUtils;
 	import ztc.utils.Tools;
 
-	[SWF(backgroundColor="#E2E2E2", frameRate="30", width="800", height="600")]
+	[SWF(backgroundColor="#E2E2E2", frameRate="30", width="1000", height="1000")]
 	public class Editor2D extends Sprite
 	{
 		protected var container2d:Sprite;
@@ -79,6 +81,8 @@ package rightaway3d.house.editor2d
 		
 		protected var ruler:ScaleRuler2D;
 		
+		protected var roomMap:RoomMap2D;
+
 		protected var gv:GlobalVar = GlobalVar.own;
 		
 		//private var user:User;
@@ -144,6 +148,12 @@ package rightaway3d.house.editor2d
 			WinDoor2D.lineColor = 0xeeeeee;
 			WinDoor2D.fillColor = 0xcccccc;
 			
+			cabinetCreator = CabinetCreator.getInstance();
+			
+			wallFaceViewer = new WallFaceViewer(cabinetCreator.cabinetCrossWalls);
+			container2d.addChild(wallFaceViewer);
+			wallFaceViewer.visible = false;
+			
 			scene2d = new Scene2D();
 			container2d.addChild(scene2d);
 			scene2d.mask = masker;
@@ -168,10 +178,10 @@ package rightaway3d.house.editor2d
 			cabinetCtr.scene = scene2d;
 			cabinetCtr.sceneController = sceneCtr;
 			
-			cabinetCreator = CabinetCreator.getInstance();
-			
-			wallFaceViewer = new WallFaceViewer(cabinetCreator.cabinetCrossWalls);
-			container2d.addChild(wallFaceViewer);
+			roomMap = new RoomMap2D();
+			container2d.addChild(roomMap);
+			roomMap.x = 100;
+			roomMap.y = 100;
 			
 			//user = User.own;
 			//projectManager = user.projectManager;
@@ -431,11 +441,11 @@ package rightaway3d.house.editor2d
 		
 		private function switchView2D():void
 		{
-			trace(container2d.x,container2d.y);
+			//trace(container2d.x,container2d.y);
 			wallFaceViewer.visible = wallFaceViewer.update();
 			
-			scene2d.visible = !wallFaceViewer.visible;
-			trace("scene2d.visible,wallFaceContainer.visible:",scene2d.visible,wallFaceViewer.visible);
+			scene2d.visible = ruler.visible = roomMap.visible = !wallFaceViewer.visible;
+			//trace("scene2d.visible,wallFaceContainer.visible:",scene2d.visible,wallFaceViewer.visible);
 		}
 		
 		private function onStageResize(event:Event=null):void
@@ -520,6 +530,9 @@ package rightaway3d.house.editor2d
 			updateMask(width,height);
 			
 			ruler.y = height - ruler.height - 20;
+			
+			//roomMap.x = width - 50;
+			//roomMap.y = height - 50;
 			
 			sceneCtr.updateView(width,height);
 			scene3d.updateView(width,height);
@@ -1442,10 +1455,11 @@ package rightaway3d.house.editor2d
 			//trace(getERPData("userid","username","address","phone","starttime","endtime"));
 			//trace("doorcolor:"+getDoorColor());
 			//clearAllCabinetObject();
-			testAddItem();
-			trace(this.getProductList());
+			//testAddItem();
+			//trace(this.getProductList());
 			//trace(this.getOrderProductsData());
 			//cabinetCreator.clearCabinetTalbes();
+			getOtherSnapshot(null);
 		}
 		
 		/**
@@ -1559,7 +1573,7 @@ package rightaway3d.house.editor2d
 			this.setWallObjectMarkingFlag(true);
 			this.setWindoorMarkingFlag(true);
 			
-			var bmd:BitmapData = getSnapshot(w,h);
+			var bmd:BitmapData = getSnapshot(w,h,true);
 			
 			if(getPics!=null)
 			{
@@ -1580,12 +1594,14 @@ package rightaway3d.house.editor2d
 			getOtherPics = getPics;
 			otherPicType = picType;
 			
-			pics.length = 0;//清空当前截图
 			picIndex = 0;
+			pics.length = 0;//清空当前截图
+			isTestSnapshot = !Boolean(getPics);
+			
 			get2DSnapshots();//开始创建其它截图
 		}
 		
-		private function getSnapshot(w:int=1000,h:int=1000):BitmapData
+		private function getSnapshot(w:int,h:int,showRoomMap:Boolean):BitmapData
 		{
 			sceneCtr.fitScreen(false,0.5);
 			
@@ -1616,12 +1632,17 @@ package rightaway3d.house.editor2d
 			var m:Matrix = new Matrix();
 			m.scale(sx,sy);
 			
-			this.ruler.visible = false;
+			this.ruler.visible = showRoomMap;
+			this.roomMap.visible = showRoomMap;
 			
 			var bmd:BitmapData  = new BitmapData(dw,dh,true,0);
 			bmd.draw(this.container2d,m,null,null,null,true);
 			
-			this.ruler.visible = true;
+			/*if(!showRoomMap)
+			{
+				this.ruler.visible = true;
+				this.roomMap.visible = true;
+			}*/
 			
 			return bmd;
 		}
@@ -1633,15 +1654,30 @@ package rightaway3d.house.editor2d
 		
 		private var pics:Array = [];
 		private var picIndex:int = 0;
+		private var isTestSnapshot:Boolean = false;
 		
 		private function get2DSnapshots():void
 		{
-			this.addEventListener(Event.ENTER_FRAME,_get2DSnapshots);
+			if(isTestSnapshot)
+			{
+				if(picIndex==0)
+				{
+					_get2DSnapshots();
+				}
+				else
+				{
+					flash.utils.setTimeout(_get2DSnapshots,3000);
+				}
+			}
+			else
+			{
+				this.addEventListener(Event.ENTER_FRAME,_get2DSnapshots);
+			}
 		}
 		
-		private function _get2DSnapshots(e:Event):void
+		private function _get2DSnapshots(e:Event=null):void
 		{
-			this.removeEventListener(Event.ENTER_FRAME,_get2DSnapshots);
+			if(e)this.removeEventListener(Event.ENTER_FRAME,_get2DSnapshots);
 			//scene2d.visible = !wallFaceContainer.visible;
 			picIndex++;
 			
@@ -1649,14 +1685,14 @@ package rightaway3d.house.editor2d
 			{
 				this.setWallObjectMarkingFlag(false);
 				
-				getImageData();
+				getImageData(true);
 			}
 			else if(picIndex==2)
 			{
 				this.setGroundObjectMarkingFlag(false);
 				this.setWallObjectMarkingFlag(true);
 				
-				getImageData();
+				getImageData(true);
 				
 				wallFaceViewer.reset();
 			}
@@ -1665,7 +1701,7 @@ package rightaway3d.house.editor2d
 				scene2d.visible = false;
 				wallFaceViewer.visible = true;
 				
-				getImageData();
+				getImageData(false);
 			}
 			else
 			{
@@ -1674,6 +1710,9 @@ package rightaway3d.house.editor2d
 				scene2d.visible = true;
 				wallFaceViewer.visible = false;
 				
+				this.ruler.visible = true;
+				this.roomMap.visible = true;
+				
 				if(getOtherPics)
 				{
 					getOtherPics(pics);
@@ -1681,9 +1720,9 @@ package rightaway3d.house.editor2d
 			}
 		}
 		
-		private function getImageData():void
+		private function getImageData(showRoomMap:Boolean):void
 		{
-			var bmd:BitmapData  = getSnapshot();
+			var bmd:BitmapData  = getSnapshot(1000,1000,showRoomMap);
 			var data:ByteArray = BMP.encodeBitmap(bmd,otherPicType);
 			pics.push(data);
 			get2DSnapshots();
