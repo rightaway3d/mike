@@ -1560,9 +1560,18 @@ package rightaway3d.house.editor2d
 			wallFaceViewer.visible = false;
 			
 			this.setSizeMarkingVisible(true);
-			this.setGroundObjectMarkingFlag(true);
-			this.setWallObjectMarkingFlag(true);
-			this.setWindoorMarkingFlag(true);
+			
+			//this.setGroundObjectMarkingFlag(true);
+			cabinetCtr.setGroundCabinetView2D(true);
+			SizeMarking2D.markingGroundObject = true;
+			//updateMarking();
+			//this.setWallObjectMarkingFlag(true);
+			cabinetCtr.setWallCabinetView2D(true);
+			SizeMarking2D.markingWallObject = true;
+			//updateMarking();
+			//this.setWindoorMarkingFlag(true);
+			SizeMarking2D.markingWindoor = true;
+			updateMarking();
 			
 			var bmd:BitmapData = getSnapshot(w,h,true);
 			
@@ -1582,6 +1591,7 @@ package rightaway3d.house.editor2d
 		 */
 		public function getOtherSnapshot(getPics:Function,picType:String="jpg"):void
 		{
+			gv.currProduct = null;
 			setPrintColor();
 			if(scene2d.house.currFloor)scene2d.house.currFloor.wallAreaSelector.visible = false;
 			
@@ -1718,6 +1728,7 @@ package rightaway3d.house.editor2d
 			if(picIndex==1)
 			{
 				this.setWallObjectMarkingFlag(false);
+				roomMap.setMapName("地柜平面图");
 				
 				getImageData(true);
 			}
@@ -1725,6 +1736,7 @@ package rightaway3d.house.editor2d
 			{
 				this.setGroundObjectMarkingFlag(false);
 				this.setWallObjectMarkingFlag(true);
+				roomMap.setMapName("吊柜平面图");
 				
 				getImageData(true);
 				
@@ -1740,6 +1752,7 @@ package rightaway3d.house.editor2d
 			else
 			{
 				setShowColor();
+				roomMap.setMapName("");
 				if(scene2d.house.currFloor)scene2d.house.currFloor.wallAreaSelector.visible = true;
 				
 				this.setGroundObjectMarkingFlag(true);
