@@ -131,6 +131,9 @@ package rightaway3d.house.editor2d
 		
 		private function init():void
 		{
+			Scene2D.sceneWidth = 1000;
+			Scene2D.sceneHeight = 1000;
+			
 			cabinetCreator = CabinetCreator.getInstance();
 			cabinetCtr = CabinetController.getInstance();
 			windCtr = WindoorController.getInstance();
@@ -145,18 +148,15 @@ package rightaway3d.house.editor2d
 			masker = new Shape();
 			container2d.addChild(masker);
 			
-			Scene2D.sceneWidth = 1000;
-			Scene2D.sceneHeight = 1000;
+			scene2d = new Scene2D();
+			container2d.addChild(scene2d);
+			scene2d.mask = masker;
 			
 			setShowColor();
 			
 			wallFaceViewer = new WallFaceViewer(cabinetCreator.cabinetCrossWalls);
 			container2d.addChild(wallFaceViewer);
 			wallFaceViewer.visible = false;
-			
-			scene2d = new Scene2D();
-			container2d.addChild(scene2d);
-			scene2d.mask = masker;
 			
 			windCtr.scene = scene2d;
 			
@@ -180,7 +180,7 @@ package rightaway3d.house.editor2d
 		
 		private function initScene():void
 		{
-			scene2d.backGrid.updateView(Scene2D.sceneWidth,Scene2D.sceneHeight,this.scene2d.scaleX);
+			scene2d.backGrid.drawView(Scene2D.sceneWidth,Scene2D.sceneHeight,this.scene2d.scaleX);
 			
 			ruler.updateView(scene2d.scaleX);
 			
@@ -1583,6 +1583,7 @@ package rightaway3d.house.editor2d
 		public function getOtherSnapshot(getPics:Function,picType:String="jpg"):void
 		{
 			setPrintColor();
+			if(scene2d.house.currFloor)scene2d.house.currFloor.wallAreaSelector.visible = false;
 			
 			getOtherPics = getPics;
 			otherPicType = picType;
@@ -1606,7 +1607,11 @@ package rightaway3d.house.editor2d
 			
 			SizeMarking2D.lineColor = 0;
 			
-			this.cabinetCtr.setCabinet2dColor(0);
+			cabinetCtr.setCabinet2dColor(0);
+			cabinetCtr.setFlagVisible(false);
+			
+			BackGrid2D.backgroundColor = 0xffffff;
+			scene2d.backGrid.updateView();
 		}
 		
 		private function setShowColor():void
@@ -1623,7 +1628,11 @@ package rightaway3d.house.editor2d
 			
 			SizeMarking2D.lineColor = 0xffffff;
 			
-			this.cabinetCtr.setCabinet2dColor(0x999999);
+			cabinetCtr.setCabinet2dColor(0x999999);
+			cabinetCtr.setFlagVisible(false);
+			
+			BackGrid2D.backgroundColor = 0xcccccc;
+			scene2d.backGrid.updateView();
 		}
 		
 		private function getSnapshot(w:int,h:int,showRoomMap:Boolean):BitmapData
@@ -1731,6 +1740,7 @@ package rightaway3d.house.editor2d
 			else
 			{
 				setShowColor();
+				if(scene2d.house.currFloor)scene2d.house.currFloor.wallAreaSelector.visible = true;
 				
 				this.setGroundObjectMarkingFlag(true);
 				
