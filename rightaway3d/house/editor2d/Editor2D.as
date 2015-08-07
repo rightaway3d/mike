@@ -131,6 +131,14 @@ package rightaway3d.house.editor2d
 		
 		private function init():void
 		{
+			cabinetCreator = CabinetCreator.getInstance();
+			cabinetCtr = CabinetController.getInstance();
+			windCtr = WindoorController.getInstance();
+			
+			nodeCtr = NodeController2D.getInstance();
+			
+			wallCtr = WallController.getInstance();
+			
 			container2d = new Sprite();
 			this.addChild(container2d);
 			
@@ -140,15 +148,7 @@ package rightaway3d.house.editor2d
 			Scene2D.sceneWidth = 1000;
 			Scene2D.sceneHeight = 1000;
 			
-			Wall2D.lineColor = 0xffffff;
-			Wall2D.normalColor = 0xffffff;
-			Wall2D.overColor = 0xffffff;
-			Wall2D.selectColor = 0xffffff;
-			
-			WinDoor2D.lineColor = 0xeeeeee;
-			WinDoor2D.fillColor = 0xcccccc;
-			
-			cabinetCreator = CabinetCreator.getInstance();
+			setShowColor();
 			
 			wallFaceViewer = new WallFaceViewer(cabinetCreator.cabinetCrossWalls);
 			container2d.addChild(wallFaceViewer);
@@ -158,25 +158,16 @@ package rightaway3d.house.editor2d
 			container2d.addChild(scene2d);
 			scene2d.mask = masker;
 			
-			//wallFaceContainer = new Sprite();
-			//container2d.addChild(wallFaceContainer);
+			windCtr.scene = scene2d;
+			
+			cabinetCtr.scene = scene2d;
+			cabinetCtr.sceneController = sceneCtr;
 			
 			ruler = new ScaleRuler2D();
 			container2d.addChild(ruler);
 			ruler.x = 30;
 			
-			windCtr = WindoorController.getInstance();
-			windCtr.scene = scene2d;
-			
 			sceneCtr = new SceneController2D(scene2d,masker,ruler);
-			
-			nodeCtr = NodeController2D.getInstance();
-			
-			wallCtr = WallController.getInstance();
-			
-			cabinetCtr = CabinetController.getInstance();
-			cabinetCtr.scene = scene2d;
-			cabinetCtr.sceneController = sceneCtr;
 			
 			roomMap = new RoomMap2D();
 			container2d.addChild(roomMap);
@@ -1591,6 +1582,8 @@ package rightaway3d.house.editor2d
 		 */
 		public function getOtherSnapshot(getPics:Function,picType:String="jpg"):void
 		{
+			setPrintColor();
+			
 			getOtherPics = getPics;
 			otherPicType = picType;
 			
@@ -1599,6 +1592,38 @@ package rightaway3d.house.editor2d
 			isTestSnapshot = !Boolean(getPics);
 			
 			get2DSnapshots();//开始创建其它截图
+		}
+		
+		private function setPrintColor():void
+		{
+			Wall2D.lineColor = 0;
+			Wall2D.normalColor = 0;
+			Wall2D.overColor = 0;
+			Wall2D.selectColor = 0;
+			
+			WinDoor2D.lineColor = 0;
+			WinDoor2D.fillColor = 0x999999;
+			
+			SizeMarking2D.lineColor = 0;
+			
+			this.cabinetCtr.setCabinet2dColor(0);
+		}
+		
+		private function setShowColor():void
+		{
+			//setPrintColor();return;
+			
+			Wall2D.lineColor = 0xffffff;
+			Wall2D.normalColor = 0xffffff;
+			Wall2D.overColor = 0xffffff;
+			Wall2D.selectColor = 0xffffff;
+			
+			WinDoor2D.lineColor = 0xeeeeee;
+			WinDoor2D.fillColor = 0xcccccc;
+			
+			SizeMarking2D.lineColor = 0xffffff;
+			
+			this.cabinetCtr.setCabinet2dColor(0x999999);
 		}
 		
 		private function getSnapshot(w:int,h:int,showRoomMap:Boolean):BitmapData
@@ -1705,6 +1730,8 @@ package rightaway3d.house.editor2d
 			}
 			else
 			{
+				setShowColor();
+				
 				this.setGroundObjectMarkingFlag(true);
 				
 				scene2d.visible = true;
@@ -1886,7 +1913,7 @@ package rightaway3d.house.editor2d
 				case Keyboard.NUMBER_4:
 					//var f:Floor = scene2d.house.currFloor.vo;
 					//windCtr.createWindoor(101,900,f.doorHeight,f.doorSillHeight);
-					createDoor(900,2100,true);
+					createDoor(900,2100,false);
 					break;
 				
 				case Keyboard.NUMBER_5:
