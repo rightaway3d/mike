@@ -373,9 +373,17 @@ package rightaway3d.house.editor2d
 		
 		private function on2DSceneKeyDown2(e:KeyboardEvent):void
 		{
-			//trace("on2DSceneKeyDown2:"+e.keyCode);
+			var className:String = flash.utils.getQualifiedClassName(stage.focus);
+			
+			if(className.indexOf("Text")>-1)return;//焦点在文本框中时，返回
+			trace("on2DSceneKeyDown2:"+e.keyCode,className,stage.focus);
+			
 			switch(e.keyCode)
 			{
+				case Keyboard.T:
+					this.test();
+					break;
+				
 				case Keyboard.LEFT:
 					var n:int = e.ctrlKey?10:1;
 					moveCurrProduct(-n);
@@ -1593,6 +1601,7 @@ package rightaway3d.house.editor2d
 		{
 			gv.currProduct = null;
 			setPrintColor();
+			
 			if(scene2d.house.currFloor)scene2d.house.currFloor.wallAreaSelector.visible = false;
 			
 			getOtherPics = getPics;
@@ -1621,6 +1630,7 @@ package rightaway3d.house.editor2d
 			cabinetCtr.setFlagVisible(false);
 			
 			BackGrid2D.backgroundColor = 0xffffff;
+			BackGrid2D.backgroundAlpha = 1;
 			scene2d.backGrid.updateView();
 		}
 		
@@ -1642,12 +1652,13 @@ package rightaway3d.house.editor2d
 			cabinetCtr.setFlagVisible(false);
 			
 			BackGrid2D.backgroundColor = 0xcccccc;
+			BackGrid2D.backgroundAlpha = this.parent==stage?1:0;
 			scene2d.backGrid.updateView();
 		}
 		
 		private function getSnapshot(w:int,h:int,showRoomMap:Boolean):BitmapData
 		{
-			sceneCtr.fitScreen(false,0.5);
+			sceneCtr.fitScreen(false,0.8);
 			
 			var vw:Number = sceneCtr.viewWidth;
 			var vh:Number = sceneCtr.viewHeight;
@@ -1908,7 +1919,7 @@ package rightaway3d.house.editor2d
 		*/		
 		protected function on2DSceneKeyDown(e:KeyboardEvent):void
 		{
-			//trace("on2DSceneKeyDown:"+e.keyCode);
+			trace("on2DSceneKeyDown:"+e.keyCode,stage.focus);
 			switch(e.keyCode)
 			{
 				case Keyboard.LEFT:
