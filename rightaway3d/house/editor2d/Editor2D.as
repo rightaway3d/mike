@@ -173,6 +173,7 @@ package rightaway3d.house.editor2d
 			container2d.addChild(roomMap);
 			roomMap.x = 100;
 			roomMap.y = 100;
+			roomMap.visible = false;
 			
 			//user = User.own;
 			//projectManager = user.projectManager;
@@ -443,7 +444,7 @@ package rightaway3d.house.editor2d
 			//trace(container2d.x,container2d.y);
 			wallFaceViewer.visible = wallFaceViewer.update();
 			
-			scene2d.visible = ruler.visible = roomMap.visible = !wallFaceViewer.visible;
+			scene2d.visible = ruler.visible = !wallFaceViewer.visible;
 			//trace("scene2d.visible,wallFaceContainer.visible:",scene2d.visible,wallFaceViewer.visible);
 		}
 		
@@ -1618,11 +1619,11 @@ package rightaway3d.house.editor2d
 		{
 			Wall2D.lineColor = 0;
 			Wall2D.normalColor = 0;
-			Wall2D.overColor = 0;
-			Wall2D.selectColor = 0;
+			//Wall2D.overColor = 0;
+			//Wall2D.selectColor = 0;
 			
 			WinDoor2D.lineColor = 0;
-			WinDoor2D.fillColor = 0x999999;
+			WinDoor2D.fillColor = 0xffffff;
 			
 			SizeMarking2D.lineColor = 0;
 			
@@ -1632,6 +1633,8 @@ package rightaway3d.house.editor2d
 			BackGrid2D.backgroundColor = 0xffffff;
 			BackGrid2D.backgroundAlpha = 1;
 			scene2d.backGrid.updateView();
+			
+			this.windCtr.updateAllWindoor(WinDoor2D.lineColor);
 		}
 		
 		private function setShowColor():void
@@ -1654,6 +1657,8 @@ package rightaway3d.house.editor2d
 			BackGrid2D.backgroundColor = 0xcccccc;
 			BackGrid2D.backgroundAlpha = this.parent==stage?1:0;
 			scene2d.backGrid.updateView();
+			
+			this.windCtr.updateAllWindoor(WinDoor2D.lineColor);
 		}
 		
 		private function getSnapshot(w:int,h:int,showRoomMap:Boolean):BitmapData
@@ -1764,6 +1769,7 @@ package rightaway3d.house.editor2d
 			{
 				setShowColor();
 				roomMap.setMapName("");
+				
 				if(scene2d.house.currFloor)scene2d.house.currFloor.wallAreaSelector.visible = true;
 				
 				this.setGroundObjectMarkingFlag(true);
@@ -1772,7 +1778,7 @@ package rightaway3d.house.editor2d
 				wallFaceViewer.visible = false;
 				
 				this.ruler.visible = true;
-				this.roomMap.visible = true;
+				this.roomMap.visible = false;
 				
 				if(getOtherPics)
 				{
