@@ -750,7 +750,7 @@ package rightaway3d.house.editor2d
 			}
 		}
 		
-		public function addGroundCabinetPlate(cw:CrossWall,width:int,xPos:Number,zPos:Number,name:String):ProductObject
+		private function addGroundCabinetPlate(cw:CrossWall,width:int,xPos:Number,zPos:Number,name:String):ProductObject
 		{
 			var po:ProductObject = cabinetCreator.createCabinetPlate(cw,width,720,16,xPos,CrossWall.IGNORE_OBJECT_HEIGHT,zPos,CabinetType.DOOR_PLANK,name);
 			cabinetCreator.addGroundCabinet(po);
@@ -758,7 +758,7 @@ package rightaway3d.house.editor2d
 			return po;
 		}
 		
-		public function addGroundCornerPlate(cw:CrossWall,width:int,xPos:Number,zPos:Number,name:String):ProductObject
+		private function addGroundCornerPlate(cw:CrossWall,width:int,xPos:Number,zPos:Number,name:String):ProductObject
 		{
 			var po:ProductObject = cabinetCreator.createCabinetPlate(cw,width,720,16,xPos,CrossWall.IGNORE_OBJECT_HEIGHT,zPos,CabinetType.BODY_PLANK,name);
 			//cabinetCreator.addGroundCabinet(po);
@@ -766,7 +766,7 @@ package rightaway3d.house.editor2d
 			return po;
 		}
 		
-		public function addWallCabinetPlate(cw:CrossWall,width:int,xPos:Number,zPos:Number,name:String):ProductObject
+		private function addWallCabinetPlate(cw:CrossWall,width:int,xPos:Number,zPos:Number,name:String):ProductObject
 		{
 			var po:ProductObject = cabinetCreator.createCabinetPlate(cw,width,720,16,xPos,CrossWall.WALL_OBJECT_HEIGHT,zPos,CabinetType.DOOR_PLANK,name);
 			cabinetCreator.addWallCabinet(po);
@@ -774,7 +774,7 @@ package rightaway3d.house.editor2d
 			return po;
 		}
 		
-		public function addWallCornerPlate(cw:CrossWall,width:int,xPos:Number,zPos:Number,name:String):ProductObject
+		private function addWallCornerPlate(cw:CrossWall,width:int,xPos:Number,zPos:Number,name:String):ProductObject
 		{
 			var po:ProductObject = cabinetCreator.createCabinetPlate(cw,width,720,16,xPos,CrossWall.WALL_OBJECT_HEIGHT,zPos,CabinetType.BODY_PLANK,name);
 			//cabinetCreator.addWallCabinet(po);
@@ -782,7 +782,7 @@ package rightaway3d.house.editor2d
 			return po;
 		}
 		
-		public function addCabinetLegPlate(cw:CrossWall,width:int,depth:int,xPos:Number,zPos:Number):ProductObject
+		private function addCabinetLegPlate(cw:CrossWall,width:int,depth:int,xPos:Number,zPos:Number):ProductObject
 		{
 			var po:ProductObject = cabinetCreator.createCabinetPlate(cw,width,80,depth,xPos,0,zPos,CabinetType.LEG_BAFFLE,"柜腿封板");
 			//productManager.updateProductModel(po);
@@ -790,7 +790,7 @@ package rightaway3d.house.editor2d
 			return po;
 		}
 		
-		public function addWallCabinetBottomPlate(cw:CrossWall,width:int,xPos:Number):ProductObject
+		private function addWallCabinetBottomPlate(cw:CrossWall,width:int,xPos:Number):ProductObject
 		{
 			var po:ProductObject = cabinetCreator.createCabinetPlate(cw,width,10,330,xPos,CrossWall.WALL_OBJECT_HEIGHT,0,CabinetType.BODY_PLANK,"吊柜拐角底缝挡板");
 			//productManager.updateProductModel(po);
