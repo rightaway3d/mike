@@ -99,7 +99,7 @@ package rightaway3d.house.editor2d
 		
 		private function onBottomClick(lable:String):void
 		{
-			trace("label:",lable);
+			//trace("label:",lable);
 			switch(lable)
 			{
 				case BTN_DELET_PRODUCT:
@@ -174,7 +174,7 @@ package rightaway3d.house.editor2d
 		
 		private function onMainBtnSwitch(uiVisible:Boolean):void
 		{
-			trace("uiVisible:"+uiVisible);
+			//trace("uiVisible:"+uiVisible);
 			this.lockCabinetObject(uiVisible);
 			this.scene3d.house3d.updateWallMark(!uiVisible);
 		}
@@ -383,7 +383,7 @@ package rightaway3d.house.editor2d
 			}
 			else if(type==ListType.HANDLE)//"handle")//拉手
 			{
-				var ps:Array = ProductManager.own.getProductsByType(CabinetType.HANDLE);
+				var ps:Array = ProductManager.own.getProductsByType2(CabinetType.HANDLE);
 				for each(var info:ProductInfo in ps)
 				{
 					var pos:Array = info.getProductObjects();
