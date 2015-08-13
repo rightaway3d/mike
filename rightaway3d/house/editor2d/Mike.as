@@ -253,8 +253,15 @@ package rightaway3d.house.editor2d
 						var subItem:String = item.sub_item;
 						if(subItem)
 						{
-							p = createElecCabinet(subItem,id,file,width,height,depth,pname);//以电器柜作灶台柜
-							if(!p)return;//如果产品未创建则返回
+							if(subItem==ListType.CORNER)//拐角柜作柜台柜，逻辑还有问题
+							{
+								
+							}
+							else
+							{
+								p = createElecCabinet(subItem,id,file,width,height,depth,pname);//以电器柜作灶台柜
+								if(!p)return;//如果产品未创建则返回
+							}
 						}
 						else
 						{
@@ -496,7 +503,7 @@ package rightaway3d.house.editor2d
 		private function followMoveProduct(po:ProductObject):void
 		{
 			var name:String = po.name;
-			
+			trace("followMoveProduct:"+name);
 			switch(name)
 			{
 				case ProductObjectName.DRAINER_CABINET://水盆柜拖动结束后，水盆要跟随移动
@@ -505,6 +512,10 @@ package rightaway3d.house.editor2d
 				
 				case ProductObjectName.FLUE_CABINET://灶台柜拖动结束后，灶台与烟机要跟随移动
 					moveProduct(ProductObjectName.FLUE,ListType.FLUE,po);
+					moveProduct(ProductObjectName.HOOD,ListType.HOOD,po,true);
+					break;
+				
+				case ProductObjectName.FLUE://灶台拖动结束后，灶台与烟机要跟随移动
 					moveProduct(ProductObjectName.HOOD,ListType.HOOD,po,true);
 					break;
 			}
