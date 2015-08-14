@@ -1080,7 +1080,7 @@ package rightaway3d.house.editor2d
 			}
 			else if(type==CabinetType.HANDLE)
 			{
-				var ps:Array = ProductManager.own.getProductsByType2(CabinetType.HANDLE);
+				var ps:Array = ProductManager.own.getProductsByType(CabinetType.HANDLE);
 				xml = srcs[0];
 				id = xml.id;
 				file = xml.file;

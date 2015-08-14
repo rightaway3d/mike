@@ -390,7 +390,7 @@ package rightaway3d.house.editor2d
 			}
 			else if(type==ListType.HANDLE)//"handle")//拉手
 			{
-				var ps:Array = ProductManager.own.getProductsByType2(CabinetType.HANDLE);
+				var ps:Array = ProductManager.own.getProductsByType(CabinetType.HANDLE);
 				for each(var info:ProductInfo in ps)
 				{
 					var pos:Array = info.getProductObjects();
