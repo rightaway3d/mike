@@ -634,7 +634,7 @@ package rightaway3d.house.editor2d
 			}
 			else if(mode=="all")
 			{
-				cabinetCreator.cabinetDoorDefaultMaterial = matName;
+				cabinetCreator.setCabinetDoorDefaultMaterial(matName);
 			}
 			else
 			{
@@ -647,11 +647,11 @@ package rightaway3d.house.editor2d
 				{
 					if(cabinet.position.y<1000)//地柜
 					{
-						cabinetCreator.setGroundCabinetDoorMaterial(matName);
+						cabinetCreator.groundCabinetDoorMaterial = matName;
 					}
 					else//吊柜
 					{
-						cabinetCreator.setWallCabinetDoorMaterial(matName);
+						cabinetCreator.wallCabinetDoorMaterial = matName;
 					}
 				}
 			}
