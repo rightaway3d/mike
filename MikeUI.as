@@ -79,8 +79,10 @@ package
 				mainUI.width = stage.stageWidth;
 				mainUI.height = stage.stageHeight;
 				trace(mainUI.width,mainUI.height)
-				
+				mainUI.resizeContent();
 			}
+			
+			
 			setBottomBtns();
 		}
 		

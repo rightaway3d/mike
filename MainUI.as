@@ -170,6 +170,8 @@ package
 			
 			bg.name = "maxBg";
 			addChild(addItemMenu);
+			addItemMenu.x = (stageWidth-addItemMenu.width)>>1;
+			addItemMenu.y = (stageHeight-addItemMenu.height)>>1;
 			addChildAt(bg,numChildren-1);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
 			for each (var textfield:TextField in addItemInfo.tag) 
@@ -929,5 +931,29 @@ package
 			var ID:String = addItemInfo.tag.productIDText.text;
 			sendEvent(ADDITEM_SEARCH,ID);
 		}
+		
+		
+		
+		public function resizeContent():void
+		{
+			addItemMenu.x = (stageWidth-addItemMenu.width)>>1;
+			addItemMenu.y = (stageHeight-addItemMenu.height)>>1;
+			
+			addItemInfo.x = (stageWidth-addItemInfo.width)>>1;
+			addItemInfo.y = (stageHeight-addItemInfo.height)>>1;
+			
+			addItemInfoChange.x = (stageWidth-addItemInfoChange.width)>>1;
+			addItemInfoChange.y = (stageHeight-addItemInfoChange.height)>>1;
+			var bg:Sprite = getChildByName("maxBg") as Sprite;
+			if(bg)
+			{
+				bg.width = stageWidth;
+				bg.height = stageHeight;
+			}
+			
+		
+			
+		}
+		
 	}
 }
