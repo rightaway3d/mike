@@ -78,18 +78,18 @@ package game.ui.mike
 			title1.x = 20;
 			title1.y = 100;
 			
-			var title2:Label = new Label("最小值不可以小于100");
-			title2.size = 12;
-			title2.color = 0xcccccc;
-			title2.align = TextFormatAlign.LEFT;
-			title2.setSize(200,30);
-			title2.x = 180;
-			title2.y = 101;
-			options.addChild(title2);
-			title2.align = "center";
-			title2.name = "hint";
-			title2.alpha = 0.7;
-			title2.visible = false;
+//			var title2:Label = new Label("最小值不可以小于100");
+//			title2.size = 12;
+//			title2.color = 0xcccccc;
+//			title2.align = TextFormatAlign.LEFT;
+//			title2.setSize(200,30);
+//			title2.x = 180;
+//			title2.y = 101;
+//			options.addChild(title2);
+//			title2.align = "center";
+//			title2.name = "hint";
+//			title2.alpha = 0.7;
+//			title2.visible = false;
 			
 			var format:TextFormat = new TextFormat();
 			format.align = "center";
@@ -108,8 +108,8 @@ package game.ui.mike
 			//inputText.tabEnabled = true;
 			inputText.name = "inputText";
 			options.addChild(inputText);
-			inputText.addEventListener(FocusEvent.FOCUS_IN,onTextInputInFocus);
-			inputText.addEventListener(FocusEvent.FOCUS_OUT,onTextInputInFocus);
+//			inputText.addEventListener(FocusEvent.FOCUS_IN,onTextInputInFocus);
+//			inputText.addEventListener(FocusEvent.FOCUS_OUT,onTextInputInFocus);
 			inputText.addEventListener(Event.CHANGE,onTextInputChange);
 			var lineW:int = inputText.width;
 			var lineH:int = inputText.height+90;
@@ -160,6 +160,10 @@ package game.ui.mike
 		private function optionsOkClick():void
 		{
 			var text:String = (options.getChildByName("inputText") as TextField).text;
+			if(text=="")
+			{
+				text ="0";
+			}
 			if(inputTextValue != text)
 			{
 				GlobalConfig.instance.wallPlateWidth = parseInt(text);
@@ -174,24 +178,24 @@ package game.ui.mike
  			Mike.instance.startKeyAction();
 		}
 		
-		protected function onTextInputInFocus(event:FocusEvent):void
-		{
-			if(event.type ==FocusEvent.FOCUS_IN)
-			{
-				oldText = event.currentTarget.text;
-				
-				if(oldText=="")
-				{
-					options.getChildByName("hint").visible =false;
-				}
-			}else
-			{
-				if(oldText=="")
-				{
-					options.getChildByName("hint").visible =true;
-				}
-			}
-		}
+//		protected function onTextInputInFocus(event:FocusEvent):void
+//		{
+//			if(event.type ==FocusEvent.FOCUS_IN)
+//			{
+//				oldText = event.currentTarget.text;
+//				
+//				if(oldText=="")
+//				{
+//					options.getChildByName("hint").visible =false;
+//				}
+//			}else
+//			{
+//				if(oldText=="")
+//				{
+//					options.getChildByName("hint").visible =true;
+//				}
+//			}
+//		}
 		
 		protected function onTextInputChange(event:Event):void
 		{
@@ -213,20 +217,20 @@ package game.ui.mike
 //				text.setSelection(text.length,text.length)  ;
 //			}
 			
-			if(parseInt(text.text)<=100)
-			{
-//				text.text = oldText;
-			}else
-			{
-				oldText = text.text;
-			}
-			if(text.text=="")
-			{
-				options.getChildByName("hint").visible =true;
-			}else
-			{
-				options.getChildByName("hint").visible =false;
-			}
+//			if(parseInt(text.text)<=100)
+//			{
+////				text.text = oldText;
+//			}else
+//			{
+//				oldText = text.text;
+//			}
+//			if(text.text=="")
+//			{
+//				options.getChildByName("hint").visible =true;
+//			}else
+//			{
+//				options.getChildByName("hint").visible =false;
+//			}
 		}
 		
 		
@@ -242,7 +246,7 @@ package game.ui.mike
 			}
 			parent.addChild(this);
 			(options.getChildByName("inputText") as TextField).text = inputTextValue;
-			options.getChildByName("hint").visible =false;
+//			options.getChildByName("hint").visible =false;
 			
 			
 			options.x =(stageWidth-options.width)>>1
