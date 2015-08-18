@@ -78,7 +78,7 @@ package game.ui.mike
 			title1.x = 20;
 			title1.y = 100;
 			
-			var title2:Label = new Label("最大值不可以超过100");
+			var title2:Label = new Label("最小值不可以小于100");
 			title2.size = 12;
 			title2.color = 0xcccccc;
 			title2.align = TextFormatAlign.LEFT;
@@ -213,9 +213,9 @@ package game.ui.mike
 //				text.setSelection(text.length,text.length)  ;
 //			}
 			
-			if(parseInt(text.text)>100)
+			if(parseInt(text.text)<=100)
 			{
-				text.text = oldText;
+//				text.text = oldText;
 			}else
 			{
 				oldText = text.text;
@@ -242,6 +242,9 @@ package game.ui.mike
 			}
 			parent.addChild(this);
 			(options.getChildByName("inputText") as TextField).text = inputTextValue;
+			options.getChildByName("hint").visible =false;
+			
+			
 			options.x =(stageWidth-options.width)>>1
 			options.y =(stageHeight-options.height)>>1
 		}
