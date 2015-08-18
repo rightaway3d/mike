@@ -31,10 +31,11 @@ package rightaway3d.house.editor2d
 		private const BTN_DELET_PRODUCT:String = "删除厨柜";
 		private const BTN_CLEAR_PRODUCT:String = "清除厨柜";
 		private const BTN_CLEAR_PLANK:String = "清除封板";
-		private const BTN_CABINET_DOOR:String = "更新门板";
+		//private const BTN_CABINET_DOOR:String = "更新门板";
+		private const BTN_LEG_BAFFLE:String = "清除踢脚板";
 		private const BTN_UPDATE_TABLE:String = "更新台面";
 		private const BTN_SWITCH_TABLE:String = "显示/ 隐藏 台面";
-		private const BTN_ADD_ITEM:String = "增项";
+		private const BTN_ADD_ITEM:String = "增项管理";
 		
 		private const BTN_LEFT_DOOR:String = "设为左开门";
 		private const BTN_RIGHT_DOOR:String = "设为右开门";
@@ -78,7 +79,7 @@ package rightaway3d.house.editor2d
 			//ui.deleteBtnClick = onDeleteProduct;
 			//ui.createBtnClick = createTable;
 			ui.bottomBtnsHandler = onBottomClick;
-			ui.bbtns = [BTN_DELET_PRODUCT,BTN_CLEAR_PRODUCT,BTN_CLEAR_PLANK,BTN_CABINET_DOOR,BTN_UPDATE_TABLE,BTN_SWITCH_TABLE,BTN_LEFT_DOOR,BTN_RIGHT_DOOR,BTN_ADD_ITEM];
+			ui.bbtns = [BTN_DELET_PRODUCT,BTN_CLEAR_PRODUCT,BTN_CLEAR_PLANK,BTN_LEG_BAFFLE,BTN_UPDATE_TABLE,BTN_SWITCH_TABLE,BTN_LEFT_DOOR,BTN_RIGHT_DOOR,BTN_ADD_ITEM];
 			
 			subElecData =
 				<item>
@@ -112,8 +113,11 @@ package rightaway3d.house.editor2d
 				case BTN_UPDATE_TABLE:
 					updateTable();
 					break;
-				case BTN_CABINET_DOOR:
+				/*case BTN_CABINET_DOOR:
 					updateCabinetDoor();
+					break;*/
+				case BTN_LEG_BAFFLE:
+					productManager.deleteProductObjectsByType(CabinetType.LEG_BAFFLE);
 					break;
 				case BTN_CLEAR_PLANK:
 					cabinetCreator.claerAllPlate();

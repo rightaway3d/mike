@@ -420,6 +420,10 @@ package rightaway3d.house.editor2d
 						switchView2D();
 					break;
 				
+				/*case Keyboard.S:
+					this.getSceneData();
+					break;*/
+				
 				case Keyboard.DELETE:
 					/*RoomControler.deleteRoom();
 					WallControler.deleteWall();
