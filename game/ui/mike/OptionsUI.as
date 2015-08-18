@@ -60,7 +60,7 @@ package game.ui.mike
 			options.addChild(bg); 
 			
 			var title:Label = new Label("参数配置");
-			title.size = 25;
+			title.size = 20;
 			title.setSize(400,50);
 			title.align = "center";
 			title.color = 0xFFFFFF;
