@@ -3,6 +3,8 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import game.ui.mike.OptionsUI;
+	
 	import morn.core.components.Box;
 	import morn.core.events.UIEvent;
 	import morn.core.handlers.Handler;
@@ -32,12 +34,17 @@ package
 		// 下方按钮列表内容
 		public var bbtns:Array = ['删除', '生成面板', '重建台面', '生成面板', '重建台面', '生成面板', '重建台面'];
 		
+		
+		
+		//选项菜单
+		private var options:OptionsUI;
 		public function MikeUI()
 		{
 			if (!instance) {
 				instance = this;
 			}
 			addItemManager = new AddItemManager;
+			options = new OptionsUI();
 			CabinetLib.lib.addEventListener(Event.COMPLETE, function():void {
 				App.init(instance);
 				App.loader.loadAssets(['assets/comp.swf'], new Handler(uiLoadComplete));
@@ -81,7 +88,13 @@ package
 				trace(mainUI.width,mainUI.height)
 				mainUI.resizeContent();
 			}
-			
+			if(options)
+			{
+				options.stageWidth = stage.stageWidth;
+				options.stageHeight = stage.stageHeight;
+				options.resizeContent();
+			}
+			 
 			
 			setBottomBtns();
 		}
@@ -197,7 +210,7 @@ package
 		{
 			//event.data//
 			trace("搜索")
-				addItemManager.getProductInfo(1,null,function ():void{trace("ddd")});
+			addItemManager.getProductInfo(1,null,function ():void{trace("ddd")});
 			
 		}
 		
@@ -212,5 +225,26 @@ package
 			addItemManager.addItem(event.data);
 			mainUI.update(addItemManager.getItems());
 		}
+		
+		
+		
+		//	====================================================选项设置======================================
+		//	====================================================选项设置======================================
+		//	====================================================选项设置======================================
+		//	====================================================选项设置======================================
+		//	====================================================选项设置======================================
+		
+		/**
+		 *显示选项设置菜单 
+		 * 
+		 */		
+		public function showOptionsMenu():void
+		{
+			options.showOptionsUI(this);
+		}
+		
+		
+		
+		
 	}
 }

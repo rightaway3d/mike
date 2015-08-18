@@ -167,7 +167,6 @@ package
 			var bg:Sprite = new Sprite();
 			bg.graphics.beginFill(0x0,0.3);
 			bg.graphics.drawRect(0,0,stageWidth,stageHeight);
-			
 			bg.name = "maxBg";
 			addChild(addItemMenu);
 			addItemMenu.x = (stageWidth-addItemMenu.width)>>1;
