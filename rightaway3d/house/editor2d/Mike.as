@@ -270,6 +270,10 @@ package rightaway3d.house.editor2d
 						else
 						{
 							p = flueCabinet = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,pname,width,height,depth);
+							if(depth<400)
+							{
+								p.memo = "吊柜作地柜";
+							}
 						}
 						break;
 					
