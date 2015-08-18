@@ -18,6 +18,7 @@ package game.ui.mike
 	import morn.core.components.Label;
 	import morn.core.handlers.Handler;
 	
+	import rightaway3d.engine.utils.Tips;
 	import rightaway3d.house.editor2d.Mike;
 	import rightaway3d.house.utils.GlobalConfig;
 	
@@ -154,7 +155,6 @@ package game.ui.mike
 			closeBtn.stateNum = 1;
 			closeBtn.buttonMode = true;
 			
-			
 		}
 		
 		private function optionsOkClick():void
@@ -164,12 +164,19 @@ package game.ui.mike
 			{
 				text ="0";
 			}
-			if(inputTextValue != text)
+			var wallPlateWidth:uint = parseInt(text);
+			if(wallPlateWidth<100)
 			{
-				GlobalConfig.instance.wallPlateWidth = parseInt(text);
-				inputTextValue = text;
+				Tips.show("顶墙封板最大宽度不能小于100",stage.mouseX,stage.mouseY);
+			}else
+			{
+				if(inputTextValue != text)
+				{
+					GlobalConfig.instance.wallPlateWidth =wallPlateWidth;
+					inputTextValue = text;
+				}
+				optionsCloseClick();
 			}
-			optionsCloseClick();
 		}
 		
 		private function optionsCloseClick():void
