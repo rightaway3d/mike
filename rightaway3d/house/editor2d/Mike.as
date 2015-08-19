@@ -5,6 +5,7 @@ package rightaway3d.house.editor2d
 	import flash.ui.Keyboard;
 	import flash.utils.setTimeout;
 	
+	import rightaway3d.engine.core.EngineManager;
 	import rightaway3d.engine.product.ProductInfo;
 	import rightaway3d.engine.product.ProductManager;
 	import rightaway3d.engine.product.ProductObject;
@@ -40,6 +41,8 @@ package rightaway3d.house.editor2d
 		
 		private const BTN_LEFT_DOOR:String = "设为左开门";
 		private const BTN_RIGHT_DOOR:String = "设为右开门";
+		
+		private const BTN_OPEN_DOOR:String = "开/ 关 门";
 		
 		public function Mike()
 		{
@@ -80,7 +83,17 @@ package rightaway3d.house.editor2d
 			//ui.deleteBtnClick = onDeleteProduct;
 			//ui.createBtnClick = createTable;
 			ui.bottomBtnsHandler = onBottomClick;
-			ui.bbtns = [BTN_DELET_PRODUCT,BTN_CLEAR_PRODUCT,BTN_CLEAR_PLANK,BTN_LEG_BAFFLE,BTN_UPDATE_TABLE,BTN_SWITCH_TABLE,BTN_LEFT_DOOR,BTN_RIGHT_DOOR,BTN_ADD_ITEM,BTN_OPTIONS];
+			ui.bbtns = [BTN_DELET_PRODUCT,
+				BTN_CLEAR_PRODUCT,
+				BTN_CLEAR_PLANK,
+				BTN_LEG_BAFFLE,
+				BTN_UPDATE_TABLE,
+				BTN_SWITCH_TABLE,
+				BTN_LEFT_DOOR,
+				BTN_RIGHT_DOOR,
+				BTN_OPEN_DOOR,
+				BTN_ADD_ITEM,
+				BTN_OPTIONS];
 			
 			subElecData =
 				<item>
@@ -139,6 +152,19 @@ package rightaway3d.house.editor2d
 				case BTN_OPTIONS:
 					showOptionsMenu();
 					break;
+				
+				case BTN_OPEN_DOOR:
+					runAction();
+					break;
+			}
+		}
+		
+		private function runAction():void
+		{
+			var pos:Array = productManager.getProductObjectsByType(CabinetType.DOOR_PLANK);
+			for each(var po:ProductObject in pos)
+			{
+				EngineManager.instance.doAction(po);
 			}
 		}
 		
