@@ -3,6 +3,7 @@ package rightaway3d.house.editor2d
 	import flash.events.Event;
 	
 	import rightaway3d.engine.core.EngineManager;
+	import rightaway3d.engine.model.ModelType;
 	import rightaway3d.engine.product.ProductInfo;
 	import rightaway3d.engine.product.ProductManager;
 	import rightaway3d.engine.product.ProductObject;
@@ -23,8 +24,9 @@ package rightaway3d.house.editor2d
 			var rpo:ProductObject = productManager.getProductByName(ProductObjectName.ROOT_INCREASE_PRODUCT);
 			if(!rpo)
 			{
-				rpo = productManager.createCustomizeProduct("",ProductObjectName.ROOT_INCREASE_PRODUCT,"",1,1,1,0,false);
-				rpo.createContainer3D();
+				rpo = productManager.createCustomizeProduct(ModelType.BOX_C,ProductObjectName.ROOT_INCREASE_PRODUCT,"",1,1,1,0,false);
+				//rpo.createContainer3D();
+				rpo.container3d.visible = false;
 				//trace("rpo.name:",rpo.name);
 				productManager.setProductObject(rpo);
 				//EngineManager.instance.addRootChild(rpo.container3d);
@@ -40,14 +42,16 @@ package rightaway3d.house.editor2d
 			}
 			else
 			{
-				spo = productManager.createCustomizeProduct("",name,"",1,1,1,0,false);//创建增项产品信息的容器
+				spo = productManager.createCustomizeProduct(ModelType.BOX_C,name,"",1,1,1,0,false);//创建增项产品信息的容器
+				//spo.createContainer3D();
+				spo.container3d.visible = false;
 				//info = spo.productInfo;
 			}
 			productManager.addDynamicSubProduct(rpo,spo);
 			
 			spo.specifications = item.specifications;//产品规格
 			spo.productModel = item.productModel;//产品型号
-			spo.productCode = item.productCode;//物料编码
+			spo.productCode = item.productCode?item.productCode:"000000000";//物料编码
 			spo.price = item.price;//单价
 			spo.unit = item.unit;//单位
 			spo.memo = item.memo;//数量
