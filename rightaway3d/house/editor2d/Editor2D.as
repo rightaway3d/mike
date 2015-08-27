@@ -28,6 +28,7 @@ package rightaway3d.house.editor2d
 	import rightaway3d.engine.utils.GlobalVar;
 	import rightaway3d.engine.utils.Tips;
 	import rightaway3d.house.cabinet.CabinetType;
+	import rightaway3d.house.cabinet.ListType;
 	import rightaway3d.house.lib.CabinetLib;
 	import rightaway3d.house.lib.CabinetTool;
 	import rightaway3d.house.view2d.BackGrid2D;
@@ -820,10 +821,10 @@ package rightaway3d.house.editor2d
 		 * @param color：颜色
 		 * @param zPos：柱子吸附到墙体时，与墙体的间距
 		 */
-		public function createRoomSquarePillar(width:uint,depth:uint,color:uint,zPos:uint=0):void
+		public function createRoomSquarePillar(width:uint,depth:uint,color:uint,zPos:uint=0,isIgnoreObject:Boolean=false):void
 		{
 			scene3d.engineManager.autoDrag = scene3d.visible;//在3D场景时，可拖动产品
-			cabinetCtr.createRoomSquarePillar(width,depth,color,zPos,container2d.visible);
+			cabinetCtr.createRoomSquarePillar(width,depth,color,zPos,container2d.visible,isIgnoreObject);
 		}
 		
 		/**
@@ -2210,7 +2211,7 @@ package rightaway3d.house.editor2d
 		
 		private function testAutoCreate():void
 		{
-			var xml11:XML = 		<item>
+			/*var xml11:XML = 		<item>
 					<name>单盆-SC7247-1A</name>
 					<cate></cate>
 					<spce>720*470*230(mm)</spce>
@@ -2358,10 +2359,13 @@ package rightaway3d.house.editor2d
 					<width>778</width>
 					<height>49</height>
 					<depth>445</depth>
-				</item>;
+				</item>;*/
 			//xml42 = null;
 			//xml53 = null;
-			cabinetCreator.autoCreateCabinet(xml14,xml2,xml3,xml42,xml53);
+			//cabinetCreator.autoCreateCabinet(xml14,xml2,xml3,xml42,xml53);
+			var ster:XML = this.cabinetCreator.getDefaultCookerData(ListType.STERILIZER);
+			var oven:XML = this.cabinetCreator.getDefaultCookerData(ListType.OVEN);
+			cabinetCreator.autoCreateCabinet(null,null,null,ster,oven);
 		}
 		
 		private var author:String = "jell3d.com";

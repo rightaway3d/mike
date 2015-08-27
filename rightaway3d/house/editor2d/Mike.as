@@ -75,8 +75,9 @@ package rightaway3d.house.editor2d
 			ui = new MikeUI();
 			trace("--------initMikeUI parent:",this.parent);
 			this.parent.addChild(ui);
+			
 			//if(!stage)
-				ui.visible = false;
+			ui.visible = false;
 			
 			ui.listSelectHandler = onSelectItem;
 			ui.mainBtnPressed = onMainBtnSwitch;
