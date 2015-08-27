@@ -200,7 +200,7 @@ package rightaway3d.house.editor2d
 		
 		private function updateCabinetDoor():void
 		{
-			cabinetCreator.clearAllSingleDoor();
+			//cabinetCreator.clearAllSingleDoor();
 			TableBuilder.own.builderDoor();
 		}
 		
