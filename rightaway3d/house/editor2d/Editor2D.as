@@ -883,7 +883,7 @@ package rightaway3d.house.editor2d
 		public function createMiddle450Flag():void
 		{
 			var po:ProductObject = cabinetCtr.createMiddle450Flag();
-			this.cabinetCreator.addCabinet(po);
+			//this.cabinetCreator.addCabinet(po);
 		}
 		
 		/**
@@ -892,7 +892,7 @@ package rightaway3d.house.editor2d
 		public function createMiddle600Flag():void
 		{
 			var po:ProductObject = cabinetCtr.createMiddle600Flag();
-			this.cabinetCreator.addCabinet(po);
+			//this.cabinetCreator.addCabinet(po);
 		}
 		
 		/**
@@ -901,7 +901,7 @@ package rightaway3d.house.editor2d
 		public function createHeight600Flag():void
 		{
 			var po:ProductObject = cabinetCtr.createHeight600Flag();
-			this.cabinetCreator.addCabinet(po);
+			//this.cabinetCreator.addCabinet(po);
 		}
 		
 		/**
@@ -1142,7 +1142,7 @@ package rightaway3d.house.editor2d
 					else if(type==CabinetType.BODY)
 					{
 						//this.cabinetCtr.addCabinetDict(po);
-						this.cabinetCreator.addCabinet(po);
+						//this.cabinetCreator.addCabinet(po);
 						
 						cabinetCreator.addSingleDoor(po,null);
 					}
@@ -1163,7 +1163,7 @@ package rightaway3d.house.editor2d
 					{
 						po = pos[i];
 						//this.cabinetCtr.addCabinetDict(po);
-						this.cabinetCreator.addCabinet(po);
+						//this.cabinetCreator.addCabinet(po);
 						
 						//var doorData:XML = CabinetTool.tool.getDoorData(po);
 						//ProductManager.own.addDynamicSubProduct(po,doorData);
@@ -1187,7 +1187,7 @@ package rightaway3d.house.editor2d
 				var src1:XML = srcs[0];
 				var po:ProductObject = ProductManager.own.replaceProductObject2_1(target1,target2,src1);
 				//this.cabinetCtr.addCabinetDict(po);
-				this.cabinetCreator.addCabinet(po);
+				//this.cabinetCreator.addCabinet(po);
 			}
 			else if(srcs.length==2)
 			{
@@ -1196,7 +1196,7 @@ package rightaway3d.house.editor2d
 				{
 					po = pos[i];
 					//this.cabinetCtr.addCabinetDict(po);
-					this.cabinetCreator.addCabinet(po);
+					//this.cabinetCreator.addCabinet(po);
 					
 					var doorData:XML = CabinetTool.tool.getDoorData(po,null)[0];
 					ProductManager.own.addDynamicSubProduct(po,doorData);

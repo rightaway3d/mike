@@ -338,7 +338,7 @@ package rightaway3d.house.editor2d
 				{
 					p.memo = "吊柜作地柜";
 				}
-				cabinetCreator.addGroundCabinet(p);
+				//cabinetCreator.addGroundCabinet(p);
 				//setProductEvent(p);
 			}
 			else if(type==ListType.WALL_CABINET)//"wall_cabinet")//吊柜
@@ -347,7 +347,7 @@ package rightaway3d.house.editor2d
 				pname = cate==ListType.CORNER ? ProductObjectName.CORNER_CABINET : name;
 				p = this.createCabinet(id,file,CrossWall.WALL_OBJECT_HEIGHT,pname,width,height,depth);
 				
-				cabinetCreator.addWallCabinet(p);
+				//cabinetCreator.addWallCabinet(p);
 				//setProductEvent(p);
 			}
 			else if(type==ListType.DRAINER)//"drainer")//水盆
@@ -368,7 +368,7 @@ package rightaway3d.house.editor2d
 					if(po)
 					{
 						//this.cabinetCtr.addCabinetDict(po);
-						this.cabinetCreator.addCabinet(po);
+						//this.cabinetCreator.addCabinet(po);
 						cabinetCreator.setCookerProduct(drainerCabinet.objectInfo.crossWall,drainerCabinet,po,false);//更新水盆位置信息
 						this.cabinetCreator.updateCabinetTable();
 					}
@@ -405,7 +405,7 @@ package rightaway3d.house.editor2d
 					//productManager.replaceSubProductObject(drainer.modelObject,id,file,pname);
 					po = productManager.replaceProductObject(po,id,file,pname,width,depth,height);
 					//this.cabinetCtr.addCabinetDict(po);
-					this.cabinetCreator.addCabinet(po);
+					//this.cabinetCreator.addCabinet(po);
 				}
 				else
 				{
@@ -580,7 +580,7 @@ package rightaway3d.house.editor2d
 			{
 				po = createProductByType(name,type,masterProduct,isHood);
 				//this.cabinetCtr.addCabinetDict(po);
-				this.cabinetCreator.addCabinet(po);
+				//this.cabinetCreator.addCabinet(po);
 			}
 			else
 			{
