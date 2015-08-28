@@ -7,6 +7,7 @@ package rightaway3d.house.editor2d
 	
 	import rightaway3d.engine.core.EngineManager;
 	import rightaway3d.engine.product.ProductInfo;
+	import rightaway3d.engine.product.ProductInfoLoader;
 	import rightaway3d.engine.product.ProductManager;
 	import rightaway3d.engine.product.ProductObject;
 	import rightaway3d.engine.product.ProductObjectName;
@@ -190,10 +191,70 @@ package rightaway3d.house.editor2d
 			if(gv.currProduct)
 			{
 				var po:ProductObject = gv.currProduct;
-				if(po.name!=ProductObjectName.CORNER_CABINET)
+				if(po.name!=ProductObjectName.CORNER_CABINET)//非转角柜，单开门柜
 				{
+					var matObj:Object = getDoorMat(po);//保存当前厨柜门的材质数据
+					
 					cabinetCreator.clearSingleDoor(po);
 					cabinetCreator.addSingleDoor(po,direction);
+					
+					if(ProductInfoLoader.own.hasNotLoaded || ProductInfoLoader.own.isLoading)
+					{
+						cabinet = po;
+						matObject = matObj;
+						ProductInfoLoader.own.addEventListener("all_complete",onAllInfoLoaded);
+					}
+					else
+					{
+						setDoorMat(po,matObj);//还原当前厨柜门的材质数据
+					}
+				}
+			}
+		}
+		
+		private var cabinet:ProductObject;
+		private var matObject:Object;
+		
+		private function onAllInfoLoaded(e:Event):void
+		{
+			ProductInfoLoader.own.removeEventListener("all_complete",onAllInfoLoaded);
+			setDoorMat(cabinet,matObject);//还原当前厨柜门的材质数据
+			cabinet = null;
+			matObject = null;
+		}
+		
+		private function getDoorMat(cabinet:ProductObject):Object
+		{
+			var o:Object = {};
+			var a:Array = [];
+			
+			productManager.getSubProductObjectsByType(cabinet,CabinetType.DOOR_PLANK,a);
+			
+			for each(var po:ProductObject in a)
+			{
+				var s:String = String(po.parentProductObject.position.y);
+				trace("getDoorMat:",s,po.customMaterialName);
+				
+				o[s] = po.customMaterialName;
+			}
+			
+			return o;
+		}
+		
+		private function setDoorMat(cabinet:ProductObject,matObj:Object):void
+		{
+			var a:Array = [];
+			
+			productManager.getSubProductObjectsByType(cabinet,CabinetType.DOOR_PLANK,a);
+			
+			for each(var po:ProductObject in a)
+			{
+				var s:String = String(po.parentProductObject.position.y);
+				
+				if(matObj[s]!=undefined)
+				{
+					trace("setDoorMat:",s,matObj[s],po.customMaterialName);
+					po.customMaterialName = matObj[s];
 				}
 			}
 		}
