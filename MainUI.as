@@ -769,6 +769,7 @@ package
 			obj.specifications = specifications;
 			obj.memo = memo; 
 			obj.productModel= tag.productModelText.text;
+			obj.unit = tag.productUnitText.text;
 			
 			obj.price = price;
 //			obj.totalPrice = totalPrice;
