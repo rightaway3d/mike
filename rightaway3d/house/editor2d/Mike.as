@@ -5,6 +5,11 @@ package rightaway3d.house.editor2d
 	import flash.ui.Keyboard;
 	import flash.utils.setTimeout;
 	
+	import game.ui.mike.Alert;
+	
+	import morn.core.components.Dialog;
+	import morn.core.handlers.Handler;
+	
 	import rightaway3d.engine.core.EngineManager;
 	import rightaway3d.engine.product.ProductInfo;
 	import rightaway3d.engine.product.ProductInfoLoader;
@@ -28,6 +33,8 @@ package rightaway3d.house.editor2d
 		
 		private var ui:MikeUI;
 		
+		private var dialog:Alert = new Alert();
+		
 		private var subElecData:XML;//子产品电器数据源
 		
 		private const BTN_DELET_PRODUCT:String = "删除厨柜";
@@ -35,7 +42,7 @@ package rightaway3d.house.editor2d
 		private const BTN_CLEAR_PLANK:String = "清除封板";
 		//private const BTN_CABINET_DOOR:String = "更新门板";
 		private const BTN_LEG_BAFFLE:String = "清除踢脚板";
-		private const BTN_UPDATE_TABLE:String = "更新台面";
+		private const BTN_UPDATE_TABLE:String = "生成更新";
 		private const BTN_SWITCH_TABLE:String = "显示/ 隐藏 台面";
 		private const BTN_ADD_ITEM:String = "增项管理";
 		private const BTN_OPTIONS:String = "参数配置";
@@ -97,6 +104,9 @@ package rightaway3d.house.editor2d
 				BTN_ADD_ITEM,
 				BTN_OPTIONS];
 			
+			dialog.msg_label.text = "将清除场景中所有厨柜！";
+			dialog.closeHandler = new Handler(onDialogClosed);
+			
 			subElecData =
 				<item>
 					<infoID></infoID>
@@ -114,6 +124,15 @@ package rightaway3d.house.editor2d
 			GlobalEvent.event.addEventListener("product_created",onProductCreated);
 		}
 		
+		private function onDialogClosed(type:String):void
+		{
+			trace("onDialogClosed:"+type);
+			if(type==Dialog.YES)
+			{
+				this.clearAllCabinetObject();
+			}
+		}
+		
 		private function onBottomClick(lable:String):void
 		{
 			//trace("label:",lable);
@@ -123,8 +142,7 @@ package rightaway3d.house.editor2d
 					this.deleteSelectProduct();
 					break;
 				case BTN_CLEAR_PRODUCT:
-					//this.deleteAllProduct();
-					this.clearAllCabinetObject();
+					dialog.popup();
 					break;
 				case BTN_UPDATE_TABLE:
 					updateTable();
