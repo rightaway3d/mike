@@ -3,9 +3,11 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import game.ui.mike.Alert;
 	import game.ui.mike.OptionsUI;
 	
 	import morn.core.components.Box;
+	import morn.core.components.Dialog;
 	import morn.core.events.UIEvent;
 	import morn.core.handlers.Handler;
 	
@@ -30,6 +32,8 @@ package
 		
 		// BottomBtns max row number
 		public var maxRowNumber:int = 6;
+		
+		public var dialog:Alert;
 		
 		// 下方按钮列表内容
 		public var bbtns:Array = ['删除', '生成面板', '重建台面', '生成面板', '重建台面', '生成面板', '重建台面'];
@@ -150,6 +154,9 @@ package
 				mainUI.list.array = arr;
 			};
 			
+			dialog = new Alert();
+			dialog.closeHandler = new Handler(onDialogClosed);
+			
 			// create Btn Click
 			//			mainUI.createBtn.addEventListener(MouseEvent.CLICK, function():void {
 			//				if(createBtnClick) {
@@ -170,8 +177,30 @@ package
 			onStageResize(null);
 		}
 		
+		private var onDialogOkFun:Function;
+		
+		public function showPopDialog(tipMsg:String,onOkFun:Function):void
+		{
+			onDialogOkFun = onOkFun;
+			
+			dialog.msg_label.text = tipMsg;
+			dialog.popup();
+		}
 		
 		
+		private function onDialogClosed(type:String):void
+		{
+			trace("onDialogClosed:"+type);
+			if(type==Dialog.YES)
+			{
+				//this.clearAllCabinetObject();
+				if(onDialogOkFun)
+				{
+					onDialogOkFun();
+					onDialogOkFun = null;
+				}
+			}
+		}
 		
 		
 		public var addItemManager:AddItemManager;

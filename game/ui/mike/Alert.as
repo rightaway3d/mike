@@ -15,7 +15,7 @@ package game.ui.mike
 			  <Image compId="5" skin="png.comp.bg" x="0" y="0" layer="2" width="400" height="250" sizeGrid="4,40,4,4"/>
 			  <Button compId="2" label="确定" skin="png.comp.button" x="80" y="200" layer="1" var="yes_btn" name="yes"/>
 			  <Button compId="3" label="取消" skin="png.comp.button" x="262" y="200" layer="1" var="no_btn" name="no"/>
-			  <Label compId="6" text="提示信息" styleSkin="png.comp.label" x="8" y="8" layer="1" color="0xffffff" size="15"/>
+			  <Label compId="6" text="提示" styleSkin="png.comp.label" x="8" y="3" layer="1" color="0xffffff" size="15"/>
 			  <Label compId="7" text="label" styleSkin="png.comp.label" x="68" y="94" layer="1" size="15" var="msg_label"/>
 			</Dialog>;
 		

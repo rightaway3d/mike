@@ -33,8 +33,6 @@ package rightaway3d.house.editor2d
 		
 		private var ui:MikeUI;
 		
-		private var dialog:Alert = new Alert();
-		
 		private var subElecData:XML;//子产品电器数据源
 		
 		private const BTN_DELET_PRODUCT:String = "删除厨柜";
@@ -104,8 +102,8 @@ package rightaway3d.house.editor2d
 				BTN_ADD_ITEM,
 				BTN_OPTIONS];
 			
-			dialog.msg_label.text = "将清除场景中所有厨柜！";
-			dialog.closeHandler = new Handler(onDialogClosed);
+			//dialog.msg_label.text = "将清除场景中所有厨柜！";
+			//dialog.closeHandler = new Handler(onDialogClosed);
 			
 			subElecData =
 				<item>
@@ -124,14 +122,14 @@ package rightaway3d.house.editor2d
 			GlobalEvent.event.addEventListener("product_created",onProductCreated);
 		}
 		
-		private function onDialogClosed(type:String):void
+		/*private function onDialogClosed(type:String):void
 		{
 			trace("onDialogClosed:"+type);
 			if(type==Dialog.YES)
 			{
 				this.clearAllCabinetObject();
 			}
-		}
+		}*/
 		
 		private function onBottomClick(lable:String):void
 		{
@@ -142,7 +140,7 @@ package rightaway3d.house.editor2d
 					this.deleteSelectProduct();
 					break;
 				case BTN_CLEAR_PRODUCT:
-					dialog.popup();
+					ui.showPopDialog("将清除场景中所有厨柜！",clearAllCabinetObject);
 					break;
 				case BTN_UPDATE_TABLE:
 					updateTable();
