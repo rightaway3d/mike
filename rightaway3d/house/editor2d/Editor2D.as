@@ -388,7 +388,8 @@ package rightaway3d.house.editor2d
 			switch(e.keyCode)
 			{
 				case Keyboard.T:
-					this.test();
+					//this.test();
+					getOtherSnapshot(null);
 					break;
 				
 				case Keyboard.LEFT:
@@ -740,7 +741,7 @@ package rightaway3d.house.editor2d
 		{
 			trace("------------clearAllCabinetObject");
 			cabinetCtr.clearAllCabinetObject();
-			this.cabinetCreator.clear();
+			cabinetCreator.clear();
 			cabinetCreator.claerAllPlate();
 			
 			//ProductManager.own.clearRootProductObject();
@@ -1594,7 +1595,7 @@ package rightaway3d.house.editor2d
 			SizeMarking2D.markingWindoor = true;
 			updateMarking();
 			
-			var bmd:BitmapData = getSnapshot(w,h,true);
+			var bmd:BitmapData = getSnapshot(w,h,false);
 			
 			if(getPics!=null)
 			{
