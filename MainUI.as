@@ -1,7 +1,6 @@
 package
 {
 	import flash.display.DisplayObjectContainer;
-	import flash.display.InteractiveObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -14,18 +13,17 @@ package
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
 	import flash.ui.Keyboard;
-	import flash.ui.KeyboardType;
 	
 	import game.ui.mike.AddItemListUI;
 	import game.ui.mike.mainUI;
 	
 	import morn.core.components.Box;
 	import morn.core.components.Button;
+	import morn.core.components.Clip;
 	import morn.core.components.Container;
 	import morn.core.components.Image;
 	import morn.core.components.Label;
 	import morn.core.components.List;
-	import morn.core.components.TextInput;
 	import morn.core.components.Tree;
 	import morn.core.handlers.Handler;
 	
@@ -74,12 +72,15 @@ package
 			originalX = assets.x;
 			// 树
 			tree = assets.getChildByName('tree') as Tree;
-			tree.mouseHandler = new Handler(treeMouseHandler);
-			
+//			tree.mouseHandler = new Handler(treeMouseHandler);
+//			tree.list.selectHandler = new Handler(treeHandler);
+			tree.addEventListener(Event.CHANGE,treeListChange);
+			//			tree.list.renderHandler = new Handler(treeListRender)
 			// List
 			list = assets.getChildByName('list') as List;
 			list.mouseHandler = new Handler(listMouseHandler);
 			list.visible=false ;
+			
 			// mainBtn
 			mainBtn = getChildByName('mainBtn') as Box;
 			mainBtn.addEventListener(MouseEvent.CLICK, onMainBtnClick);
@@ -101,6 +102,36 @@ package
 			createAddItemListMenu();
 			createAddItemInfoChange();
 		}
+		protected function treeListChange(event:Event):void
+		{
+			var _index:int = tree.selectedIndex;
+			if(tree.selectedIndex <0)
+			{
+				return ;
+			}
+			
+			if(MikeUI.instance.treeSelectHandler) {
+				MikeUI.instance.treeSelectHandler(tree.selectedItem);
+				var cell:Box = tree.list.getCell(tree.selectedIndex);
+				var item:Object = cell.dataSource; 
+				if (item.hasChild) 
+				{
+					var arrow:Clip = cell.getChildByName("arrow") as Clip;
+					if(arrow.frame==1)
+					{
+						tree.list.array[_index].isOpen = true;
+					}else
+					{
+						tree.list.array[_index].isOpen = false;
+					}
+					arrow.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+					arrow.mouseEnabled = false;
+					tree.selectedIndex= -1;
+				}
+			}			
+		}		
+		
+		
 		
 		private function bottomBtnsHandler(e:MouseEvent, index:int):void
 		{
@@ -114,8 +145,7 @@ package
 		protected function onMainBtnClick(event:MouseEvent):void
 		{
 			mainBtn.mouseChildren = false;
-			mainBtn.mouseChildren = false;
-//			assets.visible = true;
+			//			assets.visible = true;
 			var alpha:Number, x:Number;
 			assets.alpha = uiShow ? 0 : 1.0;
 			assets.x = uiShow ? originalX - 200 : originalX;
@@ -145,16 +175,62 @@ package
 			}	
 		}
 		
-		private function treeMouseHandler(e:MouseEvent, index:int):void
+	/*	private function treeMouseHandler(e:MouseEvent, index:int):void
 		{
+			trace(e.currentTarget.name)
 			if(e.type == MouseEvent.CLICK) {
 				if(MikeUI.instance.treeSelectHandler) {
 					MikeUI.instance.treeSelectHandler(tree.selectedItem);
+					var cell:Box = tree.list.getCell(tree.selectedIndex);
+					var item:Object = cell.dataSource; 
+					trace(item.hasChild)
+					if (item.hasChild) 
+					{
+						var arrow:Clip = cell.getChildByName("arrow") as Clip;
+						arrow.mouseEnabled = false;
+						var _index:int = int(arrow.tag);
+						if(arrow.frame==1)
+						{
+							tree.list.array[_index].isOpen = true;
+							tree.list.array[_index].isOpen = !tree.list.array[_index].isOpen;
+							
+						}else
+						{
+							tree.list.array[_index].isOpen = false;
+							tree.list.array[_index].isOpen = !tree.list.array[_index].isOpen;
+
+						}
+						
+					}
 					
 				}
 			}			
 		}
+//		public var _index:int = 0;
+		private function treeHandler(index:int):void
+		{
+			
+			if(tree.selectedIndex <0)
+			{
+				return;
+			}
 		
+//			var obj:Object = tree.list.getItem(index);
+			var cell:Box = tree.list.getCell(index);
+			var item:Object = cell.dataSource;
+			
+			MikeUI.instance.treeSelectHandler(item);
+			
+			if (item.hasChild) 
+			{
+				var arrow:Clip = cell.getChildByName("arrow") as Clip;
+				arrow.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+			}
+			oldSelectedIndex = index;
+			tree.selectedIndex = -1;
+//		
+		
+		}*/
 		/*=========================================================*/
 		
 		public var addItemMenu:Box;
@@ -178,7 +254,7 @@ package
 				;
 			}
 			Mike.instance.stopKeyAction(null)
-//			Mike.instance.setTextField(addItemMenu.tag.);
+			//			Mike.instance.setTextField(addItemMenu.tag.);
 		}
 		/**
 		 * 隐藏增值面板
@@ -258,18 +334,18 @@ package
 			var item:AddItemListUI = new AddItemListUI()
 			addItemMenu.addChild(item);
 			addItemList  = item.getChildByName("addItemList") as List;
-//			for (var i:int = 0; i < 20; i++) 
-//			{
-//				var obj:Object = new Object;
-//				obj.name = i.toString();
-//				obj.specifications = i.toString();
-//				obj.memo = i.toString();
-//				obj.price = i.toString();
-//				obj.totalPrice = i.toString();
-//				array.push(obj)
-//			}
+			//			for (var i:int = 0; i < 20; i++) 
+			//			{
+			//				var obj:Object = new Object;
+			//				obj.name = i.toString();
+			//				obj.specifications = i.toString();
+			//				obj.memo = i.toString();
+			//				obj.price = i.toString();
+			//				obj.totalPrice = i.toString();
+			//				array.push(obj)
+			//			}
 			
-//			array.push({name:"1"},{name:"2"},{name:"3"},{name:"4"},{name:"5"},{name:"6"},{name:"7"},{name:"8"},{name:"9"},{name:"10"});
+			//			array.push({name:"1"},{name:"2"},{name:"3"},{name:"4"},{name:"5"},{name:"6"},{name:"7"},{name:"8"},{name:"9"},{name:"10"});
 			addItemList.dataSource = [];
 			
 			addItemList.repeatY = 4;
@@ -278,7 +354,7 @@ package
 			addItemList.spaceY = 10;
 			addItemList.y = 80;
 			addItemList.x = 20;
-//			addItemList.addEventListener(UIEvent.ITEM_RENDER,onListChange);
+			//			addItemList.addEventListener(UIEvent.ITEM_RENDER,onListChange);
 			
 			var addRenderItem:Button = new Button();
 			addRenderItem.label = "添加";
@@ -292,7 +368,7 @@ package
 			addRenderItem.buttonMode = true;
 			addRenderItem.clickHandler = new Handler(addRenderItemClick);
 			addRenderItem.showBorder(0xFFFFFF);
-//			addItemList.scrollBar.showButtons = false;
+			//			addItemList.scrollBar.showButtons = false;
 			addItemList.renderHandler = new Handler(renderHandler);
 			addItemList.selectHandler = new Handler(addItemListSelect);
 			
@@ -300,10 +376,10 @@ package
 			addItemMenu.y = (stageHeight-500)>>1;
 		}
 		
-//		protected function onListChange(event:Event):void
-//		{
-//			trace("------------------")			
-//		}		
+		//		protected function onListChange(event:Event):void
+		//		{
+		//			trace("------------------")			
+		//		}		
 		
 		
 		
@@ -449,9 +525,9 @@ package
 			var str:String = tag.productPriceText.text;
 			var index:int =str.indexOf(" ");
 			var newStr:String = index>0?str.slice(0,index):str;
-							
+			
 			var price:int = parseInt(newStr);
-
+			
 			var num:int = tag.productNumText.text;
 			tag.productTotalPricesText.text =(price*num)+" 元";
 			
@@ -459,8 +535,8 @@ package
 		}
 		private function createAddItemInfoTitle(parentDisplay:DisplayObjectContainer,titleStr:String,_y:int,type:String="textInput",_tabIndex:int=-1):TextField
 		{
-//			var group:Box = new Box;
-//			group.name = "group";
+			//			var group:Box = new Box;
+			//			group.name = "group";
 			var title:Label = new Label(titleStr);
 			title.size = 18;
 			title.color = 0xFFFFFF;
@@ -483,7 +559,7 @@ package
 				inputText.height = 30;
 				inputText.x = 130;
 				inputText.y = _y;
-//				inputText.tabEnabled = true;
+				//				inputText.tabEnabled = true;
 				inputText.name = _tabIndex.toString();;
 				parentDisplay.addChild(inputText);
 				inputText.tabIndex = _tabIndex;
@@ -652,9 +728,9 @@ package
 			tag.changeBtn.showBorder(0xFFFFFF);
 			tag.maskPanel.visible = true;
 			
-		
 			
-//			addItemList.refresh();
+			
+			//			addItemList.refresh();
 		}
 		
 		public var tabIndexArray:Array= new Array;
@@ -681,7 +757,7 @@ package
 		
 		protected function onKeyDown(event:KeyboardEvent):void
 		{
-//			event.stopImmediatePropagation();
+			//			event.stopImmediatePropagation();
 			switch(event.keyCode)
 			{
 				case Keyboard.ENTER:
@@ -772,7 +848,7 @@ package
 			obj.unit = tag.productUnitText.text;
 			
 			obj.price = price;
-//			obj.totalPrice = totalPrice;
+			//			obj.totalPrice = totalPrice;
 			addItemList.refresh();
 		}
 		/**
@@ -806,7 +882,7 @@ package
 				icon.url = item.dataSource.image3dURL; 
 			}
 			
-//				label1.text =(addItemList.array[0].price)// item.dataSource[index].name;// addItemList.array[index].name;
+			//				label1.text =(addItemList.array[0].price)// item.dataSource[index].name;// addItemList.array[index].name;
 			
 			if(!btn.clickHandler)
 			{
@@ -852,7 +928,7 @@ package
 		private function removeAddItmeOk(e:MouseEvent):void
 		{
 			
-//			addItemList.deleteItem(currentIndex);
+			//			addItemList.deleteItem(currentIndex);
 			addItemList.sendEvent(ADDITEM_REMOVE,addItemList.dataSource[currentIndex]);
 			addItemList.selectedIndex = -1;
 			removeAddItemCancel(e);
@@ -951,7 +1027,7 @@ package
 				bg.height = stageHeight;
 			}
 			
-		
+			
 			
 		}
 		
