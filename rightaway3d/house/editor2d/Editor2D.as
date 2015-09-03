@@ -1472,7 +1472,7 @@ package rightaway3d.house.editor2d
 			trace(this.getProductList());
 			//trace(this.getOrderProductsData());
 			//cabinetCreator.clearCabinetTalbes();
-			//getOtherSnapshot(null);
+			getOtherSnapshot(null);
 		}
 		
 		/**
@@ -1769,7 +1769,7 @@ package rightaway3d.house.editor2d
 				
 				getImageData(true);
 				
-				wallFaceViewer.reset();
+				//wallFaceViewer.reset();
 			}
 			else if(wallFaceViewer.update())
 			{
