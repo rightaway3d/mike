@@ -155,6 +155,9 @@ package
 			};
 			
 			dialog = new Alert();
+			dialog.yes_btn.showBorder(0xFFFFFF);
+			dialog.no_btn.showBorder(0xFFFFFF);
+			dialog.no_btn.buttonMode = dialog.yes_btn.buttonMode = true;
 			dialog.closeHandler = new Handler(onDialogClosed);
 			
 			// create Btn Click

@@ -12,11 +12,11 @@ package game.ui.mike
 		
 		protected static var uiXML:XML =
 			<Dialog width="400" height="250" sceneColor="0xffffff" compId="1" layers="1,1,0,0,第 1 层;2,1,0,0,第 2 层">
-			  <Image compId="5" skin="png.comp.bg" x="0" y="0" layer="2" width="400" height="250" sizeGrid="4,40,4,4"/>
-			  <Button compId="2" label="确定" skin="png.comp.button" x="80" y="200" layer="1" var="yes_btn" name="yes"/>
-			  <Button compId="3" label="取消" skin="png.comp.button" x="262" y="200" layer="1" var="no_btn" name="no"/>
-			  <Label compId="6" text="提示" styleSkin="png.comp.label" x="8" y="3" layer="1" color="0xffffff" size="15"/>
-			  <Label compId="7" text="label" styleSkin="png.comp.label" x="68" y="94" layer="1" size="15" var="msg_label"/>
+			  <Image compId="5" skin="png.comp.blank" x="0" y="0" layer="2" width="400" height="250"/>
+			  <Button compId="2" width = "50" height = "25" label="确定" skin="" x="80" y="200" labelSize="16" labelColors="0xFFFFFF,0xFFFFFF" layer="1" var="yes_btn" name="yes"/>
+			  <Button compId="3" width = "50" height = "25" label="取消" skin="" x="262" y="200" labelSize="16" labelColors="0xFFFFFF,0xFFFFFF" layer="1" var="no_btn" name="no"/>
+			  <Label compId="6" text="提示" styleSkin="" x="10" y="10" layer="1" color="0xffffff" size="18"/>
+			  <Label compId="7" text="label" styleSkin="" x="20" y="94" width="360" height="100" align = "center"layer="1" color="0xffffff"  size="16" var="msg_label"/>
 			</Dialog>;
 		
 		public function Alert(){}
