@@ -1146,7 +1146,7 @@ package rightaway3d.house.editor2d
 						//this.cabinetCtr.addCabinetDict(po);
 						//this.cabinetCreator.addCabinet(po);
 						
-						cabinetCreator.addSingleDoor(po,null);
+						cabinetCreator.addSingleDoor(po,null,false);
 					}
 					else if(type==CabinetType.HOOD)
 					{
@@ -1169,7 +1169,7 @@ package rightaway3d.house.editor2d
 						
 						//var doorData:XML = CabinetTool.tool.getDoorData(po);
 						//ProductManager.own.addDynamicSubProduct(po,doorData);
-						cabinetCreator.addSingleDoor(po,null);
+						cabinetCreator.addSingleDoor(po,null,false);
 					}
 				}
 			}

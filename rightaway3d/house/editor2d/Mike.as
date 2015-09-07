@@ -212,7 +212,7 @@ package rightaway3d.house.editor2d
 					var matObj:Object = getDoorMat(po);//保存当前厨柜门的材质数据
 					
 					cabinetCreator.clearSingleDoor(po);
-					cabinetCreator.addSingleDoor(po,direction);
+					cabinetCreator.addSingleDoor(po,direction,true);
 					
 					if(ProductInfoLoader.own.hasNotLoaded || ProductInfoLoader.own.isLoading)
 					{
