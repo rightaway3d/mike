@@ -5,11 +5,6 @@ package rightaway3d.house.editor2d
 	import flash.ui.Keyboard;
 	import flash.utils.setTimeout;
 	
-	import game.ui.mike.Alert;
-	
-	import morn.core.components.Dialog;
-	import morn.core.handlers.Handler;
-	
 	import rightaway3d.engine.core.EngineManager;
 	import rightaway3d.engine.product.ProductInfo;
 	import rightaway3d.engine.product.ProductInfoLoader;
@@ -44,6 +39,7 @@ package rightaway3d.house.editor2d
 		private const BTN_SWITCH_TABLE:String = "显示/ 隐藏 台面";
 		private const BTN_ADD_ITEM:String = "增项管理";
 		private const BTN_OPTIONS:String = "参数配置";
+		private const BTN_ROOM_SIZER:String = "房间尺寸";
 		
 		private const BTN_LEFT_DOOR:String = "设为左开门";
 		private const BTN_RIGHT_DOOR:String = "设为右开门";
@@ -79,7 +75,7 @@ package rightaway3d.house.editor2d
 //			graphics.beginFill(0xFFFF00);
 //			graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight)
 			ui = new MikeUI();
-			trace("--------initMikeUI parent:",this.parent);
+			//trace("--------initMikeUI parent:",this.parent);
 			this.parent.addChild(ui);
 			
 			//if(!stage)
@@ -99,6 +95,7 @@ package rightaway3d.house.editor2d
 				BTN_LEFT_DOOR,
 				BTN_RIGHT_DOOR,
 				BTN_OPEN_DOOR,
+				BTN_ROOM_SIZER,
 				BTN_ADD_ITEM,
 				BTN_OPTIONS];
 			
@@ -169,6 +166,12 @@ package rightaway3d.house.editor2d
 				
 				case BTN_OPTIONS:
 					showOptionsMenu();
+					break;
+				
+				case BTN_ROOM_SIZER:
+					ui.roomSizer.onOkFun = this.setRoomSize;
+					var size:Array = this.sceneCtr.getRoomSize();
+					ui.showRoomSizer(size[0],size[1],size[2]);
 					break;
 				
 				case BTN_OPEN_DOOR:
@@ -283,7 +286,6 @@ package rightaway3d.house.editor2d
 		
 		private function updateTable():void
 		{
-			cabinetCreator.clearCabinetTalbes();
 			var msg:String = TableBuilder.own.builderTable();
 			//trace(stage.mouseX);
 			if(msg)

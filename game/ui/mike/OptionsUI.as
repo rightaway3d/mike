@@ -40,7 +40,7 @@ package game.ui.mike
 		private function init():void
 		{
 			inputTextValue = GlobalConfig.instance.wallPlateWidth.toString();
-			options = new OptionsUI;
+			options = new Sprite();
 			bgMax = new Sprite();
 			bgMax.graphics.beginFill(0x0,0.3);
 			bgMax.graphics.drawRect(0,0,stageWidth,stageHeight);

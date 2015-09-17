@@ -5,6 +5,7 @@ package
 	
 	import game.ui.mike.Alert;
 	import game.ui.mike.OptionsUI;
+	import game.ui.mike.RoomSizer;
 	
 	import morn.core.components.Box;
 	import morn.core.components.Dialog;
@@ -38,7 +39,7 @@ package
 		// 下方按钮列表内容
 		public var bbtns:Array = ['删除', '生成面板', '重建台面', '生成面板', '重建台面', '生成面板', '重建台面'];
 		
-		
+		public var roomSizer:RoomSizer;
 		
 		//选项菜单
 		private var options:OptionsUI;
@@ -48,6 +49,7 @@ package
 				instance = this;
 			}
 			addItemManager = new AddItemManager;
+			roomSizer = new RoomSizer();
 			options = new OptionsUI();
 			CabinetLib.lib.addEventListener(Event.COMPLETE, function():void {
 				App.init(instance);
@@ -89,7 +91,7 @@ package
 				mainUI.stageHeight = stage.stageHeight;
 				mainUI.width = stage.stageWidth;
 				mainUI.height = stage.stageHeight;
-				trace(mainUI.width,mainUI.height)
+				//trace(mainUI.width,mainUI.height)
 				mainUI.resizeContent();
 			}
 			if(options)
@@ -98,7 +100,14 @@ package
 				options.stageHeight = stage.stageHeight;
 				options.resizeContent();
 			}
-			 
+			
+			if(roomSizer)
+			{
+				roomSizer.stageWidth = stage.stageWidth;
+				roomSizer.stageHeight = stage.stageHeight;
+				roomSizer.resizeContent();
+			}
+			
 			
 			setBottomBtns();
 		}
@@ -276,7 +285,13 @@ package
 		}
 		
 		
-		
+		public function showRoomSizer(roomWidth:int,roomDepth:int,wallWidth:int):void
+		{
+			roomSizer.show(this);
+			roomSizer.roomWidth_txt.text = String(roomWidth);
+			roomSizer.roomDepth_txt.text = String(roomDepth);
+			roomSizer.wallWidth_txt.text = String(wallWidth);
+		}
 		
 	}
 }

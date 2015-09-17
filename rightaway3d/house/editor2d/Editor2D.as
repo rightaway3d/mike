@@ -47,6 +47,7 @@ package rightaway3d.house.editor2d
 	import rightaway3d.house.vo.WallHole;
 	import rightaway3d.house.vo.WallObject;
 	import rightaway3d.user.User;
+	import rightaway3d.utils.Log;
 	import rightaway3d.utils.MyTextField;
 	
 	import ztc.meshbuilder.room.DragObject;
@@ -91,9 +92,13 @@ package rightaway3d.house.editor2d
 		
 		protected var house:House = House.getInstance();
 		
+		static private const version:String = "2015091601";
+		
 		public function Editor2D()
 		{
 			super();
+			
+			Log.log("======Version:"+version+"======");
 			
 			init();
 			
@@ -114,7 +119,7 @@ package rightaway3d.house.editor2d
 		
 		private function initView(e:Event=null):void
 		{
-			trace("--init--",this.parent);
+			//trace("--init--",this.parent);
 			Tips.stage = stage;
 			
 			initScene();
@@ -245,7 +250,7 @@ package rightaway3d.house.editor2d
 		
 		private function onMaterialLibraryLoaded(e:Event):void
 		{
-			trace("-----------------------");
+			//trace("-----------------------");
 			setWallMaterial(RenderUtils.getDefaultMaterial("wall"));
 			setGroundMaterial(RenderUtils.getDefaultMaterial("ground"));
 			setCeilingMaterial(RenderUtils.getDefaultMaterial("ceiling"));
@@ -259,6 +264,26 @@ package rightaway3d.house.editor2d
 			{
 				_setSceneData(sceneData);
 				//sceneData = null;
+			}
+		}
+		
+		public function setRoomSize(width:int,height:int,wallWidth:int):void
+		{
+			sceneCtr.setRoomSize(width,height,wallWidth);
+			resetAllPosition();
+			scene3d.updateHouse(house);
+		}
+		
+		private function resetAllPosition():void
+		{
+			var ps:Array = ProductManager.own.getRootProductObjects();
+			for each(var p:ProductObject in ps)
+			{
+				var wa:WallObject = p.objectInfo;
+				if(wa && wa.crossWall)
+				{
+					this.cabinetCtr.setProductPos(p,wa.crossWall,wa.x,wa.y,wa.z);
+				}
 			}
 		}
 		
@@ -452,6 +477,12 @@ package rightaway3d.house.editor2d
 		
 		private function switchView2D():void
 		{
+			if(!this.cabinetCreator.cabinetTabless)
+			{
+				var msg:String = TableBuilder.own.builderTable();
+				TableBuilder.own.builderDoor();
+			}
+			
 			//trace(container2d.x,container2d.y);
 			wallFaceViewer.visible = wallFaceViewer.update();
 			
@@ -2204,6 +2235,10 @@ package rightaway3d.house.editor2d
 				
 				case Keyboard.G:
 					this.scene3d.engine3d.updateCubeReflection();
+					break;
+				
+				case Keyboard.B:
+					this.setRoomSize(5000,4000,200);
 					break;
 			}
 			
