@@ -34,12 +34,13 @@ package rightaway3d.house.editor2d
 		private const BTN_CLEAR_PRODUCT:String = "清除厨柜";
 		private const BTN_CLEAR_PLANK:String = "清除封板";
 		//private const BTN_CABINET_DOOR:String = "更新门板";
-		private const BTN_LEG_BAFFLE:String = "清除踢脚板";
+		//private const BTN_LEG_BAFFLE:String = "清除踢脚板";
 		private const BTN_UPDATE_TABLE:String = "生成更新";
 		private const BTN_SWITCH_TABLE:String = "显示/ 隐藏 台面";
 		private const BTN_ADD_ITEM:String = "增项管理";
 		private const BTN_OPTIONS:String = "参数配置";
 		private const BTN_ROOM_SIZER:String = "房间尺寸";
+		private const BTN_PILLAR_SIZER:String = "立柱尺寸";
 		
 		private const BTN_LEFT_DOOR:String = "设为左开门";
 		private const BTN_RIGHT_DOOR:String = "设为右开门";
@@ -89,13 +90,14 @@ package rightaway3d.house.editor2d
 			ui.bbtns = [BTN_DELET_PRODUCT,
 				BTN_CLEAR_PRODUCT,
 				BTN_CLEAR_PLANK,
-				BTN_LEG_BAFFLE,
+				//BTN_LEG_BAFFLE,
 				BTN_UPDATE_TABLE,
-				BTN_SWITCH_TABLE,
 				BTN_LEFT_DOOR,
 				BTN_RIGHT_DOOR,
+				BTN_SWITCH_TABLE,
 				BTN_OPEN_DOOR,
 				BTN_ROOM_SIZER,
+				BTN_PILLAR_SIZER,
 				BTN_ADD_ITEM,
 				BTN_OPTIONS];
 			
@@ -145,9 +147,9 @@ package rightaway3d.house.editor2d
 				/*case BTN_CABINET_DOOR:
 					updateCabinetDoor();
 					break;*/
-				case BTN_LEG_BAFFLE:
+				/*case BTN_LEG_BAFFLE:
 					productManager.deleteProductObjectsByType(CabinetType.LEG_BAFFLE);
-					break;
+					break;*/
 				case BTN_CLEAR_PLANK:
 					cabinetCreator.claerAllPlate();
 					break;
@@ -168,16 +170,36 @@ package rightaway3d.house.editor2d
 					showOptionsMenu();
 					break;
 				
+				case BTN_PILLAR_SIZER:
+					showSquarePillarSizer();
+					//ui.showSquarePillarSizer(0,0);
+					break;
+				
 				case BTN_ROOM_SIZER:
-					ui.roomSizer.onOkFun = this.setRoomSize;
 					var size:Array = this.sceneCtr.getRoomSize();
 					ui.showRoomSizer(size[0],size[1],size[2]);
+					ui.roomSizer.onOkFun = this.setRoomSize;
 					break;
 				
 				case BTN_OPEN_DOOR:
 					runAction();
 					break;
 			}
+		}
+		
+		private function showSquarePillarSizer():void
+		{
+			var p:ProductObject = gv.currProduct;
+			if(!p || p.name!=ProductObjectName.ROOM_SQUARE_PILLAR)
+			{
+				Tips.show("请先选取立柱！",stage.mouseX-80,stage.mouseY,4000);
+				return;
+			}
+			
+			var w:int = p.objectInfo.width;
+			var d:int = p.objectInfo.depth;
+			ui.showSquarePillarSizer(w,d);
+			ui.pillarSizer.onOkFun = this.cabinetCtr.setSquarePillarSize;
 		}
 		
 		private function runAction():void

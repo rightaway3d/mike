@@ -6,6 +6,7 @@ package
 	import game.ui.mike.Alert;
 	import game.ui.mike.OptionsUI;
 	import game.ui.mike.RoomSizer;
+	import game.ui.mike.SquarePillarSizer;
 	
 	import morn.core.components.Box;
 	import morn.core.components.Dialog;
@@ -41,16 +42,18 @@ package
 		
 		public var roomSizer:RoomSizer;
 		
+		public var pillarSizer:SquarePillarSizer;
+		
 		//选项菜单
 		private var options:OptionsUI;
+		
 		public function MikeUI()
 		{
 			if (!instance) {
 				instance = this;
 			}
 			addItemManager = new AddItemManager;
-			roomSizer = new RoomSizer();
-			options = new OptionsUI();
+			
 			CabinetLib.lib.addEventListener(Event.COMPLETE, function():void {
 				App.init(instance);
 				App.loader.loadAssets(['assets/comp.swf'], new Handler(uiLoadComplete));
@@ -84,7 +87,7 @@ package
 		}
 		
 		
-		private function onStageResize(e:Event):void {
+		private function onStageResize(e:Event=null):void {
 			
 			if (mainUI) {
 				mainUI.stageWidth = stage.stageWidth;
@@ -94,6 +97,7 @@ package
 				//trace(mainUI.width,mainUI.height)
 				mainUI.resizeContent();
 			}
+			
 			if(options)
 			{
 				options.stageWidth = stage.stageWidth;
@@ -106,6 +110,13 @@ package
 				roomSizer.stageWidth = stage.stageWidth;
 				roomSizer.stageHeight = stage.stageHeight;
 				roomSizer.resizeContent();
+			}
+			
+			if(pillarSizer)
+			{
+				pillarSizer.stageWidth = stage.stageWidth;
+				pillarSizer.stageHeight = stage.stageHeight;
+				pillarSizer.resizeContent();
 			}
 			
 			
@@ -281,16 +292,40 @@ package
 		 */		
 		public function showOptionsMenu():void
 		{
+			if(!options)
+			{
+				options = new OptionsUI();
+				onStageResize();
+			}
 			options.showOptionsUI(this);
 		}
 		
 		
 		public function showRoomSizer(roomWidth:int,roomDepth:int,wallWidth:int):void
 		{
+			if(!roomSizer)
+			{
+				roomSizer = new RoomSizer();
+				onStageResize();
+			}
+			
 			roomSizer.show(this);
 			roomSizer.roomWidth_txt.text = String(roomWidth);
 			roomSizer.roomDepth_txt.text = String(roomDepth);
 			roomSizer.wallWidth_txt.text = String(wallWidth);
+		}
+		
+		public function showSquarePillarSizer(pillarWidth:int,pillarDepth:int):void
+		{
+			if(!pillarSizer)
+			{
+				pillarSizer = new SquarePillarSizer();
+				onStageResize();
+			}
+			
+			pillarSizer.show(this);
+			pillarSizer.pillarWidth_txt.text = String(pillarWidth);
+			pillarSizer.pillarDepth_txt.text = String(pillarDepth);
 		}
 		
 	}

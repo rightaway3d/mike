@@ -2033,6 +2033,13 @@ package rightaway3d.house.editor2d
 					cabinetCtr.createHeight600Flag();
 					break;
 				
+				case Keyboard.C:
+					if(gv.currProduct)
+					{
+						cabinetCtr.setSquarePillarSize(gv.currProduct,400,600);
+					}
+					break;
+				
 				case Keyboard.Q:
 					this.createRoomSquarePillar(300,200,0xcccccc);
 					break;

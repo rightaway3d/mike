@@ -12,24 +12,25 @@ package game.ui.mike
 	import morn.core.components.Label;
 	import morn.core.handlers.Handler;
 	
+	import rightaway3d.engine.utils.GlobalVar;
+	import rightaway3d.engine.utils.Tips;
 	import rightaway3d.house.editor2d.Mike;
 	
-	public class RoomSizer extends Sprite
+	public class SquarePillarSizer extends Sprite
 	{
 		public var options:Sprite;
 		public var stageWidth:Number;
 		public var stageHeight:Number;
 		public var inited:Boolean = false;
-		//private var oldText:String="";
 		private var bgMax:Sprite ;
 		
-		public var roomWidth_txt:TextField;
-		public var roomDepth_txt:TextField;
-		public var wallWidth_txt:TextField;
+		public var pillarWidth_txt:TextField;
+		public var pillarDepth_txt:TextField;
+		public var tips_txt:TextField;
 		
 		public var onOkFun:Function;
 		
-		public function RoomSizer()
+		public function SquarePillarSizer()
 		{
 			super();
 		}
@@ -56,7 +57,7 @@ package game.ui.mike
 			bg.graphics.endFill();
 			options.addChild(bg); 
 			
-			var title:Label = new Label("修改房间尺寸");
+			var title:Label = new Label("修改立柱尺寸");
 			title.size = 20;
 			title.setSize(400,50);
 			//title.align = "center";
@@ -65,9 +66,9 @@ package game.ui.mike
 			title.x = 15;
 			title.y = 15;	
 			
-			roomWidth_txt = addInputItem("房间宽度：","3000",50,80);
-			roomDepth_txt = addInputItem("房间进深：","3000",50,120);
-			wallWidth_txt = addInputItem("墙体厚度：","200",50,160);
+			pillarWidth_txt = addInputItem("立柱宽度：","3000",50,100);
+			pillarDepth_txt = addInputItem("立柱进深：","3000",50,150);
+			//tips_txt = addInputItem("墙体厚度：","200",50,160);
 			
 			var cancel:Button = new Button();
 			cancel.setSize( 60,30);
@@ -146,14 +147,20 @@ package game.ui.mike
 		
 		private function optionsOkClick():void
 		{
-			if(onOkFun)
-			{
-				var rw:int = int(roomWidth_txt.text);
-				var rd:int = int(roomDepth_txt.text);
-				var ww:int = int(wallWidth_txt.text);
-				onOkFun(rw,rd,ww);
-			}
-			optionsCloseClick();
+			//if(onOkFun)
+			//{
+				var rw:int = int(pillarWidth_txt.text);
+				var rd:int = int(pillarDepth_txt.text);
+				if(onOkFun(GlobalVar.own.currProduct,rw,rd))
+				{
+					optionsCloseClick();
+				}
+				else
+				{
+					Tips.show("空间不够放置立柱",stage.mouseX-80,stage.mouseY,4000);
+				}
+			//}
+			
 		}
 		
 		private function optionsCloseClick():void
