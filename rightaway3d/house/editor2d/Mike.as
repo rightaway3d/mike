@@ -31,21 +31,21 @@ package rightaway3d.house.editor2d
 		private var subElecData:XML;//子产品电器数据源
 		
 		private const BTN_DELET_PRODUCT:String = "删除厨柜";
-		private const BTN_CLEAR_PRODUCT:String = "清除厨柜";
+		private const BTN_CLEAR_PRODUCT:String = "清空厨柜";
 		private const BTN_CLEAR_PLANK:String = "清除封板";
 		//private const BTN_CABINET_DOOR:String = "更新门板";
 		//private const BTN_LEG_BAFFLE:String = "清除踢脚板";
-		private const BTN_UPDATE_TABLE:String = "生成更新";
-		private const BTN_SWITCH_TABLE:String = "显示/ 隐藏 台面";
+		private const BTN_UPDATE_TABLE:String = "更新设计";
+		private const BTN_SWITCH_TABLE:String = "显隐台面";
 		private const BTN_ADD_ITEM:String = "增项管理";
 		private const BTN_OPTIONS:String = "参数配置";
 		private const BTN_ROOM_SIZER:String = "房间尺寸";
 		private const BTN_PILLAR_SIZER:String = "立柱尺寸";
 		
-		private const BTN_LEFT_DOOR:String = "设为左开门";
-		private const BTN_RIGHT_DOOR:String = "设为右开门";
+		private const BTN_LEFT_DOOR:String = "设左开门";
+		private const BTN_RIGHT_DOOR:String = "设右开门";
 		
-		private const BTN_OPEN_DOOR:String = "开/ 关 门";
+		private const BTN_OPEN_DOOR:String = "开关厨门";
 		
 		public function Mike()
 		{
