@@ -2,6 +2,7 @@ package rightaway3d.house.editor2d
 {
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.text.Font;
 	import flash.ui.Keyboard;
 	import flash.utils.setTimeout;
 	
@@ -22,6 +23,8 @@ package rightaway3d.house.editor2d
 	[SWF(backgroundColor="#E2E2E2", frameRate="30", width="1600", height="800")]
 	public class Mike extends Editor2D
 	{
+		[Embed(source="/../../../../bin/assets/yuehei.otf", fontName="造字工房悦黑(非商用)细体", fontStyle="normal", embedAsCFF="false", mimeType="application/x-font")]
+		static public var PDFYUEHEI : Class;
 		public static var instance:Mike;
 		
 		private var productManager:ProductManager = ProductManager.own;
@@ -73,6 +76,7 @@ package rightaway3d.house.editor2d
 		private function init(e:Event=null):void
 		{
 			if(e)this.removeEventListener(Event.ADDED_TO_STAGE,init);
+			Font.registerFont(PDFYUEHEI);
 //			graphics.beginFill(0xFFFF00);
 //			graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight)
 			ui = new MikeUI();
