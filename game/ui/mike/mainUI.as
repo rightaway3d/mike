@@ -28,10 +28,12 @@ package game.ui.mike {
 			    <Box name="render">
 			      <Image skin="png.comp.blank" width="93" height="24"/>
 			      <Clip skin="png.comp.clip_selectBox" x="0" y="0" width="93" height="24" clipY="2" name="selectBox"/>
-			      <Label text="删除" x="1" y="3" width="90" height="18" align="center" color="0xffffff" stroke="0x333333" name="label"/>
+				<Image skin="png.comp.blue" x="10" y="5" width="15" height="15" name="icon"/>
+			      <Label text="删除" x="10" y="3" width="90" height="18" align="center" color="0xffffff" stroke="0x333333" name="label"/>
 			    </Box>
 			  </List>
 			</View>;
+//		
 		public function mainUI(){}
 		override protected function createChildren():void {
 			viewClassMap["game.ui.mike.listItemViewUI"] = listItemViewUI;

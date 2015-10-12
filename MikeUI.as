@@ -40,6 +40,8 @@ package
 		// 下方按钮列表内容
 		public var bbtns:Array = ['删除', '生成面板', '重建台面', '生成面板', '重建台面', '生成面板', '重建台面'];
 		
+		public var icons:Array = ["removeCb.png","remove.png","removeB.png","update.png","left.png","right.png","hideCb.png","off.png","house.png","pillar.png","addItem.png","set.png"]
+		
 		public var roomSizer:RoomSizer;
 		
 		public var pillarSizer:SquarePillarSizer;
@@ -72,8 +74,9 @@ package
 			}
 			
 			var realArr:Array = [];
+			
 			for (var i:int = 0;i < arr.length; i++) {
-				realArr.push({label:arr[i]});
+				realArr.push({label:arr[i],icon:"assets/icon/menus/"+icons[i]});
 			}
 			
 			mainUI.bottomBtns.array = realArr;
