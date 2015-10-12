@@ -33,7 +33,7 @@ package
 	
 	public class MainUI extends mainUI
 	{
-		
+		public static const  FontName:String= "造字工房悦黑(非商用)细体";
 		public static var ADDITEM_ADD:String = "additem_add";
 		public static var ADDITEM_REMOVE:String = "additem_remove";
 		public static var ADDITEM_SEARCH:String = "additem_search";
@@ -43,6 +43,7 @@ package
 		public var mainBtn:Box;
 		public var bottomBtns:List;
 		public var uiShow:Boolean = true;
+		
 		/**
 		 * 增项详情输入面板 
 		 */		
@@ -87,6 +88,7 @@ package
 			// bottomBtns
 			bottomBtns = getChildByName('bottomBtns') as List;
 			bottomBtns.mouseHandler = new Handler(bottomBtnsHandler);
+			
 			bottomBtns.visible = false;
 			addItemInfo = new Box;
 			addItemMenu = new Box;
@@ -286,6 +288,8 @@ package
 				label.y = (500-50)/2;
 				addItemMenu.addChild(label);
 				label.name = "noDataHint";
+				label.font = FontName;
+				label.embedFonts = true;
 			}
 			
 			isShowNoData = true;
@@ -322,6 +326,8 @@ package
 			title.color = 0xFFFFFF;
 			addItemMenu.addChild(title);
 			title.y = 20;
+			title.font = FontName;
+			title.embedFonts = true;
 			
 			var closeBtn:Button = new Button("png.comp.icon_close_large");
 			closeBtn.setSize(25,20);
@@ -358,6 +364,9 @@ package
 			
 			var addRenderItem:Button = new Button();
 			addRenderItem.label = "添加";
+			
+			addRenderItem.btnLabel.font = FontName;
+			addRenderItem.btnLabel.embedFonts = true;
 			addRenderItem.labelBold = true;
 			addRenderItem.setSize(110,30);
 			addRenderItem.labelColors="0xFFFFFF,0xFFFFFF,0xFFFFFF";
@@ -394,12 +403,20 @@ package
 			var hintInfo:Label = new Label(title);
 			hintInfo.size = 16;
 			hintInfo.align = "center";
-			hintInfo.setSize(300,30)
+			hintInfo.setSize(300,30);
+			hintInfo.font = FontName;
+			hintInfo.embedFonts = true;
 			hintInfo.color = 0xFFFFFF;
 			hintInfo.y = (150-30)/2-10;
 			group.addChild(hintInfo);
 			var okBtn:Button = new Button(null,"确认");
 			var cancelBtn:Button = new Button(null,"取消");
+			
+			okBtn.btnLabel.font = FontName;
+			cancelBtn.btnLabel.font = FontName;
+			okBtn.btnLabel.embedFonts = true;
+			cancelBtn.btnLabel.embedFonts = true;
+			
 			cancelBtn.setSize(80,30);
 			okBtn.setSize(80,30);
 			okBtn.labelSize = cancelBtn.labelSize = 16;
@@ -433,6 +450,8 @@ package
 			bg.graphics.endFill();
 			addItemInfo.addChild(bg);
 			var title:Label = new Label("增项");
+			title.font = FontName;
+			title.embedFonts = true;
 			title.size = 25;
 			title.setSize(400,50);
 			title.align = "center";
@@ -470,12 +489,16 @@ package
 			var closeBtn:Button = new Button();
 			closeBtn.setSize( 60,30);
 			closeBtn.label = "取消";
+			closeBtn.btnLabel.font = FontName;
+			closeBtn.btnLabel.embedFonts = true;
 			addItemInfo.addChild(closeBtn);
 			closeBtn.showBorder(0xFFFFFF);
 			
 			var okBtn:Button = new Button();
 			okBtn.setSize( 60,30);
 			okBtn.label = "确定";
+			okBtn.btnLabel.font = FontName;
+			okBtn.btnLabel.embedFonts = true;
 			
 			addItemInfo.addChild(okBtn);
 			okBtn.showBorder(0xFFFFFF);
@@ -540,6 +563,8 @@ package
 			var title:Label = new Label(titleStr);
 			title.size = 18;
 			title.color = 0xFFFFFF;
+			title.font = FontName;
+			title.embedFonts = true;
 			title.align = TextFormatAlign.RIGHT;
 			title.setSize(100,30);
 			title.x = 0;
@@ -550,6 +575,15 @@ package
 			format.align = "center";
 			format.size = 18;
 			format.color = 0xFFFFFF;
+			
+			
+			var formatLabel:TextFormat = new TextFormat();
+			formatLabel.align = "center";
+			formatLabel.size = 18;
+			formatLabel.color = 0xFFFFFF;
+			formatLabel.font = FontName;
+			
+			
 			if(type=="textInput")
 			{
 				var inputText:TextField = new TextField();
@@ -576,8 +610,10 @@ package
 				parentDisplay.addChild(label);
 				label.mouseEnabled = false;
 				lineW = label.width;
-				lineH = label.height
-				label.defaultTextFormat = format;
+				lineH = label.height;
+				label.embedFonts = true;
+				
+				label.defaultTextFormat = formatLabel;
 			}
 			
 			var line:Shape = new Shape;
@@ -606,6 +642,8 @@ package
 			addItemInfoChange.addChild(bg); 
 			addItemInfoChange.tag = new Object;
 			var title:Label = new Label("详情信息");
+			title.font = FontName;
+			title.embedFonts = true;
 			title.size = 25;
 			title.setSize(400,50);
 			title.align = "left";
@@ -630,13 +668,17 @@ package
 			var closeBtn:Button = new Button();
 			closeBtn.setSize( 60,30);
 			closeBtn.label = "取消";
+			closeBtn.btnLabel.font = FontName;
+			closeBtn.btnLabel.embedFonts = true;
 			addItemInfoChange.addChild(closeBtn);
 			closeBtn.showBorder(0xFFFFFF);
 			
 			var okBtn:Button = new Button();
 			okBtn.setSize( 60,30);
 			okBtn.label = "确定";
-			
+			okBtn.btnLabel.font = FontName;
+			okBtn.btnLabel.embedFonts = true;
+
 			addItemInfoChange.addChild(okBtn);
 			okBtn.showBorder(0xFFFFFF);
 			okBtn.x = 140;
@@ -651,6 +693,9 @@ package
 			addItemInfoChange.y = (stageHeight-addItemInfoChange.height)>>1;
 			
 			var changeBtn:Button = new Button(null,"修改");
+			changeBtn.btnLabel.font = FontName;
+			changeBtn.btnLabel.embedFonts = true;
+
 			changeBtn.setSize(50,20);
 			changeBtn.showBorder(0xFFFFFF);
 			changeBtn.labelColors = "0xFFFFFF,0xFFFFFF,0xFFFFFF";

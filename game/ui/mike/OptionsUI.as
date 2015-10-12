@@ -8,7 +8,6 @@ package game.ui.mike
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.FocusEvent;
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
@@ -24,6 +23,7 @@ package game.ui.mike
 	
 	public class OptionsUI extends Sprite
 	{
+		
 		public var options:Sprite;
 		public var stageWidth:Number;
 		public var stageHeight:Number;
@@ -59,9 +59,11 @@ package game.ui.mike
 			bg.graphics.drawRect(0,0,400,300);
 			bg.graphics.endFill();
 			options.addChild(bg); 
-			
+			//font="造字工房悦黑(非商用)细体" embedFonts="true"
 			var title:Label = new Label("参数配置");
 			title.size = 20;
+			title.font = MainUI.FontName;
+			title.embedFonts = true;
 			title.setSize(400,50);
 			title.align = "center";
 			title.color = 0xFFFFFF;
@@ -72,6 +74,8 @@ package game.ui.mike
 			
 			
 			var title1:Label = new Label("顶墙封板最大宽度：");
+			title1.font = MainUI.FontName;
+			title1.embedFonts = true;
 			title1.size = 18;
 			title1.color = 0xFFFFFF;
 			title1.align = TextFormatAlign.LEFT;
@@ -127,13 +131,16 @@ package game.ui.mike
 			var cancel:Button = new Button();
 			cancel.setSize( 60,30);
 			cancel.label = "取消";
+			cancel.btnLabel.font = MainUI.FontName;
+			cancel.btnLabel.embedFonts = true;
 			options.addChild(cancel);
 			cancel.showBorder(0xFFFFFF);
 			
 			var okBtn:Button = new Button();
 			okBtn.setSize( 60,30);
 			okBtn.label = "确定";
-			
+			okBtn.btnLabel.font = MainUI.FontName;
+			okBtn.btnLabel.embedFonts = true;
 			options.addChild(okBtn);
 			okBtn.showBorder(0xFFFFFF);
 			okBtn.x = 80;
