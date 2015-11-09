@@ -40,7 +40,7 @@ package
 		// 下方按钮列表内容
 		public var bbtns:Array = ['删除', '生成面板', '重建台面', '生成面板', '重建台面', '生成面板', '重建台面'];
 		
-		public var icons:Array = ["removeCb.png","remove.png","removeB.png","update.png","left.png","right.png","hideCb.png","off.png","house.png","pillar.png","addItem.png","set.png"]
+		public var icons:Array = ["removeCb.png","remove.png","removeB.png","left.png","right.png","update.png","hideCb.png","off.png","house.png","pillar.png","addItem.png","set.png"]
 		
 		public var roomSizer:RoomSizer;
 		
