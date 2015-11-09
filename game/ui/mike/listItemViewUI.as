@@ -4,9 +4,9 @@ package game.ui.mike {
 	public class listItemViewUI extends View {
 		protected static var uiXML:XML =
 			<View>
-			  <Image skin="png.comp.blank" x="0" y="0" width="240" height="96"/>
+			  <Image skin="png.comp.blank" x="0" y="0" width="240" height="96" smoothing="true"/>
 			  <Clip skin="png.comp.clip_selectBox" x="0" y="0" clipY="2" width="240" height="96" name="selectBox"/>
-			  <Image skin="png.comp.mike_cat" x="5" y="7" width="80" height="80" name="image"/>
+			  <Image skin="png.comp.mike_cat" x="5" y="7" width="80" height="80" name="image" smoothing="true"/>
 			  <Label text="名称:" x="92" y="3" color="0xffffff" font="造字工房悦黑(非商用)细体" embedFonts="true"/>
 			  <Label text="规格:" x="92" y="21" color="0xffffff" font="造字工房悦黑(非商用)细体" embedFonts="true"/>
 			  <Label text="价格:" x="92" y="39" color="0xffffff" width="31" height="19" font="造字工房悦黑(非商用)细体" embedFonts="true"/>
