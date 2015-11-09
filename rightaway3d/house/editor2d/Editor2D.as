@@ -1232,7 +1232,7 @@ package rightaway3d.house.editor2d
 					//this.cabinetCreator.addCabinet(po);
 					
 					var doorData:XML = CabinetTool.tool.getDoorData(po,null)[0];
-					ProductManager.own.addDynamicSubProduct(po,doorData);
+					if(doorData)ProductManager.own.addDynamicSubProduct(po,doorData);
 				}
 			}
 		}
@@ -1500,10 +1500,10 @@ package rightaway3d.house.editor2d
 			//trace("doorcolor:"+getDoorColor());
 			//clearAllCabinetObject();
 			//testAddItem();
-			trace(this.getProductList());
-			//trace(this.getOrderProductsData());
+			//trace(this.getProductList());
+			trace(this.getOrderProductsData());
 			//cabinetCreator.clearCabinetTalbes();
-			getOtherSnapshot(null);
+			//getOtherSnapshot(null);
 		}
 		
 		/**

@@ -23,32 +23,32 @@ package rightaway3d.house.editor2d
 	[SWF(backgroundColor="#E2E2E2", frameRate="30", width="1600", height="800")]
 	public class Mike extends Editor2D
 	{
-		[Embed(source="/../../../../bin/assets/yuehei.otf", fontName="造字工房悦黑(非商用)细体", fontStyle="normal", embedAsCFF="false", mimeType="application/x-font")]
+		[Embed(source="/../assets/yuehei.otf", fontName="造字工房悦黑(非商用)细体", fontStyle="normal", embedAsCFF="false", mimeType="application/x-font")]
 		static public var PDFYUEHEI : Class;
 		public static var instance:Mike;
 		
 		private var productManager:ProductManager = ProductManager.own;
 		
-		private var ui:MikeUI;
+		public var ui:MikeUI;
 		
 		private var subElecData:XML;//子产品电器数据源
 		
-		private const BTN_DELET_PRODUCT:String = "删除厨柜";
-		private const BTN_CLEAR_PRODUCT:String = "清空厨柜";
-		private const BTN_CLEAR_PLANK:String = "清除封板";
+		public const BTN_DELET_PRODUCT:String = "删除厨柜";
+		public const BTN_CLEAR_PRODUCT:String = "清空厨柜";
+		public const BTN_CLEAR_PLANK:String = "清除封板";
 		//private const BTN_CABINET_DOOR:String = "更新门板";
 		//private const BTN_LEG_BAFFLE:String = "清除踢脚板";
-		private const BTN_UPDATE_TABLE:String = "更新设计";
-		private const BTN_SWITCH_TABLE:String = "显隐台面";
-		private const BTN_ADD_ITEM:String = "增项管理";
-		private const BTN_OPTIONS:String = "参数配置";
-		private const BTN_ROOM_SIZER:String = "房间尺寸";
-		private const BTN_PILLAR_SIZER:String = "立柱尺寸";
+		public const BTN_UPDATE_TABLE:String = "更新设计";
+		public const BTN_SWITCH_TABLE:String = "显隐台面";
+		public const BTN_ADD_ITEM:String = "增项管理";
+		public const BTN_OPTIONS:String = "参数配置";
+		public const BTN_ROOM_SIZER:String = "房间尺寸";
+		public const BTN_PILLAR_SIZER:String = "立柱尺寸";
 		
-		private const BTN_LEFT_DOOR:String = "设左开门";
-		private const BTN_RIGHT_DOOR:String = "设右开门";
+		public const BTN_LEFT_DOOR:String = "设左开门";
+		public const BTN_RIGHT_DOOR:String = "设右开门";
 		
-		private const BTN_OPEN_DOOR:String = "开关厨门";
+		public const BTN_OPEN_DOOR:String = "开关厨门";
 		
 		public function Mike()
 		{
@@ -73,8 +73,9 @@ package rightaway3d.house.editor2d
 		 * @param e
 		 * 
 		 */		
-		private function init(e:Event=null):void
+		public function init(e:Event=null):void
 		{
+			trace("mike init");
 			if(e)this.removeEventListener(Event.ADDED_TO_STAGE,init);
 			Font.registerFont(PDFYUEHEI);
 //			graphics.beginFill(0xFFFF00);
@@ -95,9 +96,9 @@ package rightaway3d.house.editor2d
 				BTN_CLEAR_PRODUCT,
 				BTN_CLEAR_PLANK,
 				//BTN_LEG_BAFFLE,
-				BTN_UPDATE_TABLE,
 				BTN_LEFT_DOOR,
 				BTN_RIGHT_DOOR,
+				BTN_UPDATE_TABLE,
 				BTN_SWITCH_TABLE,
 				BTN_OPEN_DOOR,
 				BTN_ROOM_SIZER,
@@ -134,7 +135,7 @@ package rightaway3d.house.editor2d
 			}
 		}*/
 		
-		private function onBottomClick(lable:String):void
+		public function onBottomClick(lable:String):void
 		{
 			//trace("label:",lable);
 			switch(lable)
@@ -304,12 +305,6 @@ package rightaway3d.house.editor2d
 			}
 		}
 		
-		private function updateCabinetDoor():void
-		{
-			//cabinetCreator.clearAllSingleDoor();
-			TableBuilder.own.builderDoor();
-		}
-		
 		private function updateTable():void
 		{
 			var msg:String = TableBuilder.own.builderTable();
@@ -320,7 +315,7 @@ package rightaway3d.house.editor2d
 			}
 			else
 			{
-				updateCabinetDoor();
+				TableBuilder.own.builderDoor();
 			}
 		}
 		
@@ -379,7 +374,8 @@ package rightaway3d.house.editor2d
 				//trace(type,cate,name);return;
 				switch(cate)
 				{
-					case ListType.DRAINER://"drainer"://水盆地柜
+					case ListType.DRAINER:
+					case ListType.DRAINER_65:
 						var pname:String = ProductObjectName.DRAINER_CABINET;
 						var drainerCabinet:ProductObject = getProduct(pname);
 						
@@ -393,6 +389,7 @@ package rightaway3d.house.editor2d
 						break;
 					
 					case ListType.FLUE://灶台地柜
+					case ListType.FLUE_65:
 						pname = ProductObjectName.FLUE_CABINET;
 						var flueCabinet:ProductObject = getProduct(pname);
 						
@@ -421,9 +418,12 @@ package rightaway3d.house.editor2d
 						}
 						break;
 					
-					case ListType.ELEC://"elec"://电器地柜
-					case ListType.MIDDLE_ELEC://"middle_elec"://电器中高柜
-					case ListType.HEIGHT_ELEC://"height_elec"://电器高柜
+					case ListType.ELEC://电器地柜
+					case ListType.ELEC_65://电器地柜_65
+					case ListType.MIDDLE_ELEC://电器中高柜
+					case ListType.HEIGHT_ELEC://电器高柜
+					case ListType.MIDDLE_ELEC_65://电器中高柜_65
+					case ListType.HEIGHT_ELEC_65://电器高柜_65
 						subItem = item.sub_item;
 						p = createElecCabinet(subItem,id,file,width,height,depth);
 						if(!p)return;//如果产品未创建则返回
@@ -431,6 +431,7 @@ package rightaway3d.house.editor2d
 					
 					case ListType.CORNER://拐角柜
 					case ListType.CORNER_Z://窄拐角柜
+					case ListType.CORNER_65:
 						p = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,ProductObjectName.CORNER_CABINET,width,height,depth);
 						break;
 					
