@@ -80,7 +80,7 @@ package rightaway3d.house.editor2d
 			Font.registerFont(PDFYUEHEI);
 //			graphics.beginFill(0xFFFF00);
 //			graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight)
-			ui = new MikeUI();
+			ui = MikeUI.instance;//new MikeUI();
 			//trace("--------initMikeUI parent:",this.parent);
 			this.parent.addChild(ui);
 			
@@ -660,7 +660,7 @@ package rightaway3d.house.editor2d
 		private function followMoveProduct(po:ProductObject):void
 		{
 			var name:String = po.name;
-			trace("followMoveProduct:"+name);
+			//trace("followMoveProduct:"+name);
 			switch(name)
 			{
 				case ProductObjectName.DRAINER_CABINET://水盆柜拖动结束后，水盆要跟随移动

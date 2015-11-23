@@ -18,7 +18,7 @@ package
 	
 	public class MikeUI extends Sprite
 	{
-		public static var instance:MikeUI;
+		private static var _instance:MikeUI;
 		public var mainUI:MainUI;
 		
 		// 树选择Item的处理方法
@@ -51,17 +51,17 @@ package
 		
 		public function MikeUI()
 		{
-			if (!instance) {
-				instance = this;
-			}
 			addItemManager = new AddItemManager;
 			
 			CabinetLib.lib.addEventListener(Event.COMPLETE, function():void {
 				App.init(instance);
 				App.loader.loadAssets(['assets/comp.swf'], new Handler(uiLoadComplete));
 			});
-			
-			
+		}
+		
+		static public function get instance():MikeUI
+		{
+			return _instance ||= new MikeUI();
 		}
 		
 		/**
@@ -90,7 +90,9 @@ package
 		}
 		
 		
-		private function onStageResize(e:Event=null):void {
+		private function onStageResize(e:Event=null):void
+		{
+			if(!stage)return;
 			
 			if (mainUI) {
 				mainUI.stageWidth = stage.stageWidth;
