@@ -14,6 +14,8 @@ package
 	import flash.text.TextFormatAlign;
 	import flash.ui.Keyboard;
 	
+	import game.ui.AddItemRenderVO;
+	import game.ui.mike.AddItemIDMoreMenuUI;
 	import game.ui.mike.AddItemListUI;
 	import game.ui.mike.mainUI;
 	
@@ -475,16 +477,29 @@ package
 			(obj.productNumText as TextField).restrict = "0-9";
 			
 			addItemInfo.tag = obj;
-			var searchBtn:Button = new Button();
-			searchBtn.skin="png.comp.search";
-			searchBtn.scale = 0.6;
-			searchBtn.stateNum = 1;
-			searchBtn.name = "searchBtn";
-			addItemInfo.addChild(searchBtn);
-			searchBtn.x = 360;
-			searchBtn.y = 100-30;
-			searchBtn.buttonMode = true;
-			searchBtn.clickHandler = new Handler(searchFun);
+			var moreIDBtn:Button = new Button();
+			moreIDBtn.skin="png.comp.more";
+			moreIDBtn.scale = 0.7;
+			moreIDBtn.stateNum = 1;
+			moreIDBtn.name = "moreIDBtn";
+			addItemInfo.addChild(moreIDBtn);
+			moreIDBtn.x = 360;
+			moreIDBtn.y = 100-30;
+			moreIDBtn.buttonMode = true;
+			moreIDBtn.addEventListener(MouseEvent.CLICK,moreFun);
+			
+			
+			var moreTypeBtn:Button = new Button();
+			moreTypeBtn.skin="png.comp.more";
+			moreTypeBtn.scale = 0.7;
+			moreTypeBtn.stateNum = 1;
+			moreTypeBtn.name = "moreTypeBtn";
+			addItemInfo.addChild(moreTypeBtn);
+			moreTypeBtn.x = 360;
+			moreTypeBtn.y = 250-30;
+			moreTypeBtn.buttonMode = true;
+			moreTypeBtn.addEventListener(MouseEvent.CLICK,moreFun);
+			
 			
 			var closeBtn:Button = new Button();
 			closeBtn.setSize( 60,30);
@@ -664,6 +679,18 @@ package
 			(addItemInfoChange.tag.productNumText as TextField).addEventListener(Event.CHANGE,calculationItemInfoTotalPricesChangePanel);
 			(addItemInfoChange.tag.productNumText as TextField).restrict = "0-9";
 			
+			
+			
+			var moreTypeBtn:Button = new Button();
+			moreTypeBtn.skin="png.comp.more";
+			moreTypeBtn.scale = 0.7;
+			moreTypeBtn.stateNum = 1;
+			moreTypeBtn.name = "moreTypeBtn_change";
+			addItemInfoChange.addChild(moreTypeBtn);
+			moreTypeBtn.x = 360;
+			moreTypeBtn.y = 200;
+			moreTypeBtn.buttonMode = true;
+			moreTypeBtn.addEventListener(MouseEvent.CLICK,moreFun);
 			
 			var closeBtn:Button = new Button();
 			closeBtn.setSize( 60,30);
@@ -1043,16 +1070,87 @@ package
 			
 		}
 		/**
-		 *搜索 
+		 *更多 
 		 * 
 		 */		
-		private function searchFun():void
+		
+		private var addItemIDMoreUI :AddItemIDMoreMenuUI;
+		private function moreFun(e:MouseEvent):void
 		{
 			// TODO Auto Generated method stub
-			var ID:String = addItemInfo.tag.productIDText.text;
-			sendEvent(ADDITEM_SEARCH,ID);
+			
+			if(!addItemIDMoreUI)
+			{
+				addItemIDMoreUI  = new AddItemIDMoreMenuUI();
+				addItemIDMoreUI.addEventListener(AddItemIDMoreMenuUI.UPDATE_ADDITEM,updateAddItemInfoByMoreUI);
+				addItemIDMoreUI.addEventListener(AddItemIDMoreMenuUI.CLOSE_ADDITEM,closeAddItemInfoMoreUI);
+			}
+			trace(e.currentTarget.name)
+			if(e.currentTarget.name=="moreIDBtn")
+			{
+				addItemInfo.alpha = 0.1;
+				addItemIDMoreUI.state="ID";
+			}else if(e.currentTarget.name=="moreTypeBtn")
+			{
+				addItemInfo.alpha = 0.1;
+				addItemIDMoreUI.state="Type";
+			}else
+			{
+				addItemInfoChange.alpha = 0.1;
+				addItemIDMoreUI.state="Type_Change";
+			}
+			addItemIDMoreUI.initData();
+			addChild(addItemIDMoreUI);
+			addItemIDMoreUI.x = (stageWidth-addItemIDMoreUI.width)>>1;
+			addItemIDMoreUI.y = (stageHeight-addItemIDMoreUI.height)>>1;
+			trace(addItemIDMoreUI.height)
+			
+			
+
 		}
 		
+		
+		
+		protected function closeAddItemInfoMoreUI(event:Event):void
+		{
+			if(addItemIDMoreUI.state=="ID"||addItemIDMoreUI.state=="Type")
+			{
+				addItemInfo.alpha = 1;
+			}else
+			{
+				addItemInfoChange.alpha = 1;
+			}
+						
+		}
+		
+		protected function updateAddItemInfoByMoreUI(event:Event):void
+		{
+			var infoTexts:Object ;
+			if(addItemIDMoreUI.state=="ID")
+			{
+				
+			infoTexts = addItemInfo.tag;
+			
+			var chooseInfo:AddItemRenderVO = addItemIDMoreUI.product;
+			infoTexts.productIDText.text = chooseInfo.productID;
+			infoTexts.productNameText.text = chooseInfo.productName;
+			infoTexts.productSpecText.text= chooseInfo.productSpec;
+			infoTexts.productModelText.text= chooseInfo.productType;
+			infoTexts.productNumText.text = chooseInfo.productNum;
+			infoTexts.productUnitText.text =chooseInfo.productUnit;
+			infoTexts.productPriceText.text = chooseInfo.productPrice;
+			infoTexts.productTotalPricesText.text = parseFloat(chooseInfo.productPrice)*parseFloat(chooseInfo.productNum) + " 元";;
+			}else if(addItemIDMoreUI.state=="Type")
+			{
+				infoTexts = addItemInfo.tag;
+				infoTexts.productModelText.text = addItemIDMoreUI.productType;
+			}else
+			{
+				infoTexts = addItemInfoChange.tag;
+				infoTexts.productModelText.text = addItemIDMoreUI.productType;
+			}
+			
+		}		
 		
 		
 		public function resizeContent():void
@@ -1072,7 +1170,11 @@ package
 				bg.height = stageHeight;
 			}
 			
-			
+			if(addItemIDMoreUI)
+			{
+				addItemIDMoreUI.x = (stageWidth-addItemIDMoreUI.width)>>1;
+				addItemIDMoreUI.y = (stageHeight-addItemIDMoreUI.height)>>1;
+			}
 			
 		}
 		

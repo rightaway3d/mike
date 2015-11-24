@@ -9,9 +9,10 @@ package game.ui
 		public var productID:String ="";
 		public var productName:String = "";
 		public var productSpec:String = "";
-		public var productNum:String = "";
+		public var productType:String ="";
+		public var productNum:String = "1";
 		public var productUnit:String = "";
-		public var productPrice:String ="";
+		public var productPrice:String ="0";
 		public var productTotalPrices:String= "";
 	}
 }
