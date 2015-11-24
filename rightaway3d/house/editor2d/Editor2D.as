@@ -227,7 +227,7 @@ package rightaway3d.house.editor2d
 			
 			MaterialLibrary.instance.addEventListener(Event.COMPLETE,onMaterialLibraryLoaded);
 			
-			var cabinetLib:CabinetLib = CabinetLib.lib;
+			//var cabinetLib:CabinetLib = CabinetLib.lib;
 			
 			this.stage.addEventListener(Event.ACTIVATE,onActive);
 			this.stage.addEventListener(Event.DEACTIVATE,onDeactive);
