@@ -32,9 +32,9 @@ package game.ui.mike
 		private var oldText:String="";
 		private var bgMax:Sprite ;
 		
-		private var inputTextValue:String;
+		//private var inputTextValue:String;
 		
-		
+		private var gconfig:GlobalConfig = GlobalConfig.instance;
 		
 		public function OptionsUI()
 		{
@@ -43,7 +43,7 @@ package game.ui.mike
 		
 		private function init():void
 		{
-			inputTextValue = GlobalConfig.instance.wallPlateWidth.toString();
+			//inputTextValue = GlobalConfig.instance.wallPlateWidth.toString();
 			options = new Sprite();
 			bgMax = new Sprite();
 			bgMax.graphics.beginFill(0x0,0.3);
@@ -94,7 +94,7 @@ package game.ui.mike
 			inputText.x = 180;
 			inputText.y = 65;
 			inputText.restrict ="0-9";
-			inputText.text = inputTextValue;//GlobalConfig.instance.wallPlateWidth.toString();;
+			inputText.text = String(gconfig.wallPlateWidth);//inputTextValue;//GlobalConfig.instance.wallPlateWidth.toString();;
 			//inputText.tabEnabled = true;
 			inputText.name = "inputText";
 			options.addChild(inputText);
@@ -143,6 +143,7 @@ package game.ui.mike
 			title1.setSize(40,30);
 			title1.x = 40;
 			title1.y = 137;
+			
 			var inputText:TextField = new TextField();
 			inputText.defaultTextFormat = format;
 			inputText.type = TextFieldType.INPUT;
@@ -151,10 +152,11 @@ package game.ui.mike
 			inputText.x = title1.x+title1.width+5;
 			inputText.y = 140;
 			inputText.restrict ="0-9";
-			inputText.text = inputTextValue;
+			inputText.text = String(gconfig.drainerHoleWidth);
 			inputText.name = "birdbathText1";
 			options.addChild(inputText);
-			inputText.addEventListener(Event.CHANGE,onTextInputChange);
+			//inputText.addEventListener(Event.CHANGE,onTextInputChange);
+			
 			var lineW:int = inputText.width;
 			var lineH:int = inputText.height+125;
 			var line:Shape = new Shape;
@@ -175,6 +177,7 @@ package game.ui.mike
 			title2.setSize(40,30);
 			title2.x = inputText.x+inputText.width+15;
 			title2.y = 137;
+			
 			var inputText2:TextField = new TextField();
 			inputText2.defaultTextFormat = format;
 			inputText2.type = TextFieldType.INPUT;
@@ -183,10 +186,11 @@ package game.ui.mike
 			inputText2.x = title2.x+title2.width+5;
 			inputText2.y = 140;
 			inputText2.restrict ="0-9";
-			inputText2.text = inputTextValue;
+			inputText2.text = String(gconfig.drainerHoleDepth);
 			inputText2.name = "birdbathText2";
 			options.addChild(inputText2);
-			inputText2.addEventListener(Event.CHANGE,onTextInputChange);
+			//inputText2.addEventListener(Event.CHANGE,onTextInputChange);
+			
 			var lineW2:int = inputText.width;
 			var lineH2:int = inputText.height+125;
 			line.graphics.moveTo(title2.x+title2.width+5,lineH2+3);
@@ -203,6 +207,7 @@ package game.ui.mike
 			title3.setSize(70,30);
 			title3.x = inputText2.x+inputText2.width+15;
 			title3.y = 137;
+			
 			var inputText3:TextField = new TextField();
 			inputText3.defaultTextFormat = format;
 			inputText3.type = TextFieldType.INPUT;
@@ -211,10 +216,11 @@ package game.ui.mike
 			inputText3.x = title3.x+title3.width+5;
 			inputText3.y = 140;
 			inputText3.restrict ="0-9";
-			inputText3.text = inputTextValue;
+			inputText3.text = String(gconfig.drainerHoleRadius);
 			inputText3.name = "birdbathText3";
 			options.addChild(inputText3);
-			inputText3.addEventListener(Event.CHANGE,onTextInputChange);
+			//inputText3.addEventListener(Event.CHANGE,onTextInputChange);
+			
 			var lineW3:int = inputText.width;
 			var lineH3:int = inputText.height+125;
 			line.graphics.moveTo(title3.x+title3.width+5,lineH3+3);
@@ -258,10 +264,10 @@ package game.ui.mike
 			inputText.x = title1.x+title1.width+5;
 			inputText.y = 210;
 			inputText.restrict ="0-9";
-			inputText.text = inputTextValue;
+			inputText.text = String(gconfig.flueHoleWidth);
 			inputText.name = "stoveText1";
 			options.addChild(inputText);
-			inputText.addEventListener(Event.CHANGE,onTextInputChange);
+			//inputText.addEventListener(Event.CHANGE,onTextInputChange);
 			var lineW:int = inputText.width;
 			var lineH:int = inputText.height+195;
 			var line:Shape = new Shape;
@@ -290,10 +296,10 @@ package game.ui.mike
 			inputText2.x = title2.x+title2.width+5;
 			inputText2.y = 210;
 			inputText2.restrict ="0-9";
-			inputText2.text = inputTextValue;
+			inputText2.text = String(gconfig.flueHoleDepth);
 			inputText2.name = "stoveText2";
 			options.addChild(inputText2);
-			inputText2.addEventListener(Event.CHANGE,onTextInputChange);
+			//inputText2.addEventListener(Event.CHANGE,onTextInputChange);
 			var lineW2:int = inputText.width;
 			var lineH2:int = inputText.height+195;
 			line.graphics.moveTo(title2.x+title2.width+5,lineH2+3);
@@ -318,10 +324,10 @@ package game.ui.mike
 			inputText3.x = title3.x+title3.width+5;
 			inputText3.y = 210;
 			inputText3.restrict ="0-9";
-			inputText3.text = inputTextValue;
+			inputText3.text = String(gconfig.flueHoleRadius);
 			inputText3.name = "stoveText3";
 			options.addChild(inputText3);
-			inputText3.addEventListener(Event.CHANGE,onTextInputChange);
+			//inputText3.addEventListener(Event.CHANGE,onTextInputChange);
 			var lineW3:int = inputText.width;
 			var lineH3:int = inputText.height+195;
 			line.graphics.moveTo(title3.x+title3.width+5,lineH3+3);
@@ -404,27 +410,42 @@ package game.ui.mike
 				Tips.show("顶墙封板最大宽度不能小于100",stage.mouseX,stage.mouseY);
 			}else
 			{
-				if(inputTextValue != text)
+				gconfig.wallPlateWidth = wallPlateWidth;
+				/*if(inputTextValue != text)
 				{
 					GlobalConfig.instance.wallPlateWidth =wallPlateWidth;
 					inputTextValue = text;
-				}
+				}*/
 				optionsCloseClick();
 			}
 			
 			if((options.getChildByName("birdbathCheckBox") as CheckBox).selected)
 			{
-				var birdbathText1:String = (options.getChildByName("birdbathText1") as TextField).text;
-				var birdbathText2:String = (options.getChildByName("birdbathText2") as TextField).text;
-				var birdbathText3:String = (options.getChildByName("birdbathText3") as TextField).text;
-				
+				var w:int = int((options.getChildByName("birdbathText1") as TextField).text);
+				var d:int = int((options.getChildByName("birdbathText2") as TextField).text);
+				var r:int = int((options.getChildByName("birdbathText3") as TextField).text);
 			}
+			else
+			{
+				w = 0;
+				d = 0;
+				r = 0;
+			}
+			GlobalConfig.instance.setDrainerHoleData(w,d,r);
+			
 			if((options.getChildByName("stoveCheckBox") as CheckBox).selected)
 			{
-				var stoveText1:String = (options.getChildByName("stoveText1") as TextField).text;
-				var stoveText2:String = (options.getChildByName("stoveText2") as TextField).text;
-				var stoveText3:String = (options.getChildByName("stoveText3") as TextField).text;
+				w = int((options.getChildByName("stoveText1") as TextField).text);
+				d = int((options.getChildByName("stoveText2") as TextField).text);
+				r = int((options.getChildByName("stoveText3") as TextField).text);
 			}
+			else
+			{
+				w = 0;
+				d = 0;
+				r = 0;
+			}
+			GlobalConfig.instance.setFlueHoleData(w,d,r);
 		}
 		
 		private function optionsCloseClick():void
@@ -500,9 +521,15 @@ package game.ui.mike
 			{
 			}
 			parent.addChild(this);
-			(options.getChildByName("inputText") as TextField).text = inputTextValue;
+			TextField(options.getChildByName("inputText")).text = String(gconfig.wallPlateWidth);
 			//			options.getChildByName("hint").visible =false;
 			
+			TextField(options.getChildByName("birdbathText1")).text = String(gconfig.drainerHoleWidth);
+			TextField(options.getChildByName("birdbathText2")).text = String(gconfig.drainerHoleDepth);
+			TextField(options.getChildByName("birdbathText3")).text = String(gconfig.drainerHoleRadius);
+			TextField(options.getChildByName("stoveText1")).text = String(gconfig.flueHoleWidth);
+			TextField(options.getChildByName("stoveText2")).text = String(gconfig.flueHoleDepth);
+			TextField(options.getChildByName("stoveText3")).text = String(gconfig.flueHoleRadius);
 			
 			options.x =(stageWidth-options.width)>>1
 			options.y =(stageHeight-options.height)>>1
