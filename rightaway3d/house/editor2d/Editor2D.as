@@ -92,7 +92,7 @@ package rightaway3d.house.editor2d
 		
 		protected var house:House = House.getInstance();
 		
-		static private const version:String = "2015091601";
+		static private const version:String = "2015112601";
 		
 		public function Editor2D()
 		{
