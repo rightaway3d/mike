@@ -785,11 +785,12 @@ package rightaway3d.house.editor2d
 		 * @param yPos
 		 * 
 		 */
-		public function createCabinet(infoID:int,fileURL:String,yPos:uint,name:String,width:int,height:int,depth:int):ProductObject
+		public function createCabinet(infoID:int,fileURL:String,yPos:int,name:String,width:int,height:int,depth:int,zPos:int=0):ProductObject
 		{
+			//trace("zPos:"+zPos);
 			//CustomizeProduct2D.distToWall = yPos>0?0:50;
 			scene3d.engineManager.autoDrag = scene3d.visible;//在3D场景时，可拖动产品
-			var p2d:Product2D = cabinetCtr.createCabinet(infoID,fileURL,width,height,depth,"text",null,-1,yPos,name,container2d.visible);
+			var p2d:Product2D = cabinetCtr.createCabinet(infoID,fileURL,width,height,depth,"text",null,-1,yPos,zPos,name,container2d.visible);
 			return p2d.vo;
 		}
 		
@@ -1331,7 +1332,7 @@ package rightaway3d.house.editor2d
 			
 			s = sceneParser.encodeString(s);
 			trace("data length:"+s.length);
-			trace(s);
+			Log.log(s);
 			
 			//clearScene();
 			
@@ -2006,11 +2007,11 @@ package rightaway3d.house.editor2d
 					break;
 				
 				case Keyboard.NUMBER_6:
-					cabinetCtr.createCabinet(502,"cabinet_502_400x720x570.pdt",400,720,550,"text",null,-1,CrossWall.IGNORE_OBJECT_HEIGHT,"",true);
+					cabinetCtr.createCabinet(502,"cabinet_502_400x720x570.pdt",400,720,550,"text",null,-1,CrossWall.IGNORE_OBJECT_HEIGHT,0,"",true);
 					break;
 				
 				case Keyboard.NUMBER_7:
-					cabinetCtr.createCabinet(606,"cabinet_606_800x720x330.pdt",800,720,550,"text",null,-1,CrossWall.WALL_OBJECT_HEIGHT,"",true);
+					cabinetCtr.createCabinet(606,"cabinet_606_800x720x330.pdt",800,720,550,"text",null,-1,CrossWall.WALL_OBJECT_HEIGHT,0,"",true);
 					break;
 				
 				case Keyboard.NUMBER_8:

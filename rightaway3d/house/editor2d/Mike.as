@@ -435,6 +435,11 @@ package rightaway3d.house.editor2d
 						p = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,ProductObjectName.CORNER_CABINET,width,height,depth);
 						break;
 					
+					case ListType.SINGLE_DOOR_B://窄柜
+					case ListType.DOUBLE_DOOR_B:
+						p = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,ProductObjectName.CORNER_CABINET,width,height,depth,220);
+						break;
+					
 					default:
 						p = this.createCabinet(id,file,CrossWall.IGNORE_OBJECT_HEIGHT,name,width,height,depth);
 						break;
@@ -577,7 +582,8 @@ package rightaway3d.house.editor2d
 		
 		private function updateProduct(p:ProductObject):void
 		{
-			this.cabinetCtr.setProductPos(p,null,house.x,p.objectInfo.y,house.z);
+			var wo:WallObject = p.objectInfo;
+			this.cabinetCtr.setProductPos(p,wo.crossWall,house.x,p.objectInfo.y,wo.crossWall?wo.z:house.z);
 		}
 		
 		//创建电器柜
