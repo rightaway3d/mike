@@ -33,6 +33,7 @@ package rightaway3d.house.editor2d
 	import rightaway3d.house.lib.CabinetTool;
 	import rightaway3d.house.view2d.BackGrid2D;
 	import rightaway3d.house.view2d.Base2D;
+	import rightaway3d.house.view2d.CabinetTable2D;
 	import rightaway3d.house.view2d.NodeController2D;
 	import rightaway3d.house.view2d.Product2D;
 	import rightaway3d.house.view2d.RoomMap2D;
@@ -66,6 +67,8 @@ package rightaway3d.house.editor2d
 		//protected var wallFaceContainer:Sprite;
 		
 		protected var wallFaceViewer:WallFaceViewer;
+		
+		protected var cabinetTable2D:CabinetTable2D;
 		
 		protected var scene3d:Scene3D;
 		
@@ -164,10 +167,14 @@ package rightaway3d.house.editor2d
 			container2d.addChild(wallFaceViewer);
 			wallFaceViewer.visible = false;
 			
+			cabinetTable2D = new CabinetTable2D();
+			container2d.addChild(cabinetTable2D);
+			cabinetTable2D.visible = false;
+			
 			windCtr.scene = scene2d;
 			
 			cabinetCtr.scene = scene2d;
-			cabinetCtr.sceneController = sceneCtr;
+			//cabinetCtr.sceneController = sceneCtr;
 			
 			ruler = new ScaleRuler2D();
 			container2d.addChild(ruler);
@@ -484,9 +491,21 @@ package rightaway3d.house.editor2d
 			}
 			
 			//trace(container2d.x,container2d.y);
-			wallFaceViewer.visible = wallFaceViewer.update();
+			var value:Boolean = wallFaceViewer.update();
+			wallFaceViewer.visible = value;
+			cabinetTable2D.visible = !value;
+			if(!value)
+			{
+				value = cabinetTable2D.update();
+				cabinetTable2D.visible = value;
+			}
+			if(!value)
+			{
+				wallFaceViewer.reset();
+				cabinetTable2D.reset();
+			}
 			
-			scene2d.visible = ruler.visible = !wallFaceViewer.visible;
+			scene2d.visible = ruler.visible = !value;
 			//trace("scene2d.visible,wallFaceContainer.visible:",scene2d.visible,wallFaceViewer.visible);
 		}
 		
@@ -1523,7 +1542,7 @@ package rightaway3d.house.editor2d
 		 */
 		public function getProductList():String
 		{
-			//return cabinetCreator.getProductList();
+			//return cabinetCreator.getProductList2();
 			return cabinetCreator.getCabinetList();
 		}
 		
@@ -1608,7 +1627,7 @@ package rightaway3d.house.editor2d
 		 * @return 返回当前平面图的位图数据
 		 * 
 		 */
-		public function get2DSnapshot(getPics:Function=null,picType:String="jpg",w:int=1000,h:int=1000):BitmapData
+		public function get2DSnapshot(getPics:Function=null,picType:String="jpg",w:int=1200,h:int=1200):BitmapData
 		{
 			scene2d.visible = true;
 			wallFaceViewer.visible = false;
@@ -1710,8 +1729,8 @@ package rightaway3d.house.editor2d
 		{
 			sceneCtr.fitScreen(false,0.8);
 			
-			var vw:Number = sceneCtr.viewWidth;
-			var vh:Number = sceneCtr.viewHeight;
+			var vw:Number = Scene2D.viewWidth;
+			var vh:Number = Scene2D.viewHeight;
 			var sx:Number = 1,sy:Number = 1;
 			var dw:int,dh:int;
 			
@@ -1752,7 +1771,7 @@ package rightaway3d.house.editor2d
 			return bmd;
 		}
 		
-		public function get3DSnapshot(w:int=800,h:int=600):BitmapData
+		public function get3DSnapshot(w:int=1200,h:int=1200):BitmapData
 		{
 			return this.scene3d.engine3d.getSnapshot(w,h);
 		}
@@ -1834,7 +1853,7 @@ package rightaway3d.house.editor2d
 		
 		private function getImageData(showRoomMap:Boolean):void
 		{
-			var bmd:BitmapData  = getSnapshot(1000,1000,showRoomMap);
+			var bmd:BitmapData  = getSnapshot(1200,1200,showRoomMap);
 			var data:ByteArray = BMP.encodeBitmap(bmd,otherPicType);
 			pics.push(data);
 			get2DSnapshots();
