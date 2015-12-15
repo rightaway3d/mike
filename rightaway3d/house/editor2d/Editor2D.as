@@ -1184,13 +1184,11 @@ package rightaway3d.house.editor2d
 						cabinetCreator.setCookerProduct(drainerCabinet.objectInfo.crossWall,drainerCabinet,po,false);//更新水盆位置信息
 						
 						po.name = ProductObjectName.DRAINER;
-						this.cabinetCreator.drainerProduct = po;
 						this.cabinetCreator.updateCabinetTable();
 					}
 					else if(type==CabinetType.FLUE)
 					{
 						po.name = ProductObjectName.FLUE;
-						this.cabinetCreator.flueProduct = po;
 					}
 					else if(type==CabinetType.BODY)
 					{
@@ -1430,7 +1428,7 @@ package rightaway3d.house.editor2d
 			this.addChild(bmp);
 		}
 		
-		private function testTips():void
+		/*private function testTips():void
 		{
 			var s1:String = "测试测试";
 			var s2:String = "测试测试测试测试";
@@ -1444,7 +1442,7 @@ package rightaway3d.house.editor2d
 			Tips.show(s4,100,250,6000);
 			Tips.show(s5,100,300,7000);
 			Tips.show(s6,100,350,8000);
-		}
+		}*/
 		
 		private var tempNum:int = 1;
 		private function testAddItem():void
@@ -1521,9 +1519,14 @@ package rightaway3d.house.editor2d
 			//clearAllCabinetObject();
 			//testAddItem();
 			//trace(this.getProductList());
-			trace(this.getOrderProductsData());
+			//trace(this.getOrderProductsData());
 			//cabinetCreator.clearCabinetTalbes();
-			//getOtherSnapshot(null);
+			getOtherSnapshot(null);
+			//var a:Array = ProductManager.own.getRootProductsByName(ProductObjectName.ROOM_SQUARE_PILLAR);
+			//trace(a);
+			
+			//a = ProductManager.own.getRootProductsByName(ProductObjectName.ROOM_CIRCULAR_COLUMN);
+			//trace(a);
 		}
 		
 		/**
@@ -1571,7 +1574,7 @@ package rightaway3d.house.editor2d
 			return cabinetCreator.getTotalPrice();
 		}
 		
-		private function testDynamicSubProduct():void
+		/*private function testDynamicSubProduct():void
 		{
 			trace("testDynamicSubProduct");
 			var xml:XML = <item>
@@ -1604,16 +1607,16 @@ package rightaway3d.house.editor2d
 			{
 				ProductManager.own.addDynamicSubProduct(gv.currProduct,xml2);
 			}
-		}
+		}*/
 		
-		private function testLogin():void
+		/*private function testLogin():void
 		{
 			var user:User = User.own;
 			//user.addEventListener("login",onUserLogin);//用户登陆成功事件
 			//user.addEventListener("logout",onUserLogout);//用户注销事件（调用user.isLogin = false即触发此事件）
 			//user.addEventListener("error",onUserLoginError);//登陆失败或调用接口失败都会触发此事件，user.errorMsg属性描述了此事件的原因
 			user.login("yuqiang@enet360.com","111111");
-		}
+		}*/
 		
 		private var getOtherPics:Function;
 		private var otherPicType:String;
@@ -1629,6 +1632,8 @@ package rightaway3d.house.editor2d
 		 */
 		public function get2DSnapshot(getPics:Function=null,picType:String="jpg",w:int=1200,h:int=1200):BitmapData
 		{
+			setPrintColor();
+			
 			scene2d.visible = true;
 			wallFaceViewer.visible = false;
 			
@@ -1652,6 +1657,8 @@ package rightaway3d.house.editor2d
 			{
 				getOtherSnapshot(getPics,picType);
 			}
+			
+			setShowColor();
 			
 			return bmd;
 		}
@@ -1721,6 +1728,8 @@ package rightaway3d.house.editor2d
 			BackGrid2D.backgroundColor = 0xcccccc;
 			BackGrid2D.backgroundAlpha = this.parent==stage?1:0;
 			scene2d.backGrid.updateView();
+			
+			if(sceneCtr)sceneCtr.updateView(Scene2D.viewWidth,Scene2D.viewHeight);
 			
 			this.windCtr.updateAllWindoor(WinDoor2D.lineColor);
 		}
@@ -1829,9 +1838,18 @@ package rightaway3d.house.editor2d
 				
 				getImageData(false);
 			}
+			else if(cabinetTable2D.update())
+			{
+				cabinetTable2D.visible = true;
+				//scene2d.visible = false;
+				wallFaceViewer.visible = false;
+				
+				getImageData(false);
+			}
 			else
 			{
 				setShowColor();
+				
 				roomMap.setMapName("");
 				
 				if(scene2d.house.currFloor)scene2d.house.currFloor.wallAreaSelector.visible = true;
@@ -1840,6 +1858,10 @@ package rightaway3d.house.editor2d
 				
 				scene2d.visible = true;
 				wallFaceViewer.visible = false;
+				cabinetTable2D.visible = false;
+				
+				wallFaceViewer.reset();
+				cabinetTable2D.reset();
 				
 				this.ruler.visible = true;
 				this.roomMap.visible = false;
@@ -1859,7 +1881,7 @@ package rightaway3d.house.editor2d
 			get2DSnapshots();
 		}
 		
-		private function uploadTest():void
+		/*private function uploadTest():void
 		{
 			var bmd:BitmapData  = get2DSnapshot();
 			var data:ByteArray = BMP.encodeBitmap(bmd,"png");
@@ -1870,7 +1892,7 @@ package rightaway3d.house.editor2d
 		private function onUploaded(result:*):void
 		{
 			trace("onUploaded:"+result);
-		}
+		}*/
 		
 		//=========================================================================================================================
 		/**
@@ -2065,6 +2087,10 @@ package rightaway3d.house.editor2d
 					break;
 				
 				case Keyboard.W:
+					this.createRoomCircularColumn(100,0xcccccc,100);
+					break;
+				
+				case Keyboard.E:
 					cabinetCtr.createHorizontalTube(50,1000,0xff8080,200,10);
 					break;
 				

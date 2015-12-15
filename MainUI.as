@@ -1144,6 +1144,7 @@ package
 			{
 				infoTexts = addItemInfo.tag;
 				infoTexts.productModelText.text = addItemIDMoreUI.productType;
+				infoTexts.productIDText.text = "00000000B";
 			}else
 			{
 				infoTexts = addItemInfoChange.tag;
