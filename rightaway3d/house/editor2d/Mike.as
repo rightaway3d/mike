@@ -33,6 +33,8 @@ package rightaway3d.house.editor2d
 		
 		private var subElecData:XML;//子产品电器数据源
 		
+		//清空厨柜时，顶线还在，部分标注还在，无法拖入新柜子
+		
 		public const BTN_DELET_PRODUCT:String = "删除厨柜";
 		public const BTN_CLEAR_PRODUCT:String = "清空厨柜";
 		public const BTN_CLEAR_PLANK:String = "清除封板";

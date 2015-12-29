@@ -16,7 +16,6 @@ package rightaway3d.house.editor2d
 	import flash.utils.ByteArray;
 	import flash.utils.setTimeout;
 	
-	import rightaway3d.URLTool;
 	import rightaway3d.engine.model.ModelObject;
 	import rightaway3d.engine.product.ProductInfo;
 	import rightaway3d.engine.product.ProductManager;
@@ -47,7 +46,6 @@ package rightaway3d.house.editor2d
 	import rightaway3d.house.vo.House;
 	import rightaway3d.house.vo.WallHole;
 	import rightaway3d.house.vo.WallObject;
-	import rightaway3d.user.User;
 	import rightaway3d.utils.Log;
 	import rightaway3d.utils.MyTextField;
 	
@@ -1521,13 +1519,23 @@ package rightaway3d.house.editor2d
 			//trace(this.getProductList());
 			//trace(this.getOrderProductsData());
 			//cabinetCreator.clearCabinetTalbes();
-			getOtherSnapshot(null);
+			//getOtherSnapshot(null);
 			//var a:Array = ProductManager.own.getRootProductsByName(ProductObjectName.ROOM_SQUARE_PILLAR);
 			//trace(a);
 			
 			//a = ProductManager.own.getRootProductsByName(ProductObjectName.ROOM_CIRCULAR_COLUMN);
 			//trace(a);
+			//testTile();
 		}
+		
+		/*private function testTile():void
+		{
+			var bd:BitmapData = this.get2DSnapshot();
+			bd = BMP.scaleBmpData(bd,400,400);
+			bd = BMP.tileBmpData(bd,700,700);
+			var bmp:Bitmap = new Bitmap(bd);
+			stage.addChild(bmp);
+		}*/
 		
 		/**
 		 * 获取订单列表的JSON格式数据
