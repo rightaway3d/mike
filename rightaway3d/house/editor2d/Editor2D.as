@@ -16,6 +16,7 @@ package rightaway3d.house.editor2d
 	import flash.utils.ByteArray;
 	import flash.utils.setTimeout;
 	
+	import rightaway3d.engine.core.Engine3D;
 	import rightaway3d.engine.model.ModelObject;
 	import rightaway3d.engine.product.ProductInfo;
 	import rightaway3d.engine.product.ProductManager;
@@ -240,7 +241,10 @@ package rightaway3d.house.editor2d
 		
 		protected function onDeactive(event:Event):void
 		{
-			this.scene3d.engine3d.stopRender();
+			if(this.scene3d.visible)
+			{
+				this.scene3d.engine3d.stopRender();
+			}
 		}
 		
 		protected function onActive(event:Event):void
@@ -262,6 +266,7 @@ package rightaway3d.house.editor2d
 			setCabinetTableMaterial(RenderUtils.getDefaultMaterial("table"));
 			setCabinetDoorMaterial(null,RenderUtils.getDefaultMaterial("cabinetDoor"),"all");
 			setCabinetBodyMaterial(RenderUtils.getDefaultMaterial('cabinetBody'));
+			cabinetCreator.setLvboDefaultMaterial(RenderUtils.getDefaultMaterial('lvbo'));
 			
 			GlobalEvent.event.dispatchMaterialLibCompleteEvent();
 			
@@ -1519,7 +1524,7 @@ package rightaway3d.house.editor2d
 			//trace(this.getProductList());
 			//trace(this.getOrderProductsData());
 			//cabinetCreator.clearCabinetTalbes();
-			//getOtherSnapshot(null);
+			getOtherSnapshot(null);
 			//var a:Array = ProductManager.own.getRootProductsByName(ProductObjectName.ROOM_SQUARE_PILLAR);
 			//trace(a);
 			
@@ -1691,6 +1696,19 @@ package rightaway3d.house.editor2d
 			pics.length = 0;//清空当前截图
 			isTestSnapshot = !Boolean(getPics);
 			
+			scene3dVisible = scene3d.visible;
+			
+			if(isTestSnapshot)
+			{
+				container2d.visible = true;
+				scene3d.visible = false;
+				scene3d.engine3d.stopRender();
+			}
+			
+			wallFaceViewer.reset();
+			cabinetTable2D.reset();
+			scene3d.reset(house);
+			
 			get2DSnapshots();//开始创建其它截图
 		}
 		
@@ -1790,12 +1808,24 @@ package rightaway3d.house.editor2d
 		
 		public function get3DSnapshot(w:int=1200,h:int=1200):BitmapData
 		{
+			var engine3d:Engine3D = this.scene3d.engine3d;
+			
+			if(!engine3d.isRendered)
+			{
+				house.updateBounds();
+				scene3d.updateHouse(house);
+				engine3d.render(false);
+				engine3d.isRendered = true;
+			}
+			
+			//scene3d.updateHouse();
 			return this.scene3d.engine3d.getSnapshot(w,h);
 		}
 		
 		private var pics:Array = [];
 		private var picIndex:int = 0;
 		private var isTestSnapshot:Boolean = false;
+		private var scene3dVisible:Boolean;
 		
 		private function get2DSnapshots():void
 		{
@@ -1836,8 +1866,6 @@ package rightaway3d.house.editor2d
 				roomMap.setMapName("吊柜平面图");
 				
 				getImageData(true);
-				
-				//wallFaceViewer.reset();
 			}
 			else if(wallFaceViewer.update())
 			{
@@ -1849,10 +1877,20 @@ package rightaway3d.house.editor2d
 			else if(cabinetTable2D.update())
 			{
 				cabinetTable2D.visible = true;
-				//scene2d.visible = false;
 				wallFaceViewer.visible = false;
 				
 				getImageData(false);
+			}
+			else if(scene3d.update())
+			{
+				if(isTestSnapshot)
+				{
+					container2d.visible = false;
+					scene3d.visible = true;
+					scene3d.engine3d.startRender();
+				}
+				
+				getScene3DImage();
 			}
 			else
 			{
@@ -1868,8 +1906,19 @@ package rightaway3d.house.editor2d
 				wallFaceViewer.visible = false;
 				cabinetTable2D.visible = false;
 				
-				wallFaceViewer.reset();
-				cabinetTable2D.reset();
+				if(isTestSnapshot)
+				{
+					container2d.visible = !scene3dVisible;
+					scene3d.visible = scene3dVisible;
+					if(!scene3dVisible)
+					{
+						scene3d.engine3d.stopRender();
+					}
+				}
+				
+				trace("isTestSnapshot:",isTestSnapshot);
+				trace("scene3dVisible:",scene3dVisible);
+				trace("scene3d.visible:",scene3d.visible);
 				
 				this.ruler.visible = true;
 				this.roomMap.visible = false;
@@ -1884,6 +1933,14 @@ package rightaway3d.house.editor2d
 		private function getImageData(showRoomMap:Boolean):void
 		{
 			var bmd:BitmapData  = getSnapshot(1200,1200,showRoomMap);
+			var data:ByteArray = BMP.encodeBitmap(bmd,otherPicType);
+			pics.push(data);
+			get2DSnapshots();
+		}
+		
+		private function getScene3DImage():void
+		{
+			var bmd:BitmapData = this.get3DSnapshot();
 			var data:ByteArray = BMP.encodeBitmap(bmd,otherPicType);
 			pics.push(data);
 			get2DSnapshots();

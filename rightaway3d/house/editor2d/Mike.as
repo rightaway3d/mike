@@ -77,7 +77,7 @@ package rightaway3d.house.editor2d
 		 */		
 		public function init(e:Event=null):void
 		{
-			trace("mike init");
+			//trace("mike init");
 			if(e)this.removeEventListener(Event.ADDED_TO_STAGE,init);
 			Font.registerFont(PDFYUEHEI);
 //			graphics.beginFill(0xFFFF00);
@@ -301,7 +301,7 @@ package rightaway3d.house.editor2d
 				
 				if(matObj[s]!=undefined)
 				{
-					trace("setDoorMat:",s,matObj[s],po.customMaterialName);
+					//trace("setDoorMat:",s,matObj[s],po.customMaterialName);
 					po.customMaterialName = matObj[s];
 				}
 			}
