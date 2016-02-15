@@ -590,7 +590,7 @@ package rightaway3d.house.editor2d
 		 */
 		public function updateView(width:int,height:int):void
 		{
-			//trace("updateView:"+width+"x"+height);
+			trace("updateView:"+width+"x"+height);
 			updateMask(width,height);
 			
 			ruler.y = height - ruler.height - 20;
@@ -793,10 +793,12 @@ package rightaway3d.house.editor2d
 		public function clearAllCabinetObject():void
 		{
 			trace("------------clearAllCabinetObject");
+			//cabinetCtr.clearLocationFlag();
 			cabinetCtr.clearAllCabinetObject();
+			//cabinetCtr.clearAllObstacle();
 			cabinetCreator.clear();
 			cabinetCreator.claerAllPlate();
-			
+			//this.deleteAllProduct();
 			//ProductManager.own.clearRootProductObject();
 		}
 		
@@ -1806,20 +1808,9 @@ package rightaway3d.house.editor2d
 			return bmd;
 		}
 		
-		public function get3DSnapshot(w:int=1200,h:int=1200):BitmapData
+		public function get3DSnapshot(isReset:Boolean=true,forceRender:Boolean=true,w:int=1200,h:int=900):BitmapData
 		{
-			var engine3d:Engine3D = this.scene3d.engine3d;
-			
-			if(!engine3d.isRendered)
-			{
-				house.updateBounds();
-				scene3d.updateHouse(house);
-				engine3d.render(false);
-				engine3d.isRendered = true;
-			}
-			
-			//scene3d.updateHouse();
-			return this.scene3d.engine3d.getSnapshot(w,h);
+			return this.scene3d.getSnapshot(house,isReset,forceRender,w,h);
 		}
 		
 		private var pics:Array = [];
@@ -1940,7 +1931,7 @@ package rightaway3d.house.editor2d
 		
 		private function getScene3DImage():void
 		{
-			var bmd:BitmapData = this.get3DSnapshot();
+			var bmd:BitmapData = this.get3DSnapshot(false,false);
 			var data:ByteArray = BMP.encodeBitmap(bmd,otherPicType);
 			pics.push(data);
 			get2DSnapshots();

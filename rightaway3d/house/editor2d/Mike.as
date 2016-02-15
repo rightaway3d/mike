@@ -25,6 +25,7 @@ package rightaway3d.house.editor2d
 	{
 		[Embed(source="/../assets/yuehei.otf", fontName="造字工房悦黑(非商用)细体", fontStyle="normal", embedAsCFF="false", mimeType="application/x-font")]
 		static public var PDFYUEHEI : Class;
+		
 		public static var instance:Mike;
 		
 		private var productManager:ProductManager = ProductManager.own;
@@ -126,6 +127,53 @@ package rightaway3d.house.editor2d
 				</item>;
 			
 			GlobalEvent.event.addEventListener("product_created",onProductCreated);
+			
+			this.addEventListener(Event.REMOVED_FROM_STAGE,onRemoveRromStage);
+			
+//			showShareBox("http://www.mijiaju.com/share/index/index.html?caseid=1328");
+		}
+		
+		override public function updateView(width:int,height:int):void
+		{
+			super.updateView(width,height);
+			onResize(width,height);
+		}
+		
+		protected function onRemoveRromStage(event:Event):void
+		{
+			if(shareBox)
+			{
+				shareBox.visible = false;
+				shareBox = null;
+			}
+		}
+		
+		private var shareBox:ShareBox;
+		private var vw:int = 1000;
+		private var vh:int = 800;
+		
+		protected function onResize(w:int,h:int):void
+		{
+			vw = w;
+			vh = h;
+			
+			if(shareBox)
+			{
+				shareBox.updateView(w,h);
+			}
+		}
+		
+		public function showShareBox(shareURL:String):void
+		{
+			shareBox = ShareBox.instance;
+			if(!shareBox.stage)
+			{
+				this.parent.addChild(shareBox);
+			}
+			shareBox.visible = true;
+			
+			shareBox.updateQR(shareURL);
+			onResize(vw,vh);
 		}
 		
 		/*private function onDialogClosed(type:String):void
@@ -146,7 +194,7 @@ package rightaway3d.house.editor2d
 					this.deleteSelectProduct();
 					break;
 				case BTN_CLEAR_PRODUCT:
-					ui.showPopDialog("将清除场景中所有厨柜！",clearAllCabinetObject);
+					ui.showPopDialog("将清除场景中所有厨柜！",deleteAllProduct);//clearAllCabinetObject);
 					break;
 				case BTN_UPDATE_TABLE:
 					updateTable();
